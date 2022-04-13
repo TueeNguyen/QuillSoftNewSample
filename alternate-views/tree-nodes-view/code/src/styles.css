@@ -1,0 +1,43 @@
+body {
+  font-family: "Lucida Sans" !important;
+}
+
+.card-style {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  grid-gap: 1vw;
+  margin: 1rem;
+  padding: 1rem;
+  overflow: scroll;
+}
+
+.second-grid {
+  display: grid;
+  grid-template-columns: 80% 20%;
+  grid-gap: 0.25vw;
+}
+
+.timeline-dots {
+  cursor: pointer;
+  margin: 0 !important;
+  background-color: #83c977;
+  border: none !important;
+  min-height: 1rem;
+  min-width: 1rem;
+}
+
+.timeline-dots:active,
+.timeline-dots::after {
+  background-color: #0a3f01 !important;
+}
+
+.timeline-connector {
+  width: 0.25rem !important;
+  background-color: #4c9040 !important;
+}
+
+.highlight {
+  background-color: #ffeb3b;
+  padding: 2px 6px;
+  border-radius: 2px;
+}

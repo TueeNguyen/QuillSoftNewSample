@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 C:\grobid-0.6.0\grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Knowledge of Swine Flu among Health Care Workers and General Population of Haryana, India during 2009 Pandemic</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher>OMICS Publishing Group</publisher>
+				<availability status="unknown"><p>Copyright OMICS Publishing Group</p>
+				</availability>
+				<date type="published" when="2010">2010. 2009. 2010</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Kumar</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Sood</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Singh</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Kumar</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Makkar</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Singh</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Amj</surname></persName>
+						</author>
+						<title level="a" type="main">Knowledge of Swine Flu among Health Care Workers and General Population of Haryana, India during 2009 Pandemic</title>
+					</analytic>
+					<monogr>
+						<title level="j" type="main">Australasian Medical Journal</title>
+						<title level="j" type="abbrev">AMJ</title>
+						<idno type="eISSN">1836-1935</idno>
+						<imprint>
+							<publisher>OMICS Publishing Group</publisher>
+							<biblScope unit="volume">3</biblScope>
+							<biblScope unit="page" from="614" to="617"/>
+							<date type="published" when="2010">2010. 2009. 2010</date>
+						</imprint>
+					</monogr>
+					<idno type="DOI">10.4066/amj.2010.314</idno>
+					<note>RESEARCH Please cite this paper as: Knowledge of swine flu among</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.6.0" ident="GROBID-SDO" when="2021-05-19T01:11+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<ref target="https://github.com/kermitt2/grobid-sdo"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Background</head><p>A swine flu pandemic hit the world and India was no exception. Many deaths were reported in metropolitan cities. Knowledge about the infection is an important element of control of the infection. Method This cross sectional survey was conducted at a tertiary care centre hospital where the patients are referred from different parts of Haryana accompanied by relatives therefore it was regarded as a potentially high-risk area for the spread of Influenza A and chosen to assess the knowledge, attitude and practice in relation to swine flu. A self administered questionnaire involved 42 hospital staff members accompanying the patients from 1st September 2009 to 15th October 2009. Results Out of all respondents only 25% had heard of swine flu before and out of which 65% HS &amp; 37% GP knew more than three correct symptoms. There were 86% respondents who thought that touching the eyes, nose or mouth without washing hands can spread the disease. Altogether 80% respondents thought that the disease was controllable while, nearly 92% of respondents knew about the nearest swine flu control or testing centre. Among all hardly 10% had attended some type of awareness program for swine flu control and 62% were taking precautions against the spread of swine flu. Nearly 70% of respondents thought that masks prevent the disease while about 98% washed their hands before having meal. Nearly 72% of this knowledge was from television and 20% from newspapers.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conclusion</head><p>In the present study group many of the respondents didn t know about swine flu. Most were from the general population. We recommend a public health campaign in Haryana.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Key Words</head><p>Swine flu, knowledge, attitude, practices, medical staff Background Swine Flu pandemic detected in April 2009 contained a combination of genes from swine, avian, and human influenza viruses.1,2 The outbreak began in Mexico, with evidence that there had been an ongoing epidemic for months before it was officially recognized as such. The virus continued to spread globally, and the World Health Organization in June declared the outbreak to be a pandemic4 and raised a strong signal that a pandemic is imminent and that the time to finalize the organization, communication and implementation of the planned mitigation measures is short. As of 6 August 2009, the World Health Organization reported 1,77,457 laboratory confirmed cases of influenza A/H1N1 and 1,462 deaths. India was no exception and many deaths (138 as of 9 September 2009) were reported in metropolitan cities such as Mumbai, Pune and Bangalore. Given the seriousness of the situation and lack of any specific vaccine against Influenza A, mitigation measures in the India have so Australasian Medical Journal AMJ 2010, 3, 9, 614-617 far focused on identifying, treating, and isolating people who have the disease and educating the public about the steps that individuals can take to reduce the risk of transmission. These recommendations include using tissues when sneezing, washing hands regularly with soap and water. The media, including both televised and written media, and to a lesser extent the radio and the internet, where free uncensored writing and you-tube postings take place had led to inappropriate behaviour by the public such as; refusal to comply with precautionary measures, including wearing a mask or accepting a vaccination; avoidance of certain activities including visiting the hospital due to fear of healthcare facilities as a venue for acquiring the infection.8-10 There was a large need for the dissemination of accurate information to overcome the misinformed dialogue taking place on TV, newspapers and internet. 11 During a pandemic, public health agencies can play critical roles in controlling the spread of disease. Therefore the present study was designed to assess the knowledge, attitude and practice during swine flu epidemic among the medical staff and the general population.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Method</head><p>This cross sectional survey was conducted at a tertiary care centre hospital where the patients are referred from different parts of Haryana accompanied by relatives therefore it was regarded as a potentially high-risk area for the spread of Influenza A and chosen to assess the knowledge, attitude and practice in relation to swine flu. A self administered questionnaire involved 42 hospital staff members accompanying the patients from 1st September 2009 to 15th October 2009.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Results</head><p>A total of 400 subjects (Hospital staff= 42 &amp; general population= 358) with mean SD age group of 31.42 10.65 years participated in the study. There were 214 males and 186 females.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Knowledge response</head><p>Out of all respondents only 25% had heard of swine flu before. Out of these 25% hospital staff knew about symptoms of swine flu. Sixty five percent of HS and thirty seven percent of GP knew more than three correct symptoms. 65% of HS and 74% of GP thought that this was a disease of children and elderly patients, while 35% of HS and 22% of GP thought that adults with co morbidities like asthma and diabetes were at a greater risk and only 2% of GP didn t know about it. There were 95% HS and 86% general people who thought that touching of eyes, nose or mouth without washing hands can spread the disease while only 5% HS and 10% GP thought that it was partially true and 6.66 % of GP didn t know the answer. Altogether, 80% of HS and GP thought that the disease was controllable while, 15% of HS and 10% of GP thought that it was not and 10% of GP didn t know the answer. Nearly 95% of HS and 92% of GP knew about the nearest swine flu control or testing centre and half of HS were aware of the second wave of swine flu epidemic but 72% of GP were not aware of it.</p><p>Attitude response Only 10% of HS and GP had attended some type of awareness program for swine flu control. Nearly 65% did not avoid public gatherings like parties and group meetings of the fear of swine flu while rest 35% avoid such meetings. Nearly 70% of respondents definitely thought that mask prevents the disease and 20% thought that it was partially true and only 10% (HS=5% &amp; GP=13.33%) didn t know the answer.</p><p>Practice response About 98% respondents wash their hands before having meals. 62% (HS=55% &amp; GP=66.67%) were definitely taking precautions against the spread of swine flu while 14% were taking partial precautions, while 24% (HS=25% &amp; GP=23.33%) were not taking any precautions. Disposal of mask was done by throwing them into the dustbin by 34% while, disposal by burning was done by 20%. However, 46% did not know how to dispose masks. Of the respondents 46% thought that it was not safe to reuse the mask more than once and 3.33% general population thought that this was partially true while 40% respondents did not knew the answer and 12% answered that mask can be reused. There were 94% of respondents who thought that if they had developed the symptoms of swine flu then they would have contacted the swine flu centre immediately for diagnosis while only 10% hospital staff thought that they would have taken the proper precautions to prevent the spread of disease and 5% of HS thought that they would have done both. Nearly 94% respondents used tissue or handkerchief while sneezing or coughing and when the respondents had to visit some swine flu infected area then 40% wash their hands with soap and water more frequently and thoroughly while 40% respondents avoid contact with the people who appeared sick and 30% followed the both precautions.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Discussion</head><p>In spite of the increase in the number of Influenza A cases as well as the response of the WHO by raising its pandemic alert status to phase 6 and extensive media coverage, public responses to Influenza A were muted. In practice, convincing the public that the threat is real is often a more pressing task for public health agencies than providing reassurance. 7 Many reports have examined the various levels of knowledge about infectious agents and public behavior in relation to these infections; such studies have primarily focused on the SARS and avian influenza outbreaks.8, <ref type="bibr" coords="4,81.31,798.58,9.91,9.36" target="#b11">13</ref> Other studies have been recently published specifically on behavioral and attitudinal responses to pandemic 2009 Influenza.10, <ref type="bibr" coords="5,140.73,42.37,9.25,9.36" target="#b13">[14]</ref><ref type="bibr" coords="5,149.98,42.37,4.62,9.36" target="#b14">[15]</ref><ref type="bibr" coords="5,154.60,42.37,9.25,9.36" target="#b16">[16]</ref> Australasian Medical Journal AMJ 2010, <ref type="bibr" coords="5,184.54,114.39,7.36,9.36" target="#b1">3,</ref><ref type="bibr" coords="5,194.15,114.39,7.36,9.36" target="#b7">9,</ref><ref type="bibr" coords="5,203.75,114.39,14.02,9.36">[614]</ref><ref type="bibr" coords="5,217.77,114.39,4.67,9.36">[615]</ref><ref type="bibr" coords="5,217.77,114.39,4.67,9.36">[616]</ref><ref type="bibr" coords="5,222.44,114.39,14.02,9.36">[617]</ref> In our study nearly 75% of the respondents had never heard of the swine flu before out of which 99.33% were of general population and only 0.67% were of medical staff. Out of which 52% knew more than three symptoms. In another study by Kamate et al 83% of subjects had heard about swine flu. In another study 44% of national sample of adult Australians reported having knowledge of the term pandemic influenza,18 a finding similar to that of a study conducted in the USA in 2006 in which 41% of respondents had previously heard of this term. So here we conclude that our respondents have far less knowledge about swine flu than the above studies and the reason may be lack of public health communications.</p><p>In our study nearly 72 % of respondents learned about swine flu from television while about 20% came to know about the disease in newspapers and only 8% through word of mouth. Similarly in an another study the majority of the participants received their information about swine flu from the television; 51.1% received information from written media such as newspapers and magazines, while 48.2% received information from the internet.</p><p>In a recent review of behavioural responses to influenza pandemics in the 20th century,20 the only two measures that had strong support by scientific literature to lessen the spread of the diseases were hand hygiene and respiratory etiquette. School closure and screening of travellers had reduced the use of public transportation; 74.3% had not taken any time off work; However, more than half the respondents avoided crowded places and 54.6% washed their hands with soap and water more often than usual, and 63.6% were not overtly worried about cleaning or disinfecting things that they might touch.</p><p>Nearly 70% of the respondents believed that using masks definitely prevents swine flu while 20% were not sure whether masks could prevent from the disease and 10% didn t knew the answer. Nearly 34% disposed the used mask by throwing it into dustbin, 20% disposed them by burning and 46% did not know how to dispose the masks. In another study the willingness to wear a mask during a pandemic was surprisingly high, particularly as this is not common practice in Australia. Use of masks by the general public in China, Hong Kong, Special Administrative Region, during the 2003 severe acute respiratory syndrome outbreak was below this level.</p><p>Eighty percent of our respondents definitely thought that the disease was controllable while 10% thought that this was partially true while in an another study two percent of the respondents were of the opinion that Influenza A would not affect their health; 36.4% feared that they would be somewhat affected; 34.5% believed that they would be seriously affected; and 27.1% had no idea about the effect of Influenza A on their health. legal and ethical consequences when implemented. While the other four measures, including isolation and wearing of a surgical mask or an N95 mask, had cost effectiveness concerns and would be difficult to implement over long periods of time.21, 22 Maximum of the respondents thought that swine flu can be spread by poor hygiene like touching eyes, nose or mouth without washing their hands and actually 98% of respondents washed their hands before meals while nearly 94% use tissue or handkerchief while coughing or sneezing. In another study nearly, one-third reported avoiding touching their eyes, nose, or mouth and covering their nose and mouth with a tissue when coughing or sneezing. However, only onefourth of participants reported throwing the tissue in the trash after use and avoiding normal activities if they have flulike symptoms .17</p><p>It is important to know what proportion of the population is concerned about contracting a disease since those who are concerned would be expected to take more precautions. In a telephone-assisted survey of 2,081 adults above the age of 16 years, the New South Wales Department of Health found that only 48.3% of those interviewed were willing to comply with precautionary measures.23,24 In our study nearly 66% responded that they did not avoid public gatherings like parties or group meetings but 40% of the respondents washed their hand with soap and water thoroughly and more frequently when they visit swine flu infected areas while, 40% avoided close contact with the people who appeared unwell. In another study 59.5% had not cancelled or postponed any social event; 67.6% had not</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0" coords="2,33.30,498.50,295.08,9.36;2,33.30,522.50,137.78,9.36;2,33.30,546.51,340.03,9.36;2,33.30,570.52,24.91,9.36;2,33.30,594.52,266.03,9.36;2,33.30,618.53,305.04,9.36;2,33.30,642.54,84.78,9.36;2,33.30,666.54,231.82,9.36"><head></head><label></label><figDesc>Knowledge of Swine Flu among Health Care Workers and General Population of Haryana, India during 2009 Pandemic Naresh Kumar 1 Sushma Sood1 Manjeet Singh1 Mukesh Kumar2 Beena Makkar1 Manusha Singh3 1. Department of Physiology, Pt B.D. Sharma PGIMS, Rohtak, Haryana. 2. Department of Pharmacy Practice, Kasturba Medical College Manipal University, Mangalore, Karnataka. 3. Medical Student, Pt B.D. Sharma PGIMS, Rohtak, Haryana.</figDesc></figure>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0" />			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct coords="6,42.90,714.56,170.83,9.36;6,33.30,738.56,156.80,9.36" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">do not call it &apos;swine flu,&apos; farmers implore</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><forename type="middle">J</forename><surname>Huffstutter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Los Angeles Times</title>
+		<imprint>
+			<date type="published" when="2009-12-05" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="6,42.90,762.57,181.56,9.36;6,33.30,786.58,190.63,9.36;6,33.30,798.58,48.17,9.36" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Drug resistant swine flu emerges</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Mcneil</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Donald</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/s0262-4079(09)61736-x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">New Scientist</title>
+		<title level="j" type="abbrev">New Scientist</title>
+		<idno type="ISSN">0262-4079</idno>
+		<imprint>
+			<biblScope unit="volume">203</biblScope>
+			<biblScope unit="issue">2715</biblScope>
+			<biblScope unit="page">6</biblScope>
+			<date type="published" when="2009-07" />
+			<publisher>Elsevier BV</publisher>
+		</imprint>
+	</monogr>
+	<note>The New York Times</note>
+</biblStruct>
+
+<biblStruct coords="7,42.90,42.37,178.56,9.36;7,33.30,66.37,173.76,9.36;7,33.30,78.38,48.17,9.36" xml:id="b2">
+	<monogr>
+		<title level="m" type="main">Chan, Dr Margaret F. C., (born 1947), Director-General, World Health Organization, 2007–17</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Margaret</forename><surname>Chan</surname></persName>
+		</author>
+		<idno type="DOI">10.1093/ww/9780199540884.013.249876</idno>
+		<imprint>
+			<date type="published" when="2009-12-01" />
+			<publisher>Oxford University Press</publisher>
+			<biblScope unit="page" from="2009" to="2015" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="7,42.90,306.44,163.58,9.36;7,33.30,330.45,169.04,9.36;7,33.30,342.45,192.96,9.36;7,33.30,354.46,2.55,9.36" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Public Response to Community Mitigation Measures for Pandemic Influenza</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Robert</forename><forename type="middle">J</forename><surname>Blendon</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Lisa</forename><forename type="middle">M</forename><surname>Koonin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">John</forename><forename type="middle">M</forename><surname>Benson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Martin</forename><forename type="middle">S</forename><surname>Cetron</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">William</forename><forename type="middle">E</forename><surname>Pollard</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Elizabeth</forename><forename type="middle">W</forename><surname>Mitchell</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kathleen</forename><forename type="middle">J</forename><surname>Weldon</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Melissa</forename><forename type="middle">J</forename><surname>Herrmann</surname></persName>
+		</author>
+		<idno type="DOI">10.3201/eid1405.071437</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Emerging Infectious Diseases</title>
+		<title level="j" type="abbrev">Emerg. Infect. Dis.</title>
+		<idno type="ISSN">1080-6040</idno>
+		<idno type="ISSNe">1080-6059</idno>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="778" to="786" />
+			<date type="published" when="2008-05" />
+			<publisher>Centers for Disease Control and Prevention (CDC)</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="7,42.90,378.46,77.58,9.36" xml:id="b4">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">S</forename><surname>Tang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">Y</forename><surname>Wong</surname></persName>
+		</author>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="7,77.71,486.49,143.75,9.36;7,33.30,498.50,63.17,9.36" xml:id="b5">
+	<analytic>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Hong</forename><surname>Kong</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">China</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Am J Public Health</title>
+		<imprint>
+			<biblScope unit="volume">93</biblScope>
+			<biblScope unit="page" from="1887" to="1895" />
+			<date type="published" when="2003" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="7,33.30,570.52,203.16,9.36" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Knowledge of Swine Flu among Health Care Workers and General Population of Haryana, India during 2009 Pandemic</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Naresh</forename><surname>Kumar</surname></persName>
+		</author>
+		<idno type="DOI">10.4066/amj.2010.314</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Australasian Medical Journal</title>
+		<title level="j" type="abbrev">AMJ</title>
+		<idno type="ISSNe">1836-1935</idno>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="614" to="617" />
+			<date type="published" when="2010-09-30" />
+			<publisher>OMICS Publishing Group</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="7,42.90,618.53,191.76,9.36;7,33.30,642.54,147.38,9.36;7,33.30,654.54,185.76,9.36;7,33.30,666.54,132.19,9.36;7,33.30,690.55,164.75,9.36;7,33.30,702.55,175.69,9.36;7,33.30,714.56,145.39,9.36" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Factors influencing the wearing of facemasks to prevent the severe acute respiratory syndrome among adult Chinese in Hong Kong</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Catherine So-Kum</forename><forename type="middle">S</forename><surname>Tang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Chi-Yan</forename><forename type="middle">Y</forename><surname>Wong</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.ypmed.2004.04.032</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Preventive Medicine</title>
+		<title level="j" type="abbrev">Preventive Medicine</title>
+		<idno type="ISSN">0091-7435</idno>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1187" to="1193" />
+			<date type="published" when="2004-12" />
+			<publisher>Elsevier BV</publisher>
+		</imprint>
+	</monogr>
+	<note>BMJ</note>
+</biblStruct>
+
+<biblStruct coords="7,47.71,738.56,185.76,9.36" xml:id="b8">
+	<monogr>
+		<title level="m" type="main">Photo of Mostafa, son of Mohammad Ali</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">B</forename><surname>Hanan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">A</forename><surname>Mostafa</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">A</forename><surname>Rawabi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mohammad</forename></persName>
+		</author>
+		<idno type="DOI">10.3998/mpub.12031336.cmp.106</idno>
+		<imprint>
+			<date>null</date>
+			<publisher>University of Michigan Library</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="7,33.30,762.57,182.76,9.36;7,33.30,774.57,167.29,9.36;7,33.30,786.58,21.94,9.36;7,33.30,798.58,176.76,9.36" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Awareness, attitudes, and practices related to the swine influenza pandemic among the Saudi public</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Hanan</forename><forename type="middle">H</forename><surname>Balkhy</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mostafa</forename><forename type="middle">A</forename><surname>Abolfotouh</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Rawabi</forename><forename type="middle">H</forename><surname>Al-Hathlool</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mohammad</forename><forename type="middle">A</forename><surname>Al-Jumah</surname></persName>
+		</author>
+		<idno type="DOI">10.1186/1471-2334-10-42</idno>
+		<ptr target="http://www.biomedcentral.com/14712334/10/42" />
+	</analytic>
+	<monogr>
+		<title level="j">BMC Infectious Diseases</title>
+		<title level="j" type="abbrev">BMC Infect Dis</title>
+		<idno type="ISSNe">1471-2334</idno>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<date type="published" when="2010-02-28" />
+			<publisher>Springer Science and Business Media LLC</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="8,47.71,42.37,170.89,9.36;8,33.30,66.37,174.43,9.36;8,33.30,78.38,57.17,9.36" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Canada&apos;s public health system: building support for front-line physicians</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Butler-Jones</surname></persName>
+		</author>
+		<idno type="DOI">10.1503/cmaj.061460</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Canadian Medical Association Journal</title>
+		<title level="j" type="abbrev">Canadian Medical Association Journal</title>
+		<idno type="ISSN">0820-3946</idno>
+		<idno type="ISSNe">1488-2329</idno>
+		<imprint>
+			<biblScope unit="volume">176</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="36" to="37" />
+			<date type="published" when="2006-12-13" />
+			<publisher>Joule Inc.</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="8,47.71,102.38,203.00,9.36" xml:id="b11">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><forename type="middle">D</forename><surname>Zwart</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><forename type="middle">K</forename><surname>Veldhuijzen</surname></persName>
+		</author>
+		<imprint>
+			<pubPlace>Elam G, Aro AR, Abraham</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="8,33.30,126.39,206.61,9.36;8,33.30,138.40,186.81,9.36" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">GD and others Avian influenza risk perception</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Bishop</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Europe and Asia. Emerg Infect Dis</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="page" from="290" to="293" />
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="8,47.71,162.40,174.80,9.36" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Acceptance of pandemic (H1N1) 2009 influenza vaccination by the Australian public</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Keith</forename><surname>Eastwood</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">David</forename><forename type="middle">N</forename><surname>Durrheim</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Alison</forename><surname>Jones</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Michelle</forename><surname>Butler</surname></persName>
+		</author>
+		<idno type="DOI">10.5694/j.1326-5377.2010.tb03399.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Medical Journal of Australia</title>
+		<title level="j" type="abbrev">Medical Journal of Australia</title>
+		<idno type="ISSN">0025-729X</idno>
+		<idno type="ISSNe">1326-5377</idno>
+		<imprint>
+			<biblScope unit="volume">192</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="33" to="36" />
+			<date type="published" when="2010-01" />
+			<publisher>AMPCo</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="8,47.71,306.44,180.80,9.36;8,33.30,330.45,187.03,9.36;8,33.30,342.45,180.20,9.36" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">The community&apos;s attitude towards swine flu and pandemic influenza</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Holly</forename><surname>Seale</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mary‐louise</forename><forename type="middle">L</forename><surname>Mclaws</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Anita</forename><forename type="middle">E</forename><surname>Heywood</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kirsten</forename><forename type="middle">F</forename><surname>Ward</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Chris</forename><forename type="middle">P</forename><surname>Lowbridge</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Debbie</forename><surname>Van</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jan</forename><surname>Gralton</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">Raina</forename><surname>Macintyre</surname></persName>
+		</author>
+		<idno type="DOI">10.5694/j.1326-5377.2009.tb02781.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Medical Journal of Australia</title>
+		<title level="j" type="abbrev">Medical Journal of Australia</title>
+		<idno type="ISSN">0025-729X</idno>
+		<idno type="ISSNe">1326-5377</idno>
+		<imprint>
+			<biblScope unit="volume">191</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="267" to="269" />
+			<date type="published" when="2009-09" />
+			<publisher>AMPCo</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="8,33.30,354.46,108.18,9.36" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Kyrgyzstan</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Franz</forename><forename type="middle">J</forename><surname>Dahlkamp</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-540-78558-3_7</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Uranium Deposits of the World</title>
+		<imprint>
+			<publisher>Springer Berlin Heidelberg</publisher>
+			<date type="published" when="2009" />
+			<biblScope unit="volume">191</biblScope>
+			<biblScope unit="page" from="191" to="267" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="8,47.71,378.46,176.89,9.36;8,33.30,402.47,312.84,9.36" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Initial psychological responses to Influenza A, H1N1 (&quot;Swine flu&quot;)</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Robin</forename><surname>Goodwin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Shamsul</forename><surname>Haque</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Felix</forename><surname>Neto</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Lynn</forename><forename type="middle">B</forename><surname>Myers</surname></persName>
+		</author>
+		<idno type="DOI">10.1186/1471-2334-9-166</idno>
+	</analytic>
+	<monogr>
+		<title level="j">BMC Infectious Diseases</title>
+		<title level="j" type="abbrev">BMC Infect Dis</title>
+		<idno type="ISSNe">1471-2334</idno>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">166</biblScope>
+			<date type="published" when="2009-10-06" />
+			<publisher>Springer Science and Business Media LLC</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="8,47.71,426.48,178.40,9.36" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Public knowledge, attitude and behavioural changes in an Indian population during the Influenza A (H1N1) outbreak</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Shivlingesh</forename><forename type="middle">Krishnappa</forename><surname>Kamate</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Anil</forename><surname>Agrawal</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Harshvardhan</forename><surname>Chaudhary</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Karanprakash</forename><surname>Singh</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Prashant</forename><surname>Mishra</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kaliash</forename><surname>Asawa</surname></persName>
+		</author>
+		<idno type="DOI">10.3855/jidc.501</idno>
+	</analytic>
+	<monogr>
+		<title level="j">The Journal of Infection in Developing Countries</title>
+		<title level="j" type="abbrev">J Infect Dev Ctries</title>
+		<idno type="ISSNe">1972-2680</idno>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">01</biblScope>
+			<biblScope unit="page" from="007" to="014" />
+			<date type="published" when="2009-11-30" />
+			<publisher>Journal of Infection in Developing Countries</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="8,33.30,450.48,188.76,9.36;8,33.30,462.49,157.55,9.36;8,33.30,474.49,145.08,9.36;8,33.30,486.49,92.58,9.36" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Public knowledge, attitude and behavioural changes in an Indian population during the Influenza A outbreak</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Mishra</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Asawa</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Infect Dev Ctries</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page" from="7" to="14" />
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,17 @@
+.keywordbtns{
+    background-color: rgb(243, 247, 243) !important;
+    text-transform: uppercase;
+}
+
+.keywordbtns:disabled{
+    background-color: rgb(10, 88, 3) !important;
+    color: white;
+}
+
+.keywordbtns::after{
+    background-color: red !important;
+}
+
+.keywordsbtns:target{
+    color: black !important;
+}

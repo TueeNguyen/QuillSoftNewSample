@@ -1,0 +1,26 @@
+.container {
+  min-height: 280px;
+  height: 100%;
+  min-width: 360px;
+  width: 100%;
+  background-color: #f9f9f9;
+  border: 1px solid #707070;
+  border-radius: 10px;
+  box-shadow: -10px 10px 6px rgba(0, 0, 0, 0.16);
+  padding: 20px;
+  margin: auto 20px;
+}
+.titleContainer {
+  height: 38px;
+  width: 100%;
+  border-bottom: 1px solid #707070;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.title {
+  font-size: 24px;
+  line-height: 29px;
+  font-weight: 400;
+}

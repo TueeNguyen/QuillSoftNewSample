@@ -1,0 +1,36 @@
+{
+  "name": "quillsoft-nlp-client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && next export",
+    "start": "next start",
+    "postinstall": "npm run download-webviewer",
+    "download-webviewer": "npx @pdftron/webviewer-downloader"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "@pdftron/webviewer": "^8.3.2",
+    "axios": "^0.21.1",
+    "dexie": "^3.2.1",
+    "dexie-react-hooks": "^1.1.1",
+    "drag-scroll-provider": "^1.0.6",
+    "lodash": "^4.17.21",
+    "next": "10.0.7",
+    "react": "17.0.1",
+    "react-d3-treemap": "^1.0.27",
+    "react-dom": "^17.0.1",
+    "react-dropzone": "^11.3.1",
+    "react-heatmap-grid": "^0.8.2",
+    "react-highlight-words": "^0.17.0",
+    "react-modal": "^3.12.1",
+    "react-pdf-viewer": "^0.1.0",
+    "react-router-dom": "^5.2.0",
+    "react-xml-parser": "^1.1.8"
+  }
+}

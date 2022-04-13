@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 C:\grobid-0.6.0\grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Swine Flu -A Comprehensive View</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2012-07">July-2012</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Vandana</forename><surname>Singh</surname></persName>
+							<email>vandana.singh@chitkarauniversity.edu.in</email>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">Chitkara School of Health Sciences</orgName>
+								<orgName type="institution" key="instit2">Chitkara University</orgName>
+								<address>
+									<settlement>Rajpura</settlement>
+									<region>Punjab</region>
+									<country>India,</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Dr</forename></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Meenakshi</forename><surname>Sood</surname></persName>
+							<email>meenakshi.sood@chitkarauniversity.edu.in</email>
+							<affiliation key="aff1">
+								<orgName type="institution" key="instit1">Chitkara School of Health Sciences</orgName>
+								<orgName type="institution" key="instit2">Chitkara University</orgName>
+								<address>
+									<settlement>Rajpura</settlement>
+									<region>Punjab</region>
+									<country key="IN">India</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Swine Flu -A Comprehensive View</title>
+					</analytic>
+					<monogr>
+						<title level="j" type="main">International Journal of Advancements in Research &amp; Technology</title>
+						<imprint>
+							<biblScope unit="volume">1</biblScope>
+							<date type="published" when="2012-07">July-2012</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.6.0" ident="GROBID-SDO" when="2021-05-12T23:24+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<ref target="https://github.com/kermitt2/grobid-sdo"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Swine flu</term>
+					<term>zoonosis</term>
+					<term>hemagglutinin</term>
+					<term>neuraminidase</term>
+					<term>H1N1</term>
+					<term>influenza virus</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The present article is aimed on comprehensive view of Swine flu. It was first isolated from pigs in 1930 in USA. Pandemic caused by H1N1 in 2009 brought it in limelight. it is a viral respiratory disease caused by viruses that infects pigs, resulting in nasal secretions, barking cough, decreased appetite, and listless behavior. Swine virus consist of eight RNA strands, one strand derived from human flu strains, two from avian strains, and five from swine strains. Swine flu spreads from infected person to healthy person by inhalation or ingestion of droplets contaminated with virus while sneezing or coughing. Two antiviral agents have been reported to help prevent or reduce the effects of swine flu, flu shot and nasal spray. WHO recommended for pandemic period to prevent its future outbreaks through vaccines or non-vaccines means. Antiviral drugs effective against this virus are Tamiflu and Relenza. Rapid antigen testing, DFA testing, viral culture, and molecular testing are used for its diagnosis in laboratory.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">INTRODUCTION</head><p>This article emphasizes on Swine influenza virus which was first isolated from pigs in 1930 in you.S.A., It has been noticed that people who are in close proximity to pigs (for e.g. farmers, pork processors etc.) usually get the infection, thereby causing similar symptoms. The cross-species infections (swine virus to human; human virus to pigs, avian virus to human and pigs) have been found globally. Swine flu strain, causing 2009 pandemic was first seen in Mexico USA.It has been termed novel H1N1 by Researchers, since it is mainly found infecting people and it exhibits two main surface antigens,H1 and N1. By June 2009, the virus had been reported in most countries in the world but luckily, the mortality rate of H1N1 has remained low and similar to that of the conventional flu. In 1918 there was an epidemic of "Spanish flu" with a mortality rate of around 2-20%, whereas swine flu or H1N1 has mortality rate of less than 6 %.The usual mortality rate for typical influenza is estimated to be less than 0.2 %. Swine flu is caused by a type of influenza A virus which is designated as H1N1, it is mainly identified by its surface antigens by immunological techniques. This virus is transmitted from person to person either by inhalation or by ingestion of droplets when the infected person sneezes and coughs. It is important here to note that Swine flu is not transmitted by eating cooked pork. Although the virus was first discovered in 1930 the disease was not observed much until it came into lime light after the pandemic 2009 which affected almost all countries in the world. Since then researchers have worked tirelessly on the virus and have come up with several vaccine and nonvaccine measures which can ensure lesser spread of virus Copyright 2012 SciResPub. and hence lesser chances of such a pandemic in future. Complication of H1N1 though rare could in the form of SARS.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>I. MORPHOLOGY, TYPES &amp; LIFE CYCLE</head><p>Human Influenza are enveloped RNA viruses with a segmented eight different RNA and are of three major types that are common to the human populace. Maximum seasonal flu would fall into this category of human to human transferable viruses. Swine flu is a respiratory disease caused by viruses that infect the respiratory tract of pigs. The virus consists of eight RNA strands and has two main surface antigens, H1, that can mutate over time causing changes to the structure of surface proteins called antigens and infects humans. When humans get infections from animals it is termed as Zoonosis or a zoonotic disease. Pig's respiratory cells are capable of being infested with many types of flu viruses and can act as a "mingling vessel" for flu RNA segments. Topical research shows that the eight RNA strands from unique H1N1 flu have one strand derived from human flu strains, two from avian. Neuraminidase is an enzyme that supports the virus to breach cell walls and it is also called as sialidase because it breaks the linkages between sialic acid and cellular glycoproteins as well as glycolipids found in cell walls. Neuraminidase is a mushroom-like projection on the surface of the influenza viruses. Hemagglutinin is a glycoprotein that fixes the virus to the cell being infested. The hemagglutinin molecule is actually a combination of three identical proteins which are bound together to form an elongated cylindrical shape. Swine influenza virus or swine-origin influenza virus belongs to influenza family which is common in pigs and their subtypes are H1N1, H1N2, H2N1, H3N1, H3N2, and H2N3.</p><p>Lifecycle of swine flu virus, H1N1 can be initiated very effortlessly because it is predictable to live outside of humans for 2 to 48 hours and it can attach itself to any surface like towel, clothes, table, doorknob or anything touched by an infected person. The Swine Flu life cycle mainly has seven phases:</p><p>The swine flu virus antigens attached to the surface of cells in the nose, throat and lungs. The cell engulfs the virus. The virus is able to penetrate the bubble of cell membrane that encloses it and release its RNA into it. In the nucleus, replicas of the viral RNA are made. Viral mRNA causes the cell to prepare viral proteins. These proteins and RNA migrate to the cell's surface where they are amassed into novel virus particles.</p><p>Novel virus start budding off from the cell surface.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">SYMPTOMS</head><p>Swine flu virus causes clinical symptoms in human beings which are analogous to other influenza viruses and are further categorized into following: If the test is positive for type B, the flu is not likely to be swine flu and if it is positive for type A, then the person could have a predictable flu strain or swine flu .Though these tests are quick but are less precise and non-specific for H1N1.</p><p>Swine flu is definitively diagnosed by detecting the particular antigens associated with the virus type. These tests are done in a specialized laboratory. Because of the large number of novel H1N1 swine flu cases that occurred in the 2009-2010 flu season (the vast majority of flu cases were due to novel H1N1 flu viruses), it was recommended that only hospitalized patients' flu virus strains should be sent to reference labs for identification. Rapid antigen testing, DFA testing, viral culture, and molecular testing are used for its diagnosis.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">RISK FACTORS</head><p>Certain strata of population are at a higher risk for getting H1N1 infection or developing severe complications from it. These people should be vaccinated to prevent swine flu. People at higher risk for H1N1 are: Caregivers of children under 5 years of age and adults 50 years of age and older, particularly vaccinating contacts of children less than 6 month's age.</p><p>Caregivers of people with medical conditions who are at higher risk for severe complications from influenza.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">PREVENTION</head><p>Novel Swine flu can be prevented with or without vaccines. Prevention without vaccines is principally to avoid exposure and /or contact to the virus. This could be achieved by frequent hand washing, good hygiene, and use of face masks. Practice of drugs like Tamiflu and Relenza can avert the disease, or if taken within 48 hours of rising symptoms can diminish the severity. Preventive measures should also be taken by people having symptoms of flu. They should stay at home and evade crowded places. For sneezing, coughing, and nasal secretions tissue should be used and appropriately disposed off later. Prevention with vaccines is the greatest way for humans to avert swine flu virus infection, A blend of methods that are aimed at fulfilling the very basic principle, if the virus does not reach an individual's mucus membrane cells, infection will not take place.</p><p>The approaches are as follows:</p><p>Kill or attenuate the virus before it spreads a human cell, by using soap and water to clean your hands; washing clothing and taking a shower etc.</p><p>Practice an alcohol-based hand sanitizer if soap and water are not readily accessible, and use disinfectants on objects that many people may touch (for example, doorknobs, keyboards, handrails, mobiles). Disinfect hands before touching mouth, eyes and nose. Avoid congested places, parties, and also people who are coughing and sneezing (most virus-containing droplets can travel only about 3 to 4 feet, so it is advised that one should maintain a safe distance of 6 feet ). If it is not possible to avoid crowds, try to remain aware of people around and use the 6-foot rule with anyone who is found coughing or sneezing.</p><p>Avoid touching anything within approximately 6 feet distance of an uncovered cough/sneeze, because the droplets containing virus usually fall and land on anything within that range.</p><p>Studies conducted recently have shown that wearing surgical or N95 particle masks may prevent inhalation of H1N1 virus, but the masks may prevent only about 50% of aerosols exposures and offer no protection against surface droplets which may be carrying virus. However, masks if used by H1N1 infected people can noticeably reduce the spread of infected droplets.</p><p>Copyright 2012 SciResPub.</p><p>The above steps can help prevent individuals from getting H1N1 and other types of infection.</p><p>Vaccination is particularly significant for individuals at a higher risk for developing influenza or other analogous viral infections. The first vaccine was released in early October 2009. It was a nasal spray vaccine and was approved for use in healthy individuals ages 2 through 49. The injectable vaccine, made from killed H1N1, could be used in ages 06 months to the elderly and was safe even for pregnant women. Both these vaccines were accepted only after conducting clinical trials which proved that the vaccines were harmless and effective. As flu shot is made from killed virus particles so a person cannot get the flu from a flu shot, whereas, the nasal spray vaccine comprises of live viruses that have been changed to hamper its ability to replicate in human tissue; therefore people with suppressed immunity should not get vaccinated with the nasal spray. Most vaccines comprising flu viral particles are cultivated in eggs, and hence are unsafe for use in individuals with an allergy to eggs unless tested and instructed by their clinician. As with all vaccines, infrequent adverse reactions may occur in some rare cases such as swelling, weakness, or shortness of breath. If any such symptoms progress, the person should visit a physician immediately. The vaccines which are available for swine flu till date have some side effects and common side effects are: Flu shot: tenderness, reddishness, slight swelling at the shot site, myalgia, low grade fever, and nausea. These symptoms usually last not more than 24 hours. Nasal spray: running nose, low-grade fever, headache, wheezing, cough, and sore throat.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">TREATMENT</head><p>Swine flu can be treated with antiviral drugs and vaccines. People who fall in "at-risk" group should be treated with antiviral drugs as rapidly as possible when they first experience flu. Acetaminophen and ibuprofen may be a drug of choice to reduce symptoms. Two types of vaccines are used for the treatment of flu, live vaccine and inactivated vaccine. Novel H1N1 influenza vaccines available in India are:</p><p>A live monovalent novel H1N1 vaccine (Serum Institute of India). Immunogenicity, and safety of the vaccine has been established in pre-licensure animal and human studies The inactivated novel H1N1 monovalent vaccine by Zydus is licensed for use only in adults above the age of 18 years. Trivalent inactivated vaccine containing the novel H1N1 strain is available now (Chiron, Solvay, Lupin, GSK and Both medications have known side effects, including lightheadedness, chills, nausea, vomiting, loss of appetite and trouble breathing. Dose and route of admiration: live vaccine 0.25 ml of the reconstituted vaccine in each nostril. Inactivated vaccine 0.5 ml intramuscular (for children between 6 month and 3 years half the dose should be given). Number of doses for children less than 9 years should be two doses 28 days apart. For children above 9 years one dose is sufficient.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.">PROGNOSIS</head><p>About 90% of patients who get the disease have severe symptoms but recuperate without many problems. Only people who have suppressed immune system have a bad out come with increased mortality. Pregnant women, children less than two years of age have bad prognosis. Complication of H1N1 could in the form of SARS (severe acute respiratory syndrome). It has been found that most of the people worldwide who get H1N1 flu recover without medical treatment and have very good prognosis.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8.">FIGURES</head><p>.1: Structure of swine flu showing different RNA strands (one strand derived from human flu strains, two from avian strains, and five from swine strains.</p><p>Copyright 2012 SciResPub.</p><p>.2: Structure of swine flu .1: Sites and symptoms of swine flu in humans.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0" coords="2,33.30,426.48,188.76,9.36;2,33.30,438.48,202.03,9.36;2,33.30,450.48,186.49,9.36;2,33.30,462.49,109.01,9.36;2,33.30,474.49,186.36,9.36;2,33.30,486.49,168.43,9.36;2,33.30,510.50,346.60,9.36;2,33.30,522.50,65.73,9.36;2,33.30,546.51,157.02,9.36;2,33.30,558.51,164.15,9.36;2,33.30,570.52,146.18,9.36;2,33.30,582.52,221.77,9.36;2,33.30,630.53,211.64,9.36;2,33.30,642.54,27.99,9.36;2,33.30,654.54,124.54,9.36;2,33.30,666.54,104.14,9.36;2,33.30,678.55,201.36,9.36;2,33.30,690.55,131.14,9.36;2,33.30,702.55,159.20,9.36"><head></head><label></label><figDesc>There are 16 different Hemagglutinin subtypes and 9 Neuraminidase subtypes showing different combinations and causing different types of flus shown as follows: H5N1 Subtype -bird flu virus H3N2 Subtype -Hong Kong flu pandemic of 1968 H5N2 Subtype -highly pathogenic in chickens International Journal of Advancements in Research &amp; Technology, Volume 1, Issue2, July-2012 ISSN 2278-7763 H3N8 Subtype -frequently found in horses H2N2 Subtype -Asian flu pandemic of 1957 H7N7 Subtype -2003 poultry epidemic H1N1 Subtype -Spanish flu pandemic of 1918 and swine flu Anatomically Swine flu virus consists of eight RNA strands and has two main surface antigens, H1 and N1. The interior of the virion comprises of additional protein called NEP. M1 protein gives strength and rigidity to the lipid envelope, M2 protein targets antiviral drugs.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" coords="3,33.30,498.50,195.96,261.43"><head></head><label></label><figDesc>Common symptoms are fever, cough, nasal secretion, fatigue, and headache with fatigue.It is recommended that only hospitalized patients undergo the tests from reference labs. Swine flu can be diagnosed by two approaches:Presumptive diagnosis: it can be made through patient's history along with clinical symptoms Definitive diagnosis: it is made through laboratory investigations which are as follows Quick tests are done to see if the patient is infected with influenza A or B virus. The test can be negative or positive for type A and B.</figDesc><table coords="3,33.30,546.51,195.96,213.42"><row><cell>Rare symptoms include nausea, vomiting, diarrhea and</cell></row><row><cell>sometimes collateral tissue damage.</cell></row><row><cell>In severe cases patients can have severe respiratory</cell></row><row><cell>symptoms there by needing respiratory support.</cell></row><row><cell>Complications: pneumonia due to secondary bacterial</cell></row><row><cell>infection, seizures, and rarely death.</cell></row><row><cell>Copyright 2012 SciResPub.</cell></row><row><cell>3. DIAGNOSIS</cell></row></table><note></note></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>ACKNOWLEDGMENT</head><p>The authors are thankful to Chitkara University, Rajpura campus, Punjab, for encouragement. Last but not the least, reviewers contribution is also thankfully acknowledged.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct coords="9,33.30,342.45,221.86,9.36;9,33.30,354.46,52.52,9.36;9,33.30,366.46,107.74,9.36;9,33.30,378.46,40.78,9.36" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Rotavirus vaccine contamination with PCV1</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Vijay</forename><forename type="middle">N</forename><surname>Yewale</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Panna</forename><surname>Choudhury</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s13312-010-0136-9</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Indian Pediatrics</title>
+		<title level="j" type="abbrev">Indian Pediatr</title>
+		<idno type="ISSN">0019-6061</idno>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="589" to="591" />
+			<date type="published" when="2010-07" />
+			<publisher>Springer Science and Business Media LLC</publisher>
+		</imprint>
+	</monogr>
+	<note>H1N1 Influenza</note>
+</biblStruct>
+
+<biblStruct coords="9,33.30,402.47,110.58,9.36" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">{BLR 2966} Financial Planning–Medscape–WWW</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Medscape</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Com</surname></persName>
+		</author>
+		<idno type="DOI">10.1089/blr.1999.18.360c</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Biotechnology Law Report</title>
+		<title level="j" type="abbrev">Biotechnology Law Report</title>
+		<idno type="ISSN">0730-031X</idno>
+		<idno type="ISSNe">1557-8704</idno>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="360" to="360" />
+			<date type="published" when="1999-08" />
+			<publisher>Mary Ann Liebert Inc</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,33.30,414.47,220.04,9.36;9,33.30,426.48,165.80,9.36;9,33.30,486.49,346.60,9.36;9,33.30,498.50,65.73,9.36" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Influenza A v: What Goes Around Comes Around</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Charles</forename><forename type="middle">P</forename><surname>Davis</surname></persName>
+		</author>
+		<idno>2278-7763</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Advancements in Research &amp; Technology</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<date type="published" when="2012-01-09" />
+		</imprint>
+	</monogr>
+	<note>MedicineNet.com</note>
+</biblStruct>
+
+<biblStruct coords="9,33.30,522.50,252.51,9.36;9,33.30,534.51,91.38,9.36" xml:id="b3">
+	<monogr>
+		<title level="m" type="main">Update: Influenza Activity - United States, March 26-April 1, 2006</title>
+		<idno type="DOI">10.1037/e566432006-007</idno>
+		<imprint>
+			<date type="published" when="2006" />
+			<publisher>American Psychological Association (APA)</publisher>
+		</imprint>
+	</monogr>
+	<note>Seasonal Influenza</note>
+</biblStruct>
+
+<biblStruct coords="9,33.30,546.51,189.39,9.36;9,33.30,558.51,247.61,9.36;9,33.30,570.52,109.38,9.36" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Swine Influenza Virus: Zoonotic Potential and Vaccination Strategies for the Control of Avian and Swine Influenzas</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Eileen</forename><surname>Thacker</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Bruce</forename><surname>Janke</surname></persName>
+		</author>
+		<idno type="DOI">10.1086/524988</idno>
+	</analytic>
+	<monogr>
+		<title level="j">The Journal of Infectious Diseases</title>
+		<title level="j" type="abbrev">J INFECT DIS</title>
+		<idno type="ISSN">0022-1899</idno>
+		<idno type="ISSNe">1537-6613</idno>
+		<imprint>
+			<biblScope unit="volume">197</biblScope>
+			<biblScope unit="issue">s1</biblScope>
+			<biblScope unit="page" from="S19" to="S24" />
+			<date type="published" when="2008-02-15" />
+			<publisher>Oxford University Press (OUP)</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,33.30,582.52,188.19,9.36;9,33.30,594.52,230.90,9.36;9,33.30,606.53,82.38,9.36;9,33.30,618.53,185.66,9.36;9,33.30,630.53,203.00,9.36;9,33.30,642.54,250.61,9.36;9,33.30,654.54,103.80,9.36;9,33.30,666.54,187.09,9.36;9,33.30,678.55,241.60,9.36;9,33.30,690.55,265.58,9.36;9,33.30,702.55,2.55,9.36;9,33.30,714.56,206.86,9.36;9,33.30,726.56,127.99,9.36" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">CDC Health Update: Swine Influenza A Update: New Interim Recommendations and Guidance for Health Directors about Strategic National Stockpile Materiel</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">P</forename><surname>Mckinney</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Volkert</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J ;</forename><surname>Kaufman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">M</forename><surname>Kay</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><forename type="middle">H</forename><surname>Done</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">J</forename><surname>Paton</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Kothalawala</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">J</forename><surname>Toussaint</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Gruys</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Archives of Internal Medicine</title>
+		<imprint>
+			<biblScope unit="volume">150</biblScope>
+			<biblScope unit="page" from="46" to="53" />
+			<date type="published" when="199204" />
+		</imprint>
+	</monogr>
+	<note>Vet Q</note>
+</biblStruct>
+
+<biblStruct coords="9,33.30,738.56,185.19,9.36;9,33.30,750.57,244.05,9.36;9,33.30,762.57,80.58,9.36" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Cases of Swine Influenza in Humans: A Review of the Literature</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><forename type="middle">P</forename><surname>Myers</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">W</forename><surname>Olsen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><forename type="middle">C</forename><surname>Gray</surname></persName>
+		</author>
+		<idno type="DOI">10.1086/512813</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Clinical Infectious Diseases</title>
+		<title level="j" type="abbrev">Clinical Infectious Diseases</title>
+		<idno type="ISSN">1058-4838</idno>
+		<idno type="ISSNe">1537-6591</idno>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="1084" to="1088" />
+			<date type="published" when="2007-04-15" />
+			<publisher>Oxford University Press (OUP)</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,33.30,774.57,149.00,9.36;9,33.30,786.58,186.21,9.36" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Swine influenza: a zoonosis</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><forename type="middle">P</forename><surname>Heinen</surname></persName>
+		</author>
+		<idno>1569-0830</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Veterinary Sciences Tomorrow</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="9,33.30,798.58,127.39,9.36" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Fatal Case of Swine Influenza Virus in an Immunocompetent Host</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Keiko</forename><surname>Kimura</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Arun</forename><surname>Adlakha</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Peggy</forename><forename type="middle">M</forename><surname>Simon</surname></persName>
+		</author>
+		<idno type="DOI">10.4065/73.3.243</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Mayo Clinic Proceedings</title>
+		<title level="j" type="abbrev">Mayo Clinic Proceedings</title>
+		<idno type="ISSN">0025-6196</idno>
+		<imprint>
+			<biblScope unit="volume">73</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="243" to="245" />
+			<date type="published" when="1998-03" />
+			<publisher>Elsevier BV</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,82.52,138.40,88.38,9.36;10,33.30,150.40,221.62,9.36;10,33.30,162.40,254.65,9.36;10,33.30,174.41,182.16,9.36;10,33.30,186.41,48.17,9.36" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Hospitalized Patients With 2009 H1N1 Influenza Infection: The Mayo Clinic Experience</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Chakradhar</forename><surname>Venkata</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Priya</forename><surname>Sampathkumar</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Bekele</forename><surname>Afessa</surname></persName>
+		</author>
+		<idno type="DOI">10.4016/20000.01</idno>
+		<idno>gov. 2009-05-13</idno>
+	</analytic>
+	<monogr>
+		<title level="m">CDC H1N1 Flu | Interim Guidance on Specimen Collection, Processing, and Testing for Patients with Suspected Novel Influenza A Virus Infection</title>
+		<imprint>
+			<publisher>SciVee, Inc</publisher>
+			<date type="published" when="2010-07-30" />
+			<biblScope unit="volume">73</biblScope>
+			<biblScope unit="page" from="243" to="248" />
+		</imprint>
+	</monogr>
+	<note>Retrieved</note>
+</biblStruct>
+
+<biblStruct coords="10,33.30,198.41,251.02,9.36;10,33.30,210.42,209.01,9.36;10,33.30,222.42,133.99,9.36" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Preventing Zoonotic Influenza Virus Infection</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Alejandro</forename><surname>Ramirez</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ana</forename><forename type="middle">W</forename><surname>Capuano</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Debbie</forename><forename type="middle">A</forename><surname>Wellman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kelly</forename><forename type="middle">A</forename><surname>Lesher</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Sharon</forename><forename type="middle">F</forename><surname>Setterquist</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Gregory</forename><forename type="middle">C</forename><surname>Gray</surname></persName>
+		</author>
+		<idno type="DOI">10.3201/eid1206.051576</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Emerging Infectious Diseases</title>
+		<title level="j" type="abbrev">Emerg. Infect. Dis.</title>
+		<idno type="ISSN">1080-6040</idno>
+		<idno type="ISSNe">1080-6059</idno>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="997" to="1000" />
+			<date type="published" when="2006-06" />
+			<publisher>Centers for Disease Control and Prevention (CDC)</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,33.30,234.42,176.63,9.36;10,33.30,246.43,247.42,9.36;10,33.30,258.43,200.61,9.36" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Ecological aspects of influenza A viruses in animals and their relationship to human influenza: a review</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">J</forename><surname>Alexander</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Society of Medicine</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="page" from="799" to="811" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,33.30,270.43,226.57,9.36;10,33.30,282.44,246.45,9.36;10,33.30,294.44,22.36,9.36;10,33.30,306.44,242.78,9.36;10,33.30,318.45,203.16,9.36;10,33.30,330.45,244.67,9.36;10,33.30,342.45,162.20,9.36" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Illness after influenza vaccination reported through a nationwide surveillance system</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Richard</forename><forename type="middle">E</forename><surname>Neustadt</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Harvey</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Fineberg</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">F</forename><surname>Retailliau</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">C</forename><surname>Curtis</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Storr</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Caesar</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">L</forename><surname>Eddins</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">A</forename><surname>Hattwick</surname></persName>
+		</author>
+		<idno type="PMID">7361749</idno>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Epidemiology</title>
+		<imprint>
+			<biblScope unit="volume">111</biblScope>
+			<biblScope unit="page" from="270" to="278" />
+			<publisher>National Academies Press</publisher>
+		</imprint>
+	</monogr>
+	<note>The Swine Flu Affair: Decision-Making on a Slippery Disease</note>
+</biblStruct>
+
+<biblStruct coords="10,33.30,402.47,217.41,9.36;10,33.30,414.47,204.81,9.36;10,33.30,426.48,124.99,9.36" xml:id="b13">
+	<monogr>
+		<title level="m" type="main">Sc. microbiology, Assistant professor, Chitkara School of Health Sciences</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">First Author -Vandana</forename><surname>Singh</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Phil</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename></persName>
+		</author>
+		<imprint>
+			<pubPlace>Punjab, India</pubPlace>
+		</imprint>
+		<respStmt>
+			<orgName>Chitkara University</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,33.30,498.50,173.00,9.36;10,33.30,510.50,150.95,9.36;10,33.30,522.50,161.60,9.36" xml:id="b14">
+	<analytic>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Second Author -Dr</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mbbs</forename><surname>Sood</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">B A</forename><surname>Hod</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Chitkara School of Health Sciences</title>
+		<imprint/>
+		<respStmt>
+			<orgName>Chitkara University</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

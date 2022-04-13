@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Quilsoft NLP Viewer</title>
+  </head>
+  <body>
+
+  <h2>Quillsoft NLP Viewer</h2>
+  <form method="post" enctype="multipart/form-data" id="uploadForm">
+    <label>1. </label>
+    <input type="file" name="file" id="fUpload" />
+    <label>2. </label>
+    <input type="submit" id="btnPdfUpload"/>
+  </form>
+  <br>
+
+  <label>3. </label>
+  <input type="button" id="load-button" value="Process File">
+  <label id="load-label"></label>
+  <br>
+
+  <label>4. </label>
+  <input type="radio" id="rtype" name="rtype" value="Summary">
+  <label>Summary</label>
+  <input type="radio" id="rtype" name="rtype" value="Concept">
+  <label>Concept</label>
+  <br>
+
+  <label>5. </label>
+  <select id="block-type">
+    <option value="">Choose an option:</option>
+    <option value="0">Document</option>
+    <option value="1">Section</option>
+    <option value="2">Paragraph</option>
+  </select>
+  <br>
+  <button onclick="exportTableToExcel('tblData')">Export To Excel</button>
+
+  <p id="demo"></p>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src="script.js"></script>
+  <link rel="stylesheet" type="text/css" href="index.css">
+  </body>
+</html>

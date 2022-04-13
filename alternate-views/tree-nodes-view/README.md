@@ -1,0 +1,151 @@
+# TREE NODES VIEW
+
+### Live Demo: https://kx4o0.csb.app/
+
+This view includes relationships between concepts represented by nodes and their branches. Upon selecting a concept, a tree-graph is generated with other related concepts that
+have the same root words. The graph can be moved using the cursor and dragging it inside the grid card. This view also includes a subway-tile representation of the keywords, 
+but highlighting is not functional here. 
+
+### Collapsing a Node
+Nodes with branches can be collapsed by clicking on green nodes themselves. Another click will undo the collapsing.
+
+ ***
+## Understanding the graph relationships
+
+### Assume the following concepts
+- 0: "care centre hospital"
+- 1: "tertiary care centre"
+- 2: "hospital staff members"
+- 3: "cross sectional survey"
+- 4: "knowledge"
+- 5: "swine flu pandemic"
+- 6: "swine flu control"
+- 7: "swine flu centre"
+- 8: "influenza"
+- 9: "influenza pandemics"
+- 10: "respondents"
+- 11: "term pandemic"
+- 12: "present study group"
+- 13: "study"
+- 14: "group meetings"
+- 15: "public health agencies"
+- 16: "public health campaign"
+- 17: "public health communications"
+- 18: "public responses"
+- 19: "general public"
+- 20: "public gatherings"
+- 21: "public behavior"
+- 22: "world health organization"
+- 23: "pandemic alert status"
+- 24: "world"
+- 25: "risk area"
+- 26: "attitude"
+- 27: "patients"
+- 28: "practice"
+- 29: "disease"
+
+
+### State Variables
+Pay attention to these state variables: <br/>
+ - **singleWords**: each string of concepts as single words with no duplicates
+ - **words**: is all the concepts from the clusters.json file. (i.e. "care centre hospital", "tertiary care centre", etc.)
+ - **groups**: all corresponding keywords matching the indices of the concepts (or this.state.words). 
+ (i.e. say that this.state.words[2] is the concept "hospital staff members", so all the keywords for "hospital staff members" will be at this.state.groups[2])
+ - **structured**: formatted concepts linked to their single words and all other concepts that include that single word
+ - **conceptMap**: the final formatted data that is passed to NodeViewer
+ 
+ ### Important Methods
+ File: App.jsx
+ 
+ #### componentDidMount()
+- From the clusters.json file, the *concepts* and the *keywords* are extracted and set to be *this.state.words* and *this.state.groups* respectively. 
+- *this.state.done* is set to true indicating that the concepts and keywords have been retrived.
+- Method *this.singleWords()* is called right after setState.
+
+#### singleWords()
+- Given the concepts in *this.state.words* in not empty/or null/or undefined, each string of concepts is split into single words.
+   - Example: concept "care centre hospital" becomes "care", "centre", "hospital"
+- Duplicate words are not added. 
+   - Example: each time a string is split into single words, it gets appended into a temporary array. If the single word is already in the array, it will not be added.
+       - "care centre hospital" -> "care", "centre", "hospital"
+       - "teritary care centre" -> "teritary" (since "care" and "centre" were already added above)
+- After it has looped through every string in *this.state.words*, the temp array is set to *this.state.singleWords*
+- Method *this.cluster()* is called right after setState.
+
+#### cluster()
+- For every single item in the array *this.state.singleWords*, this method calls the method *this.findgroup(...)* and appends it to *this.state.structured*.
+- Method *this.struct()* is called right after setState.
+
+#### findgroup(p1)
+- p1: a string containing a single word
+- Given the parameter p1, this method finds all the concepts that include string p1, and returns it as *groups*
+- Example: If p1 is "health", *groups* is: ["public health agencies", "public health campaign", "public health communications", "world health organization"] because these
+are all the concepts that contain the word "health".
+
+#### struct()
+- For each concepts in *this.state.words*, this methods arranges the structure in such a way that each concept includes single words, which includes its groups.
+- Example: If concept is "care centre hospital"
+```
+       care centre hospital: Object
+         care: Array(1)
+           0: Array(2)
+             0: "care centre hospital"
+             1: "tertiary care centre"
+         centre: Array(1)
+           0: Array(3)
+             0: "care centre hospital"
+             1: "tertiary care centre"
+             2: "swine flu centre"
+         hospital: Array(1)
+           0: Array(2)
+             0: "care centre hospital"
+             1: "hospital staff members"
+```
+- This is done for every single concept in one variable, and set to *this.state.conceptMap*. (This means that it includes 29 Objects, in the format shown above)
+
+***
+File: NodeViewer.jsx
+
+#### createTree(p1,p2)
+- p1: concept/main root word
+- p2: values, which includes its children as its branch nodes
+- This method simple puts the data generated by *struct()* in App.jx into a format this is valid for the tree graph. 
+- Format is the following: ```{ name: *root*, children: [] }```. The first root is the concept (which is hidden), and its branches (also root) are the single words, and its branches are the related
+concepts.
+- Example: For "care centre hospital", this function applies the following formatting:
+```
+0: Object
+  name: "care"
+  children: Array(2)
+    0: Object
+      name: "care centre hospital"
+    1: Object
+      name: "tertiary care centre"
+1: Object
+   name: "centre"
+   children: Array(3)
+     0: Object
+       name: "care centre hospital"
+     1: Object
+       name: "tertiary care centre"
+     2: Object
+       name: "swine flu centre"
+2: Object
+   name: "hospital"
+   children: Array(2)
+      0: Object
+        name: "care centre hospital"
+      1: Object
+        name: "hospital staff members"
+```
+- So, if the user selects the concept "care centre hospital", this data is what the tree graph is using to generate the nodes and branches.
+
+
+       
+
+
+
+
+
+
+

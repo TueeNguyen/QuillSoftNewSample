@@ -1,0 +1,18 @@
+.button {
+  width: 410px;
+  height: 100px;
+  background: linear-gradient(rgba(38, 255, 0, 0.64), rgba(120, 255, 96, 0.27));
+  border: 1px solid #707070;
+  border-radius: 39px;
+  box-shadow: -2px 5px 6px rgba(0, 0, 0, 0.16);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  cursor: pointer;
+}
+
+.label {
+  font-size: 24px;
+  color: #1d1d1d;
+}

@@ -1,0 +1,14 @@
+.historyContainer{
+    padding: 1rem;
+}
+
+.title{
+    font-weight: bolder !important;
+    font-size: 2rem !important;
+    text-align: center;
+    margin-right: 1rem;
+}
+
+.cardStyle{
+    align-self: center;
+}

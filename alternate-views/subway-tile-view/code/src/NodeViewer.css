@@ -1,0 +1,19 @@
+._node-root text {
+  transform: rotate(270deg);
+  font-size: 1.25rem;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif !important;
+  fill: #d3513a;
+}
+
+._node-root circle {
+  fill: #d3513a !important;
+}
+
+._node-branch circle {
+  fill: #577a51 !important;
+}
+
+._node-leaf circle {
+  fill: #9dd394 !important;
+}

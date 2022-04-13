@@ -1,0 +1,15 @@
+.container {
+  height: 20px;
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+.label {
+  font-size: 16px;
+  line-height: 19px;
+  margin-right: 5px;
+  white-space: nowrap;
+  width: fit-content;
+}
