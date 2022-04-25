@@ -6,8 +6,9 @@ export default function ParsePDF2({ file }) {
   const [documentViewer, setDocumentViewer] = useState(null);
 
   useEffect(() => {
-    const Core = window.Core;
-    Core.setWorkerPath("/webviewer/public/core");
+    //const Core = WebViewerInstance.Core;
+    console.log(Core);
+    Core.setWorkerPath("/public/webviewer/lib/core");
     Core.enableFullPDF();
 
     const documentViewer = new Core.DocumentViewer();
