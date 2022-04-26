@@ -1,13 +1,9 @@
-import ZoomIn from "@material-ui/icons/ZoomIn";
-import ZoomOut from "@material-ui/icons/ZoomOut";
-
 import { useEffect, useRef } from "react";
 import db from "../db";
-import KeywordDb from "../KeywordDB";
+
 export default function ParsePDF({ file }) {
   const viewer = useRef(null);
 
-  let keyWord = "";
   useEffect(() => {
     import("@pdftron/webviewer").then(() => {
       WebViewer(
@@ -17,9 +13,9 @@ export default function ParsePDF({ file }) {
         },
         viewer.current
       ).then((instance) => {
-        const { docViewer } = instance;
+        const { documentViewer, Annotations, Search } = instance.Core;
 
-        // zoom level
+        // Zoom in & Zomm out
         const zoomIn = () => {
           instance.setZoomLevel(instance.getZoomLevel() + 0.25);
         };
@@ -28,9 +24,8 @@ export default function ParsePDF({ file }) {
             instance.setZoomLevel(instance.getZoomLevel() - 0.25);
           }
         };
-        // you can now call WebViewer APIs here...
 
-        //display uploaded file
+        //Display uploaded file , receive file from FileUploader.jsx
         db.recentFiles
           .orderBy("created_at")
           .last()
@@ -40,6 +35,7 @@ export default function ParsePDF({ file }) {
             }
           });
 
+        // Webviewer header (note panel, zoom in and zoom out buttons)
         instance.UI.setHeaderItems(function (header) {
           header.update([
             {
@@ -63,6 +59,32 @@ export default function ParsePDF({ file }) {
               dataElement: "zoomButton",
             },
           ]);
+        });
+        //Search & Highlight
+        documentViewer.setSearchHighlightColors({
+          // setSearchHighlightColors accepts both Annotations.Color objects or 'rgba' strings
+          searchResult: new Annotations.Color(0, 0, 255, 0.5),
+          activeSearchResult: "rgba(0, 255, 0, 0.5)",
+        });
+        documentViewer.addEventListener("documentLoaded", () => {
+          const searchText = "virus";
+          const mode = Search.Mode.PAGE_STOP | Search.Mode.HIGHLIGHT;
+          const searchOptions = {
+            // If true, a search of the entire document will be performed. Otherwise, a single search will be performed.
+            fullSearch: true,
+            // The callback function that is called when the search returns a result.
+            onResult: (result) => {
+              // with 'PAGE_STOP' mode, the callback is invoked after each page has been searched.
+              if (result.resultCode === Search.ResultCode.FOUND) {
+                const textQuad = result.quads[0].getPoints(); // getPoints will return Quad objects
+                if (result.quads[0] == null) {
+                  console.log("nothing found");
+                }
+                console.log("search quad: " + textQuad.x1);
+              }
+            },
+          };
+          documentViewer.textSearchInit(searchText, mode, searchOptions);
         });
       });
     });
