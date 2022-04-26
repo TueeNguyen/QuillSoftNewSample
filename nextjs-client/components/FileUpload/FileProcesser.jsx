@@ -138,6 +138,7 @@ export default class FileProcesser extends React.Component {
     this.setState({ highlight: temp }, () => {
       this.refParseXML.current.findNoise();
     });
+    //keyword clicked
     let keyWord = value[0];
     KeywordDb.recentKeywords.add({ keyWord: keyWord, created_at: Date.now() });
   }
