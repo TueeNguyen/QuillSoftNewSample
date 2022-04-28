@@ -18,7 +18,6 @@ import dynamic from "next/dynamic";
 const TreeMapViewer = dynamic(() => import("../Viewer/TreeMapViewer"), {
   ssr: false,
 });
-import KeywordDb from "../KeywordDB";
 
 /* React version for checking capabilities */
 const REACT_VERSION = React.version;
@@ -54,6 +53,7 @@ export default class FileProcesser extends React.Component {
       tooltip: "hide table",
       isScrolling: false,
       cardHeight: 500,
+      keyWord: "",
     };
 
     /* FOR: <ParseXML> */
@@ -139,8 +139,8 @@ export default class FileProcesser extends React.Component {
       this.refParseXML.current.findNoise();
     });
     //keyword clicked
-    let keyWord = value[0];
-    KeywordDb.recentKeywords.add({ keyWord: keyWord, created_at: Date.now() });
+
+    this.setState({ keyWord: value[0] });
   }
 
   /* Open or Close visibility of keywords table */
@@ -256,7 +256,7 @@ export default class FileProcesser extends React.Component {
                   ref={this.refParseXML}
                   highlight={this.state.highlight}
                   mainhighlight={this.state.curr.currWord}
-                  file={this.props.file}
+                  keyWord={this.state.keyWord}
                 />
               </CardContent>
             </Card>
