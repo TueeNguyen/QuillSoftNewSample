@@ -24,7 +24,6 @@ export default class ParseXML extends React.Component {
       "GROBID - A machine learning software for extracting information from scholarly documents",
       ""
     );
-    const file = this.props.file;
     this.state = {
       xmlData: removedNoise,
       withConcept: removedNoise,
@@ -172,7 +171,7 @@ export default class ParseXML extends React.Component {
               __html: this.state.xmlData,
             }}
           ></div> */}
-          <ParsePDF />
+          <ParsePDF keyWord={this.props.keyWord} />
         </>
       );
     }

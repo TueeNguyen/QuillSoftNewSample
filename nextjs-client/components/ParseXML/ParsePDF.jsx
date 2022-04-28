@@ -1,9 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import db from "../db";
 
-export default function ParsePDF({ file }) {
+export default function ParsePDF({ keyWord }) {
   const viewer = useRef(null);
-
+  const [instance, Setinstance] = useState(null);
   useEffect(() => {
     import("@pdftron/webviewer").then(() => {
       WebViewer(
@@ -13,6 +13,8 @@ export default function ParsePDF({ file }) {
         },
         viewer.current
       ).then((instance) => {
+        //save instance state, will use it for search
+        Setinstance(instance);
         //Below are members of Core Class and will be using in Search & Highlight
         const { annotationManager, documentViewer, Annotations } =
           instance.Core;
@@ -78,29 +80,29 @@ export default function ParsePDF({ file }) {
         };
 
         documentViewer.addEventListener("documentLoaded", () => {
-          const searchPattern = "virus";
-          // searchPattern can be something like "search*m" with "wildcard" option set to true
-          // searchPattern can be something like "search1|search2" with "regex" option set to true
-
-          // options default values are false
-          const searchOptions = {
-            caseSensitive: true, // match case
-            wholeWord: true, // match whole words only
-            wildcard: false, // allow using '*' as a wildcard value
-            regex: false, // string is treated as a regular expression
-            searchUp: false, // search from the end of the document upwards
-            ambientString: true, // return ambient string as part of the result
-          };
-
-          instance.UI.addSearchListener(searchListener);
-          // start search after document loads
-          instance.UI.searchTextFull(searchPattern, searchOptions);
-          //SearchTextFull default will open the side panel Since searchTextFull will open the search panel, we need to close it immediately.
-          instance.closeElements(["searchPanel", "searchOverlay"]);
+          instance.UI.addSearchListener(searchListener());
         });
       });
     });
   }, []);
+  //Click on new keyWord trigger new search
+  useEffect(() => {
+    const searchPattern = keyWord;
+    const searchOptions = {
+      caseSensitive: true, // match case
+      wholeWord: true, // match whole words only
+      wildcard: false, // allow using '*' as a wildcard value
+      regex: false, // string is treated as a regular expression
+      searchUp: false, // search from the end of the document upwards
+      ambientString: true, // return ambient string as part of the result
+    };
+    if (instance != null) {
+      instance.UI.searchTextFull(searchPattern, searchOptions);
+      //SearchTextFull default will pop up search panel
+      // Use closeElements to close the panel immediately
+      instance.closeElements(["searchPanel", "searchOverlay"]);
+    }
+  }, [keyWord]);
 
   return (
     <div className="MyComponent">
