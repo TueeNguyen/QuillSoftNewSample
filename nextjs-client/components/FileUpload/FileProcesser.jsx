@@ -213,7 +213,11 @@ export default class FileProcesser extends React.Component {
   render() {
     return (
       <div>
-        <Grid container spacing={2}>
+        <Grid
+          container
+          spacing={2}
+          style={{ width: "1500px", padding: "1rem" }}
+        >
           <Grid item xs={4}>
             <Card className="card-style">
               <Typography style={{ padding: "1rem" }}>

@@ -49,14 +49,14 @@
 }
 
 /* drag and drop */
-.reject_file{
-    border-color: red !important;
+.reject_file {
+  border-color: red !important;
 }
 
-.accept_file{
-    border-color: green !important;
+.accept_file {
+  border-color: green !important;
 }
 
-.none_file{
+.none_file {
   border-color: blue !important;
 }

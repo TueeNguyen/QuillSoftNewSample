@@ -1,15 +1,14 @@
-import { useEffect, useRef, useState } from "react";
-import db from "../db";
-
+import { useEffect, useRef, useState } from 'react';
+import db from '../db';
 export default function ParsePDF({ keyWord }) {
   const viewer = useRef(null);
   const [instance, Setinstance] = useState(null);
   useEffect(() => {
-    import("@pdftron/webviewer").then(() => {
+    import('@pdftron/webviewer').then(() => {
       WebViewer(
         {
-          path: "/webviewer/lib",
-          initialDoc: "/files/10.pdf",
+          path: '/webviewer/lib',
+          initialDoc: '/files/10.pdf',
         },
         viewer.current
       ).then((instance) => {
@@ -28,10 +27,13 @@ export default function ParsePDF({ keyWord }) {
             instance.setZoomLevel(instance.getZoomLevel() - 0.25);
           }
         };
-
+        //search button
+        const closeSearch = () => {
+          instance.closeElements(['searchPanel', 'searchOverlay']);
+        };
         //Display uploaded file , receive file from FileUploader.jsx
         db.recentFiles
-          .orderBy("created_at")
+          .orderBy('created_at')
           .last()
           .then((result) => {
             if (result.file) {
@@ -39,28 +41,35 @@ export default function ParsePDF({ keyWord }) {
             }
           });
 
-        // Webviewer header (note panel, zoom in and zoom out buttons)
+        // Webviewer header (note panel, zoom in , zoom out, search buttons)
         instance.UI.setHeaderItems(function (header) {
           header.update([
             {
-              type: "toggleElementButton",
-              img: "icon-header-sidebar-line",
-              element: "leftPanel",
-              dataElement: "leftPanelButton",
+              type: 'toggleElementButton',
+              img: 'icon-header-sidebar-line',
+              element: 'leftPanel',
+              dataElement: 'leftPanelButton',
             },
-            { type: "divider" },
-            { type: "toolButton", toolName: "Pan" },
+            { type: 'divider' },
+            { type: 'toolButton', toolName: 'Pan' },
             {
-              type: "actionButton",
-              img: "icon-header-zoom-in-line",
+              type: 'actionButton',
+              img: 'icon-header-zoom-in-line',
               onClick: zoomIn,
-              dataElement: "zoomInButton",
+              dataElement: 'zoomInButton',
             },
             {
-              type: "actionButton",
-              img: "icon-header-zoom-out-line",
+              type: 'actionButton',
+              img: 'icon-header-zoom-out-line',
               onClick: zoomOut,
-              dataElement: "zoomButton",
+              dataElement: 'zoomButton',
+            },
+            {
+              type: 'toggleElementButton',
+              img: 'ic_search_black_24px',
+              onClick: closeSearch,
+              element: 'searchPanel',
+              dataElement: 'searchPanelButton',
             },
           ]);
         });
@@ -79,7 +88,7 @@ export default function ParsePDF({ keyWord }) {
           annotationManager.drawAnnotationsFromList(newAnnotations);
         };
 
-        documentViewer.addEventListener("documentLoaded", () => {
+        documentViewer.addEventListener('documentLoaded', () => {
           instance.UI.addSearchListener(searchListener());
         });
       });
@@ -89,7 +98,7 @@ export default function ParsePDF({ keyWord }) {
   useEffect(() => {
     const searchPattern = keyWord;
     const searchOptions = {
-      caseSensitive: true, // match case
+      caseSensitive: false, // match case
       wholeWord: true, // match whole words only
       wildcard: false, // allow using '*' as a wildcard value
       regex: false, // string is treated as a regular expression
@@ -98,15 +107,12 @@ export default function ParsePDF({ keyWord }) {
     };
     if (instance != null) {
       instance.UI.searchTextFull(searchPattern, searchOptions);
-      //SearchTextFull default will pop up search panel
-      // Use closeElements to close the panel immediately
-      instance.closeElements(["searchPanel", "searchOverlay"]);
     }
   }, [keyWord]);
 
   return (
-    <div className="MyComponent">
-      <div className="webviewer" ref={viewer} style={{ height: "100vh" }}></div>
+    <div className='MyComponent'>
+      <div className='webviewer' ref={viewer} style={{ height: '100vh' }}></div>
     </div>
   );
 }
