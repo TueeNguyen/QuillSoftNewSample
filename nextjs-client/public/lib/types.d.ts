@@ -17978,10 +17978,6 @@ declare namespace Core.PDFNet {
          */
         getAsXML(xml_output_flags?: number): Promise<string>;
         /**
-         * @returns A promise that resolves to an object of type: "PDFNet.Highlights"
-         */
-        getHighlights(char_ranges: number, char_ranges_size: number): Promise<PDFNet.Highlights>;
-        /**
          * @returns A promise that resolves to the number of lines of text on the selected page.
          */
         getNumLines(): Promise<number>;
@@ -18000,6 +17996,12 @@ declare namespace Core.PDFNet {
          * for this word (in unrotated page coordinates).
          */
         getQuads(mtx: PDFNet.Matrix2D, quads: number, quads_size: number): Promise<void>;
+        /**
+         * Get a Highlights object based on an array of character ranges.
+         * @param char_ranges - an array of character ranges to be highlighted, such as [{ "index": 1, "length": 10 }, { "index": 100, "length": 20 }]
+         * @returns A promise that resolves to an object of type: "Highlights", containing the selected characters.
+         */
+        getHighlights(char_ranges: object[]): Promise<PDFNet.Highlights>;
     }
     /**
      * TextExtractor::Line object represents a line of text on a PDF page.
@@ -18218,7 +18220,6 @@ declare namespace Core.PDFNet {
         getQuad(): Promise<PDFNet.QuadPoint>;
         /**
          * @returns A promise that resolves to the content of this word represented as a string.
-        coordinates).
          */
         getString(): Promise<string>;
         line: number;
@@ -24911,6 +24912,13 @@ declare namespace Core {
              */
             getCenterLeaderPoint(): Core.Math.Point;
             /**
+             * Returns the leader point located at the given caption snap position, in viewer coordinates.
+             * @param [captionSnapPosition] - Indicates which side of measurement line to calculate leader point.
+             * Default value is whatever is returned from {@link Core.Annotations.LineAnnotation#getCaptionSnapPosition}.
+             * @returns Position of leader control handle, in viewer coordinates.
+             */
+            getLeaderLineControlHandlePoint(captionSnapPosition?: Core.Annotations.LineAnnotation.CaptionSnapPositions): Core.Math.Point;
+            /**
              * Returns the angle in radians from the X axis from start point to end point
              * @returns The angle in radians
              */
@@ -24925,6 +24933,16 @@ declare namespace Core {
              * @param length - The length in points
              */
             setLineLength(length: number): void;
+            /**
+             * Snaps the caption of a measurement line to given position.
+             * @param position - Use one of the positions provided by {@link Core.Annotations.LineAnnotation.CaptionSnapPositions CaptionSnapPositions}
+             */
+            setCaptionSnapPosition(position: Core.Annotations.LineAnnotation.CaptionSnapPositions): void;
+            /**
+             * Get the current caption snap position.
+             * @returns Returns the current caption snap position.
+             */
+            getCaptionSnapPosition(): Core.Annotations.LineAnnotation.CaptionSnapPositions;
             /**
              * Gets or sets the start point of the line.
              */
@@ -25007,6 +25025,11 @@ declare namespace Core {
                  */
                 End: Core.Math.Point;
             };
+            enum CaptionSnapPositions {
+                START,
+                CENTER,
+                END
+            }
         }
         /**
          * Creates a new instance of MarkupAnnotation.
@@ -25382,7 +25405,7 @@ declare namespace Core {
             getImageData(): Promise<string>;
             /**
              * Asynchronously sets the image URL of the stamp annotation
-             * @param imageDataUrl - the image URL
+             * @param imageDataUrl - the data URL of the image
              * @param [keepAsSVG = false] - If image is an SVG data URL then by default it will be converted to PNG to work with other PDF viewers. If this parameter is true then it will not be converted and remain as SVG but will not be visible in other PDF viewers after downloading.
              * @returns a promise that resolves when the image data URL has been set
              */
@@ -26246,21 +26269,6 @@ declare namespace Core {
          * @param [rotation] - Certain annotations, such as sticky notes, get rotation as a third parameter. Default: undefined
          */
         type AnnotationDrawFunction = (ctx: CanvasRenderingContext2D, pageMatrix: any, rotation?: number) => void;
-        /**
-         * Custom drawing options.
-         * @property [generateAppearance] - Whether to generate a custom appearance. Defaults to true
-         * @property [canvasMultiplier] - The quality value of the generated custom appearance. The higher the value, the more memory is required. By default, this will use the canvas multiplier value set in WebViewer
-         */
-        var CustomDrawOptions: {
-            /**
-             * Whether to generate a custom appearance. Defaults to true
-             */
-            generateAppearance?: boolean;
-            /**
-             * The quality value of the generated custom appearance. The higher the value, the more memory is required. By default, this will use the canvas multiplier value set in WebViewer
-             */
-            canvasMultiplier?: number;
-        };
         /**
          * Callback that gets passed to drawHandler in {@link Core.Annotations.setCustomDrawHandler setCustomDrawHandler}.
          * The signature is similar to {@link Core.Annotations.Annotation#draw draw} except with an additional options parameter.
@@ -27469,14 +27477,14 @@ declare namespace Core {
          * @param annotationClass - the class (constructor) of the annotation
          * @returns true if registration was successful
          */
-        registerAnnotationType(elementName: string, annotationClass: Core.Annotations.Annotation): boolean;
+        registerAnnotationType(elementName: string, annotationClass: typeof Core.Annotations.Annotation): boolean;
         /**
          * Deregisters an annotation class.
          * @param elementName - the string representing the xml element name of the annotation
          * @param annotationClass - the class (constructor) of the annotation
          * @returns true if deregistration was successful
          */
-        deregisterAnnotationType(elementName: string, annotationClass: Core.Annotations.Annotation): boolean;
+        deregisterAnnotationType(elementName: string, annotationClass: typeof Core.Annotations.Annotation): boolean;
         /**
          * Gets a map of registered annotations. This can be modified directly, instead of using AnnotationManager#registerAnnotationType and AnnotationManager#deregisterAnnotationType.
          * @returns a JavaScript object containing a key-value map, where the key is the annotation element name and the value is an array of Annotation classes.
@@ -27868,6 +27876,13 @@ declare namespace Core {
              */
             source: string;
         };
+        /**
+         * Represents the types of rotations available to perform on an annotation.
+         */
+        enum RotationTypes {
+            SNAP_ROTATION,
+            FREEFORM_ROTATION
+        }
     }
     /**
      * Forces a higher level of accuracy in image downsampling at the expense of rendering performance.
@@ -28178,6 +28193,14 @@ declare namespace Core {
          */
         getDisplayMode(): any;
         /**
+         * Disable virtual display mode and switch to non-virtual display mode.
+         */
+        disableVirtualDisplayMode(): void;
+        /**
+         * Check if virtual display mode for pages is enabled
+         */
+        isVirtualDisplayEnabled(): void;
+        /**
          * Sets the display mode. Also removes selection caused by text selection or search.
          * Only renders if a document has been loaded.
          * @param displayMode - The display mode object to set as the current display mode
@@ -28198,9 +28221,10 @@ declare namespace Core {
      * @param horizontalOffset - The horizontal position that the linked page will be scrolled to
      * @param [url] - An optional parameter that allows the bookmark to link to a URL instead of a page number (this overrides the page number)
      * @param [index] - An optional parameter that indicates the position of the bookmark among its siblings
+     * @param [objNum] - The PDF object number of the bookmark
      */
     class Bookmark {
-        constructor(children: Core.Bookmark[], name: string, pageNumber: number, parent: Core.Bookmark, verticalOffset: number, horizontalOffset: number, url?: string, index?: number);
+        constructor(children: Core.Bookmark[], name: string, pageNumber: number, parent: Core.Bookmark, verticalOffset: number, horizontalOffset: number, url?: string, index?: number, objNum?: number);
         /**
          * Gets the children of the bookmark.
          * @returns The children of the bookmark
@@ -28256,6 +28280,11 @@ declare namespace Core {
          * @returns Whether the bookmark points to a valid destination
          */
         isValid(): boolean;
+        /**
+         * Gets the PDF object number of the bookmark.
+         * @returns The PDF object number of the bookmark
+         */
+        getObjNum(): number;
     }
     /**
      * Control the time between progressive events when rendering a more complex page.
@@ -28619,7 +28648,7 @@ declare namespace Core {
         refreshTextData(): void;
         /**
          * Sets the flags with which to extract the text from a PDF document.
-         * @param flags - The flags with which to extract the text from a PDF document.
+         * @param flags - The flags with which to extract the text from a PDF document. See {@link Core.TextExtractorProcessingFlags}
          */
         setTextExtractorProcessingFlags(flags: number[]): void;
         /**
@@ -29061,7 +29090,7 @@ declare namespace Core {
     /**
      * A replacement value for a tag.
      */
-    type TemplateDataValue = Core.TemplateDataContent | Core.TemplateDataLoop | boolean;
+    type TemplateDataValue = Core.TemplateDataContent | Core.TemplateDataLoop | Core.TemplateDataKeyValues | boolean;
     /**
      * A replacement value for a simple data tag, @example '{{tag}}'
      */
@@ -29123,7 +29152,7 @@ declare namespace Core {
      * The expected type of input data for a template tag.
      * The type can be read from the typeId property.
      */
-    type TemplateSchemaValue = Core.TemplateSchemaContent | Core.TemplateSchemaBool | Core.TemplateSchemaLoop;
+    type TemplateSchemaValue = Core.TemplateSchemaContent | Core.TemplateSchemaBool | Core.TemplateSchemaLoop | Core.TemplateSchemaObject;
     /**
      * This indicates there is a template tag for this key that will be replaced with content, such as text or an image.
      */
@@ -29164,6 +29193,23 @@ declare namespace Core {
          * Array of the loop types, ordered by their document ordering.
          */
         loopType: ('tableRow' | 'orderedList' | 'unorderedList' | 'other')[];
+    };
+    /**
+     * This indicates the key is used as an object in a tag dot expression.
+     * @example
+     * 'obj' in the tag '{{obj.prop}}'
+     */
+    type TemplateSchemaObject = {
+        typeId: 'TemplateSchemaObject';
+        /**
+         * An index representing this template key's first occurrence in the natural flow order of the document's keys (left-to-right, top-to-bottom).
+         */
+        docOrder: number;
+        /**
+         * The sub-schema for all properties of this object.  The properties are gathered
+        from the right-hand-side of all usages of this object in dot expressions.
+         */
+        properties: Core.TemplateSchemaKeyValues;
     };
     /**
      * A bounding box of template tag text or template inserted content.
@@ -31430,7 +31476,51 @@ declare namespace Core {
     /**
      * A manager class that controls measurement of annotations and distance create tools.
      */
-    class MeasurementManager {
+    class MeasurementManager extends Core.EventHandler {
+        /**
+         * Triggered when the scale has been updated.
+         * @param result - All the scales with related annotations
+         */
+        on(event: 'scaleUpdated', callback: (result: any) => void): void;
+        /**
+         * Triggered when the scale has been updated.
+         * @param result - All the scales with related annotations
+         */
+        one(event: 'scaleUpdated', callback: (result: any) => void): void;
+        off(event?: 'scaleUpdated', callback?: (result: any) => void): void;
+        /**
+         * @returns Returns an object with the keys as scale strings and the values as an array of annotations and tools that use the scale
+         */
+        getScales(): {
+            [key: string]: (Core.Annotations.Annotation | Core.Tools.Tool)[];
+        };
+        /**
+         * @param options - The options for the scale to be created
+         * @param options.scale - The scale object which contains the page scale, world scale and precision
+         * @param options.applyTo - The measurement annotations and tools that the scale should be applied to
+         */
+        createAndApplyScale(options: {
+            scale: Core.Scale;
+            applyTo: (Core.Annotations.Annotation | Core.Tools.Tool)[];
+        }): void;
+        /**
+         * @param scale - The scale object that should be deleted
+         */
+        deleteScale(scale: Core.Scale): void;
+        /**
+         * For all annotations and tools that currently use the old scale, this scale will be replaced with the new scale.
+         * @param oldScale - The old scale which is selected
+         * @param newScale - The new scale used to replace the old scale.
+         * @returns Returns a list of annotations or measurement tools related to the newly created scale
+         */
+        replaceScale(oldScale: Core.Scale, newScale: Core.Scale): (Core.Annotations.Annotation | Core.Tools.Tool)[];
+        /**
+         * For all annotations and tools that currently use the old scales, these scales will be replaced with the new scale.
+         * @param oldScales - The array of old scales which are selected
+         * @param newScale - The new scale used to replace the old scales.
+         * @returns Returns a list of annotations or measurement tools related to the newly created scale
+         */
+        replaceScales(oldScales: Core.Scale[], newScale: Core.Scale): (Core.Annotations.Annotation | Core.Tools.Tool)[];
         /**
          * Enable annotation's styles to be updated when the corresponding measurement tool's styles are updated.
          * @example
@@ -31461,6 +31551,42 @@ declare namespace Core {
          * });
          */
         isAnnotationAndToolStyleSyncingEnabled(): boolean;
+        /**
+         * @property SCALE_UPDATED - {@link Core.MeasurementManager#event:scaleUpdated Core.MeasurementManager.scaleUpdated }
+         */
+        static Events: {
+            /**
+             * {@link Core.MeasurementManager#event:scaleUpdated Core.MeasurementManager.scaleUpdated }
+             */
+            SCALE_UPDATED: string;
+        };
+    }
+    /**
+     * A class that encapsulates measurement scale information for converting from and to different units.
+     * @example
+     * const scale1 = new Core.Scale({pageScale: {value: 1, unit: 'in'}, worldScale: {value: 1, unit: 'ft'}}, 0.01);
+     * const scale2 = new Core.Scale([[1, 'in'], [1, 'ft']], 0.01);
+     * const scale2 = new Core.Scale('1 in = 1 ft', 0.01);
+     * const scale2 = new Core.Scale({pageScale: {value: 1, unit: 'in'}, worldScale: {value: 1, unit: 'ft'}});
+     * @param scaleRatio - Either an object, string or array containing the scale information. See examples for more detail.
+     * @param [scaleObject.pageScale] - The page scale of the document
+     * @param scaleObject.pageScale.value - The number value of the page scale
+     * @param scaleObject.pageScale.unit - The unit of the page scale, e.g. cm
+     * @param [scaleObject.worldScale] - The world scale
+     * @param scaleObject.worldScale.value - The number value of the world scale
+     * @param scaleObject.worldScale.unit - The unit of the world scale, e.g. cm
+     * @param [precision] - The precision of the scale
+     */
+    class Scale {
+        constructor(scaleRatio: any | string | (number | string)[][], precision?: number);
+        /**
+         * @returns Returns the values and units of the page scale and world scale in an array. For example: [[1, 'in'],[1, 'in']].
+         */
+        getScaleRatioAsArray(): (number | string)[][];
+        /**
+         * @returns Returns string format of scale
+         */
+        toString(): string;
     }
     /**
      * Contains tools for pan scrolling, text selection, annotation editing and annotation creation. You can access it as follows:
@@ -32528,290 +32654,6 @@ declare namespace Core {
          */
         class CountMeasurementCreateTool extends Core.Tools.StickyCreateTool {
             constructor(docViewer: Core.DocumentViewer);
-        }
-        namespace CropCreateTool {
-            enum CropModes {
-                SINGLE_PAGE,
-                ALL_PAGES
-            }
-        }
-        /**
-         * Represents the tool for cropping a page.
-         * @param docViewer - An instance of DocumentViewer.
-         */
-        class CropCreateTool extends Core.Tools.RectangleCreateTool {
-            constructor(docViewer: Core.DocumentViewer);
-            /**
-             * Sets the crop mode for the tool
-             * @example
-             * WebViewer(...).then(instance => {
-             *  const tool = instance.docViewer.getTool('CropPage');
-             *  tool.setCropMode(instance.Core.Tools.CropCreateTool.CropModes.ALL_PAGES);
-             * })
-             * @param cropMode - The crop mode to select
-             */
-            setCropMode(cropMode: Core.Tools.CropCreateTool.CropModes): void;
-            /**
-             * Gets the current crop mode.
-             * @returns Returns the current crop mode;
-             */
-            getCropMode(): Core.Tools.CropCreateTool.CropModes;
-            /**
-             * Applies the currently selected crop regions.
-             * @returns A promise that resolves when the crop regions have been applied.
-             */
-            applyCrop(): Promise<void>;
-            /**
-             * Copies a crop annotation and redraws it
-             * @param cropAnnotation - The crop annotation to copy
-             * @param pageNumber - The page number to draw the new crop annotation on to
-             * @returns Returns the new crop annotation that was created
-             */
-            copyAndRedrawCropAnnotation(cropAnnotation: Core.Annotations.Annotation, pageNumber: number): Core.Annotations.Annotation;
-            /**
-             * Gets the size in points (pts) to crop from the top of the page
-             * @param cropAnnotation - The crop annotation to get the dimension from
-             * @returns The number of points (pts) cut off the top edge
-             */
-            getCropTop(cropAnnotation: Core.Annotations.Annotation): number;
-            /**
-             * Gets the size in points (pts) to crop from the bottom of the page
-             * @param cropAnnotation - The crop annotation to get the dimension from
-             * @returns The number of points (pts) cut off the bottom edge
-             */
-            getCropBottom(cropAnnotation: Core.Annotations.Annotation): number;
-            /**
-             * Gets the size in points (pts) to crop from the left of the page
-             * @param cropAnnotation - The crop annotation to get the dimension from
-             * @returns The number of points (pts) cut off the left edge
-             */
-            getCropLeft(cropAnnotation: Core.Annotations.Annotation): number;
-            /**
-             * Gets the size in points (pts) to crop from the right of the page
-             * @param cropAnnotation - The crop annotation to get the dimension from
-             * @returns The number of points (pts) cut off the right edge
-             */
-            getCropRight(cropAnnotation: Core.Annotations.Annotation): number;
-            /**
-             * Sets the size in points (pts) to crop from the top of the page
-             * @param cropAnnotation - The crop annotation to set the dimension of
-             * @param val - The number of points (pts) to cut off the top edge
-             */
-            setCropTop(cropAnnotation: Core.Annotations.Annotation, val: number): void;
-            /**
-             * Sets the size in points (pts) to crop from the bottom of the page
-             * @param cropAnnotation - The crop annotation to set the dimension of
-             * @param val - The number of points (pts) to cut off the bottom edge
-             */
-            setCropBottom(cropAnnotation: Core.Annotations.Annotation, val: number): void;
-            /**
-             * Sets the size in points (pts) to crop from the left of the page
-             * @param cropAnnotation - The crop annotation to set the dimension of
-             * @param val - The number of points (pts) to cut off the left edge
-             */
-            setCropLeft(cropAnnotation: Core.Annotations.Annotation, val: number): void;
-            /**
-             * Sets the size in points (pts) to crop from the right of the page
-             * @param cropAnnotation - The crop annotation to set the dimension of
-             * @param val - The number of points (pts) to cut off the right edge
-             */
-            setCropRight(cropAnnotation: Core.Annotations.Annotation, val: number): void;
-            /**
-             * Checks to see if there is a crop
-             * @returns Returns true if a crop is being performed
-             */
-            getIsCropping(): boolean;
-            /**
-             * Triggered when an annotation has been created by the tool
-             * @param annotations - The annotation that was created
-             */
-            on(event: 'annotationCreated', callback: (annotations: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been created by the tool
-             * @param annotations - The annotation that was created
-             */
-            one(event: 'annotationCreated', callback: (annotations: Core.Annotations.Annotation) => void): void;
-            off(event?: 'annotationCreated', callback?: (annotations: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been added to the document by the tool
-             * @param annotation - The annotation that was added
-             */
-            on(event: 'annotationAdded', callback: (annotation: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been added to the document by the tool
-             * @param annotation - The annotation that was added
-             */
-            one(event: 'annotationAdded', callback: (annotation: Core.Annotations.Annotation) => void): void;
-            off(event?: 'annotationAdded', callback?: (annotation: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been created by the tool
-             * @param annotations - The annotation that was created
-             */
-            on(event: 'annotationCreated', callback: (annotations: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been created by the tool
-             * @param annotations - The annotation that was created
-             */
-            one(event: 'annotationCreated', callback: (annotations: Core.Annotations.Annotation) => void): void;
-            off(event?: 'annotationCreated', callback?: (annotations: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been added to the document by the tool
-             * @param annotation - The annotation that was added
-             */
-            on(event: 'annotationAdded', callback: (annotation: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been added to the document by the tool
-             * @param annotation - The annotation that was added
-             */
-            one(event: 'annotationAdded', callback: (annotation: Core.Annotations.Annotation) => void): void;
-            off(event?: 'annotationAdded', callback?: (annotation: Core.Annotations.Annotation) => void): void;
-            /**
-             * Fired when a crop is performed on the document
-             * @param cropInfo.pageNumber - The page number the crop was applied on
-             * @param cropInfo.left - The number of points (pts) cut off the left edge
-             * @param cropInfo.right - The number of points (pts) cut off the right edge
-             * @param cropInfo.bottom - The number of points (pts) cut off the bottom edge
-             * @param cropInfo.top - The number of points (pts) cut off the top edge
-             */
-            on(event: 'cropApplied', callback: (cropInfo: {
-                pageNumber: number;
-                left: number;
-                right: number;
-                bottom: number;
-                top: number;
-            }) => void): void;
-            /**
-             * Fired when a crop is performed on the document
-             * @param cropInfo.pageNumber - The page number the crop was applied on
-             * @param cropInfo.left - The number of points (pts) cut off the left edge
-             * @param cropInfo.right - The number of points (pts) cut off the right edge
-             * @param cropInfo.bottom - The number of points (pts) cut off the bottom edge
-             * @param cropInfo.top - The number of points (pts) cut off the top edge
-             */
-            one(event: 'cropApplied', callback: (cropInfo: {
-                pageNumber: number;
-                left: number;
-                right: number;
-                bottom: number;
-                top: number;
-            }) => void): void;
-            off(event?: 'cropApplied', callback?: (cropInfo: {
-                pageNumber: number;
-                left: number;
-                right: number;
-                bottom: number;
-                top: number;
-            }) => void): void;
-            /**
-             * Triggered when an annotation has been created by the tool
-             * @param annotations - The annotation that was created
-             */
-            on(event: 'annotationCreated', callback: (annotations: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been created by the tool
-             * @param annotations - The annotation that was created
-             */
-            one(event: 'annotationCreated', callback: (annotations: Core.Annotations.Annotation) => void): void;
-            off(event?: 'annotationCreated', callback?: (annotations: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been added to the document by the tool
-             * @param annotation - The annotation that was added
-             */
-            on(event: 'annotationAdded', callback: (annotation: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been added to the document by the tool
-             * @param annotation - The annotation that was added
-             */
-            one(event: 'annotationAdded', callback: (annotation: Core.Annotations.Annotation) => void): void;
-            off(event?: 'annotationAdded', callback?: (annotation: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been created by the tool
-             * @param annotations - The annotation that was created
-             */
-            on(event: 'annotationCreated', callback: (annotations: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been created by the tool
-             * @param annotations - The annotation that was created
-             */
-            one(event: 'annotationCreated', callback: (annotations: Core.Annotations.Annotation) => void): void;
-            off(event?: 'annotationCreated', callback?: (annotations: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been added to the document by the tool
-             * @param annotation - The annotation that was added
-             */
-            on(event: 'annotationAdded', callback: (annotation: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been added to the document by the tool
-             * @param annotation - The annotation that was added
-             */
-            one(event: 'annotationAdded', callback: (annotation: Core.Annotations.Annotation) => void): void;
-            off(event?: 'annotationAdded', callback?: (annotation: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been created by the tool
-             * @param annotations - The annotation that was created
-             */
-            on(event: 'annotationCreated', callback: (annotations: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been created by the tool
-             * @param annotations - The annotation that was created
-             */
-            one(event: 'annotationCreated', callback: (annotations: Core.Annotations.Annotation) => void): void;
-            off(event?: 'annotationCreated', callback?: (annotations: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been created by the tool
-             * @param annotations - The annotation that was created
-             */
-            on(event: 'annotationCreated', callback: (annotations: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been created by the tool
-             * @param annotations - The annotation that was created
-             */
-            one(event: 'annotationCreated', callback: (annotations: Core.Annotations.Annotation) => void): void;
-            off(event?: 'annotationCreated', callback?: (annotations: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been added to the document by the tool
-             * @param annotation - The annotation that was added
-             */
-            on(event: 'annotationAdded', callback: (annotation: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been added to the document by the tool
-             * @param annotation - The annotation that was added
-             */
-            one(event: 'annotationAdded', callback: (annotation: Core.Annotations.Annotation) => void): void;
-            off(event?: 'annotationAdded', callback?: (annotation: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been created by the tool
-             * @param annotations - The annotation that was created
-             */
-            on(event: 'annotationCreated', callback: (annotations: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been created by the tool
-             * @param annotations - The annotation that was created
-             */
-            one(event: 'annotationCreated', callback: (annotations: Core.Annotations.Annotation) => void): void;
-            off(event?: 'annotationCreated', callback?: (annotations: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been added to the document by the tool
-             * @param annotation - The annotation that was added
-             */
-            on(event: 'annotationAdded', callback: (annotation: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been added to the document by the tool
-             * @param annotation - The annotation that was added
-             */
-            one(event: 'annotationAdded', callback: (annotation: Core.Annotations.Annotation) => void): void;
-            off(event?: 'annotationAdded', callback?: (annotation: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been added to the document by the tool
-             * @param annotation - The annotation that was added
-             */
-            on(event: 'annotationAdded', callback: (annotation: Core.Annotations.Annotation) => void): void;
-            /**
-             * Triggered when an annotation has been added to the document by the tool
-             * @param annotation - The annotation that was added
-             */
-            one(event: 'annotationAdded', callback: (annotation: Core.Annotations.Annotation) => void): void;
-            off(event?: 'annotationAdded', callback?: (annotation: Core.Annotations.Annotation) => void): void;
         }
         /**
          * Represents the tool for creating {@link Core.Annotations.FreeTextAnnotation} with an associated date format.
@@ -35195,6 +35037,26 @@ declare namespace Core {
                  * Background color value
                  */
                 color?: Core.Annotations.Color;
+                /**
+                 * Font family to use for stamp text
+                 */
+                font?: string;
+                /**
+                 * Whether to use bold styling for the title or not
+                 */
+                bold?: boolean;
+                /**
+                 * Whether to use italic styling for the title or not
+                 */
+                italic?: boolean;
+                /**
+                 * Whether to underline the title or not
+                 */
+                underline?: boolean;
+                /**
+                 * Whether to strikeout the title or not
+                 */
+                strikeout?: boolean;
             };
         }
         /**
@@ -35350,19 +35212,31 @@ declare namespace Core {
              * To render a plain-text string as a subtitle, place the desired string inside of square brackets
              * e.g. "[This is a subtitle]".
              * @param [options.color] - Fill color value, see Annotation.Color
+             * @param [options.textColor] - Text color value, see Annotation.Color
              * @param [options.canvas] - Canvas to draw this annotation
              * @param [options.width] - Default width of stamp
              * @param [options.height] - Default height of stamp
              * @param [options.canvasParent] - Parent DOM element of canvas
+             * @param [options.font] - Font family to use for stamp text
+             * @param [options.bold] - Whether to use bold styling for the title or not
+             * @param [options.italic] - Whether to use italic styling for the title or not
+             * @param [options.underline] - Whether to underline the title or not
+             * @param [options.strikeout] - Whether to strikeout the title or not
              */
             drawCustomStamp(options: {
                 title?: string;
                 subtitle?: string;
                 color?: string;
+                textColor?: string;
                 canvas?: string;
                 width?: string;
                 height?: string;
                 canvasParent?: string;
+                font?: string;
+                bold?: boolean;
+                italic?: boolean;
+                underline?: boolean;
+                strikeout?: boolean;
             }): void;
             /**
              * Get array of custom annotations.
@@ -36488,13 +36362,6 @@ declare namespace Core {
             COMBO_BOX_FIELD3,
             COMBO_BOX_FIELD4
         }
-        /**
-         * Represents the types of rotations available to perform on an annotation.
-         */
-        enum RotationTypes {
-            SNAP_ROTATION,
-            FREEFORM_ROTATION
-        }
     }
     /**
      * Sets the path to the resources folder.
@@ -36522,6 +36389,16 @@ declare namespace Core {
      * @returns Returns "asm" if ASM.js is being forced, "ems" if Emscripten is being used or "wasm-threads" if threaded Wasm is being used
      */
     function getCurrentPDFBackendType(): Promise<string>;
+    /**
+     * Set flag to indicate that the optimized workers can be used. These workers require some wasm features,
+     * e.g. Fixed-Width SIMD, Exception Handling, Bulk Memory Operations. If the browser doesn't support
+     * these features, this will have no effect.
+     */
+    function enableOptimizedWorkers(): void;
+    /**
+     * Set flag to indicate that the optimized workers can not be used.
+     */
+    function disableOptimizedWorkers(): void;
     /**
      * Enable or disable use of the full version of PDFNetJS.
      * the parameter is deprecated since version 8.0
@@ -37074,7 +36951,14 @@ declare namespace Core {
      */
     function unsetAsWindowsApp(): void;
     /**
-     * Sets the default multiplier used for rendering pages with document.loadCanvasAsync.
+     * Gets the default multiplier used for rendering pages with document.loadCanvas.
+     * Higher multipliers mean that pages will be rendered at higher resolutions.
+     * The default value is the browser's {@link https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio|devicePixelRatio}
+     * @returns The current value of the canvas multiplier
+     */
+    function getCanvasMultiplier(): number;
+    /**
+     * Sets the default multiplier used for rendering pages with document.loadCanvas.
      * Higher multipliers mean that pages will be rendered at higher resolutions.
      * The default value is the browser's {@link https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio|devicePixelRatio}
      * @param value - The value of multiplier to be set
@@ -37268,7 +37152,7 @@ declare namespace UI {
      *     instance.UI.TabManager.setActiveTab(0);
      *   })
      */
-    class TabManager {
+    namespace TabManager {
         /**
          * Set the currently open tab in the UI
          * @example
@@ -37279,7 +37163,7 @@ declare namespace UI {
          * @param [saveCurrent] - Whether to save the current tab state before switching to the new tab (default: true)
          * @returns Resolves when the tab is loaded
          */
-        setActiveTab(tabId: number, saveCurrent?: boolean): Promise<void>;
+        function setActiveTab(tabId: number, saveCurrent?: boolean): Promise<void>;
         /**
          * Delete a tab by id in the UI
          * @example
@@ -37288,7 +37172,7 @@ declare namespace UI {
          * });
          * @param tabId - The tab id to be deleted from the tab header
          */
-        deleteTab(tabId: number): void;
+        function deleteTab(tabId: number): void;
         /**
          * Add a new tab to the UI
          * @example
@@ -37301,7 +37185,7 @@ declare namespace UI {
          * @param [options.saveCurrent] - Whether to save the current tab state before adding the new tab (only used when load=true) (default: true)
          * @returns Resolves to the tab id of the newly added tab
          */
-        addTab(src: string | File | Blob | Core.Document | Core.PDFNet.PDFDoc, options?: {
+        function addTab(src: string | File | Blob | Core.Document | Core.PDFNet.PDFDoc, options?: {
             load?: boolean;
             saveCurrent?: boolean;
         }): Promise<number>;
@@ -37309,13 +37193,35 @@ declare namespace UI {
          * Get the currently active tab id
          * @returns The current tab with the following properties: { id: Number, options: Object, src: string|Blob|File|ArrayBuffer }
          */
-        getActiveTab(): any;
+        function getActiveTab(): any;
         /**
          * Get all the tabs from the UI
          * @returns Array of tab objects containing the following properties: { id: Number, options: Object, src: string|Blob|File|ArrayBuffer }
          */
-        getTabs(): object[];
+        function getTabs(): object[];
     }
+    /**
+     * Adds a date and time format for the UI date and time dropdowns.
+     * List of formats can be found here: {@link https://github.com/iamkun/dayjs/blob/v1.11.1/docs/en/API-reference.md#format-formatstringwithtokens-string dayjs API}.
+     * @example
+     * WebViewer(...)
+     *  .then(function(instance) {
+     *     instance.UI.addDateTimeFormat({
+     *         date: 'MM/DD/YYYY',
+     *         time: 'HH:mm:ss',
+     *         timeFirst: true
+     *       });
+     *   });
+     * @param dateTimeFormat - An object containing the date and time formats with the respective keys. At least one of the date or time keys must be present.
+     * @param [dateTimeFormat.date] - String of date format
+     * @param [dateTimeFormat.time] - String of time format
+     * @param [dateTimeFormat.timeFirst] - Boolean value to indicate if time should be before date in UI
+     */
+    function addDateTimeFormat(dateTimeFormat: {
+        date?: string;
+        time?: string;
+        timeFirst?: boolean;
+    }): void;
     /**
      * Add an event listener for the given WebViewer UI event.
      * @example
@@ -37330,6 +37236,57 @@ declare namespace UI {
      * @param listener - Callback function that will be invoked when the event is dispatched.
      */
     function addEventListener(eventName: string, listener: (...params: any[]) => any): void;
+    /**
+     */
+    type RedactionSearchPattern = {
+        /**
+         * The label to be used for the search pattern in the UI
+         */
+        label: string;
+        /**
+         * A string representing the type of item being searched for. For example, if searching for postal codes, this could be 'postalCode'. This is used
+        to determine which icon will be used to render the result in the search panel.
+         */
+        type: string;
+        /**
+         * The icon to be used for the search pattern in the search dropdown for the UI and the redaction panel for this type of search. Can be an inline SVG, or the name of an icon included in the WebViewer UI icon set.
+        If no icon is passed, the default icon for text searches will be used.
+         */
+        icon?: string;
+        /**
+         * The regex to be used for the search pattern
+         */
+        regex: RegExp;
+    };
+    /**
+     * Adds a new search pattern to the redaction search panel
+     * @example
+     * WebViewer(...)
+     *   .then(function(instance) {
+     *     instance.UI.addRedactionSearchPattern(
+     *       {
+     *         label: 'Social Security Number',
+     *         icon: '<svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 30 30"><path d="M0 0h24v24H0z" fill="none"/><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>',
+     *         type: 'socialSecurityNumber',
+     *         regex: /\b\d{3}-?\d{2}-?\d{4}\b/,
+     *       }
+     *     );
+     *   });
+     *
+     * // Or to search kewyord(s):
+     * WebViewer(...)
+     * .then(function(instance) {
+     *   instance.UI.addRedactionSearchPattern(
+     *     {
+     *       label: 'Confidential Information',
+     *       type: 'confidentialInformation',
+     *       regex: /confidential information/i, //Regex based search for text, case insensitive
+     *     }
+     *   );
+     * });
+     * @param searchPattern - A search pattern to add to the redaction search panel
+     */
+    function addRedactionSearchPattern(searchPattern: UI.RedactionSearchPattern): void;
     /**
      * Adds a listener function to be called when search is completed.
      * @example
@@ -37826,23 +37783,90 @@ declare namespace UI {
      */
     function focusNote(annotationId: string): void;
     /**
-     * An  instance of Fonts that can be used to edit the items included in UI font pickers
+     * A namespace which contains Font APIs for the UI. <br/><br/>
      * @example
      * WebViewer(...)
-     *  .then(function (instance) {
-     *     instance.UI.Fonts.getFonts();
-     *   })
+     * .then(function (instance) {
+     *   instance.UI.Fonts.getFonts();
+     * });
      */
-    var Fonts: any;
-    /**
-     * An  instance of Fonts that can be used to edit the items included in UI font pickers
-     * @example
-     * WebViewer(...)
-     *  .then(function (instance) {
-     *     instance.UI.Fonts.getFonts();
-     *   })
-     */
-    var Fonts: any;
+    namespace Fonts {
+        /**
+         * Return the currently available fonts in the UI to be used for Annotations.
+         * @example
+         * WebViewer(...)
+         *    .then(function(instance) {
+         *     instance.UI.Fonts.getAnnotationFonts();
+         *   });
+         * @returns Fonts avaialable in the UI.
+         */
+        function getAnnotationFonts(): String[];
+        /**
+         * Add a font to be available in the UI for Annotation font pickers.
+         * @example
+         * WebViewer(...)
+         *    .then(function(instance) {
+         *     instance.UI.Fonts.addAnnotationFont("Arial");
+         *   });
+         * @param font - The font to be added.
+         */
+        function addAnnotationFont(font: string): void;
+        /**
+         * Remove a font from the UI's Annotation font pickers.
+         * @example
+         * WebViewer(...)
+         *    .then(function(instance) {
+         *     instance.UI.Fonts.removeAnnotationFont("Arial");
+         *   });
+         * @param font - The font to be removed.
+         */
+        function removeAnnotationFont(font: string): void;
+        /**
+         * Set the fonts available in the UI's Annotation font pickers.
+         * @example
+         * WebViewer(...)
+         *    .then(function(instance) {
+         *     instance.UI.Fonts.setAnnotationFonts(["Arial", "Times New Roman"]);
+         *   });
+         * @param fonts - The fonts to be set.
+         */
+        function setAnnotationFonts(fonts: String[]): void;
+        /**
+         * Returns the currently available fonts to be used when typing a signature in the signature dialog
+         * @returns Fonts avaialable in the UI.
+         */
+        function getSignatureFonts(): String[];
+        /**
+         * Add a font to be available in the UI for Signature font pickers.
+         * @example
+         * WebViewer(...)
+         *    .then(function(instance) {
+         *     instance.UI.Fonts.addSignatureFont("Arial");
+         *   });
+         * @param font - The font to be added.
+         */
+        function addSignatureFont(font: string): void;
+        /**
+         * Remove a font from the UI's Signature font pickers.
+         * @example
+         * WebViewer(...)
+         *    .then(function(instance) {
+         *     instance.UI.Fonts.removeSignatureFont("Arial");
+         *   });
+         * @param font - The font to be removed.
+         */
+        function removeSignatureFont(font: string): void;
+        /**
+         * Set the fonts available in the UI's Signature font pickers.
+         * @example
+         * WebViewer(...)
+         *    .then(function(instance) {
+         *     instance.UI.Fonts.setSignatureFonts(["Arial", "Times New Roman"]);
+         *   });
+         * @param fonts - The fonts to be set.
+         */
+        function setSignatureFonts(fonts: String[]): void;
+    }
     /**
      * Return the read/unread state of an annotation. True for read, false for unread.
      * @example
@@ -38107,9 +38131,20 @@ declare namespace UI {
          */
         cacheKey?: string;
         /**
-         * The options to set when converting office documents.
+         * An object that contains the options for an Office document.
          */
-        officeOptions?: string;
+        officeOptions?: {
+            templateValues?: Core.TemplateData;
+            doTemplatePrep?: boolean;
+            disableBrowserFontSubstitution?: boolean;
+            formatOptions?: {
+                applyPageBreaksToSheet?: boolean;
+                displayChangeTracking?: boolean;
+                excelDefaultCellBorderWidth?: number;
+                excelMaxAllowedCellCount?: number;
+                locale?: string;
+            };
+        };
         /**
          * A string that will be used to as the password to load a password protected document.
          */
@@ -38242,6 +38277,45 @@ declare namespace UI {
          * @returns Current items in the menuOverlay dropdown.
          */
         getItems(): object[];
+    }
+    namespace NotesPanel {
+        /**
+         * Enables the collapsing of the annotation's text in the Notes Panel.
+         * @example
+         * WebViewer(...).then(async function(instance) {
+         *
+         *   instance.UI.NotesPanel.enableTextCollapse()
+         *
+         * });
+         */
+        function enableTextCollapse(): void;
+        /**
+         * Disables the collapsing of the annotation's text in the Notes Panel.
+         * @example
+         * WebViewer(...).then(async function(instance) {
+         *
+         *   instance.UI.NotesPanel.disableTextCollapse()
+         * });
+         */
+        function disableTextCollapse(): void;
+        /**
+         * Enables the collapsing of the replies in the Notes Panel.
+         * @example
+         * WebViewer(...).then(async function(instance) {
+         *
+         *   instance.UI.NotesPanel.enableReplyCollapse()
+         * });
+         */
+        function enableReplyCollapse(): void;
+        /**
+         * Disables the collapsing of the replies in the Notes Panel.
+         * @example
+         * WebViewer(...).then(async function(instance) {
+         *
+         *   instance.UI.NotesPanel.disableReplyCollapse()
+         * });
+         */
+        function disableReplyCollapse(): void;
     }
     /**
      * Sets visibility states of the elements to be visible. Note that openElements works only for panel/overlay/popup/modal elements.
@@ -38558,6 +38632,22 @@ declare namespace UI {
      */
     function removeEventListener(eventName: string, listener: (...params: any[]) => any): void;
     /**
+     * Removes a search pattern from the redaction search panel
+     * @example
+     * WebViewer(...)
+     *   .then(function(instance) {
+     *     instance.UI.removeRedactionSearchPattern(instance.UI.RedactionSearchPatterns.EMAILS);
+     *   });
+     *
+     * // If you added a custom search pattern for Social Security Number where the type is 'socialSecurityNumber'.
+     * WebViewer(...)
+     * .then(function(instance) {
+     *   instance.UI.removeRedactionSearchPattern('socialSecurityNumber');
+     * });
+     * @param searchPattern - A search pattern to remove from the redaction search panel. If you added a custom search pattern with {@link UI.addRedactionSearchPattern}, you must pass the type of the search pattern you added.
+     */
+    function removeRedactionSearchPattern(searchPattern: UI.RedactionSearchPatterns | string): void;
+    /**
      * Removes the search listener function.
      * @example
      * WebViewer(...)
@@ -38750,6 +38840,23 @@ declare namespace UI {
     An object can be passed to specify colors for particular tools.
      */
     function setColorPalette(An: string[] | UI.PaletteOption): void;
+    /**
+     * @param originalApplyRedactionsFunction - The original applyRedactions function
+     */
+    type CustomApplyRedactionsHandler = (annotations: Core.Annotations.Annotation[], originalApplyRedactionsFunction: (...params: any[]) => any) => void;
+    /**
+     * @example
+     * WebViewer(...)
+     *   .then(function(instance) {
+     *     instance.UI.setCustomApplyRedactionsHandler((annotationsToRedact, originalApplyRedactionsFunction) => {
+     *       // custom code
+     *       ...
+     *       originalApplyRedactionsFunction();
+     *     })
+     *   });
+     * @param customApplyRedactionsHandler - The function that will be invoked when clicking on the 'Redact All' button.
+     */
+    function setCustomApplyRedactionsHandler(customApplyRedactionsHandler: UI.CustomApplyRedactionsHandler): void;
     /**
      * Adds a custom overlay to annotations if that annotation currently support it. Currently only the Ellipsis annotation supports it.
      * @example
@@ -39532,6 +39639,60 @@ declare namespace UI {
      *   });
      */
     var textPopup: UI.Popup;
+    namespace ThumbnailsPanel {
+        /**
+         * Enable multi select in the left thumbnail panel
+         * @example
+         * WebViewer(...)
+         *   .then(function(instance) {
+         *     instance.UI.ThumbnailsPanel.enableMultiselect();
+         *   });
+         */
+        function enableMultiselect(): void;
+        /**
+         * Disable multi select in the left thumbnail panel
+         * @example
+         * WebViewer(...)
+         *   .then(function(instance) {
+         *     instance.UI.ThumbnailsPanel.disableMultiselect();
+         *   });
+         */
+        function disableMultiselect(): void;
+        /**
+         * Select thumbnails in the thumbnail panel. This requires the "ThumbnailMultiselect" feature to be enabled
+         * @example
+         * WebViewer(...)
+         *   .then(function(instance) {
+         *     instance.UI.enableFeatures(['ThumbnailMultiselect']);
+         *
+         *     const pageNumbersToSelect = [1, 2, 3];
+         *     instance.UI.ThumbnailsPanel.selectPages(pageNumbersToSelect);
+         *   });
+         * @param pageNumbers - array of page numbers to select
+         */
+        function selectPages(pageNumbers: number[]): void;
+        /**
+         * Unselect selected thumbnails
+         * @example
+         * WebViewer(...)
+         *   .then(function(instance) {
+         *     const pageNumbersToUnselect = [1, 2];
+         *     instance.UI.ThumbnailsPanel.unselectPages(pageNumbersToUnselect);
+         *   });
+         * @param pageNumbers - array of page numbers to unselect
+         */
+        function unselectPages(pageNumbers: number[]): void;
+        /**
+         * Get the currently selected pages
+         * @example
+         * WebViewer(...)
+         *   .then(function(instance) {
+         *     instance.UI.ThumbnailsPanel.getSelectedPageNumbers();
+         *   });
+         * @returns an array of select page numbers
+         */
+        function getSelectedPageNumbers(): number[];
+    }
     /**
      * Toggles a visibility state of the element to be visible/hidden. Note that toggleElement works only for panel/overlay/popup/modal elements.
      * @example
@@ -40517,6 +40678,11 @@ declare type WebViewerOptions = {
      */
     enableAzureWorkaround?: boolean;
     /**
+     * If true, WebViewer will use optimized workers if possible. Otherwise, it will use regular workers
+     * @defaultValue true
+     */
+    enableOptimizedWorkers?: boolean;
+    /**
      * Enable file picker feature
      */
     enableFilePicker?: boolean;
@@ -40529,7 +40695,11 @@ declare type WebViewerOptions = {
      */
     enableRedaction?: boolean;
     /**
-     * Extension of the document to be loaded. **Multi-tab** must be an array of document extensions ex: Webviewer({ initialDoc: ['pdf_doc', 'word_doc'], extension: ['pdf', 'docx'] }) OR Webviewer({ initialDoc: ['pdf_doc1', 'pdf_doc2'], extension: ['pdf'] })
+     * Disable virtual display mode for pages. The virtual display mode allows documents with many pages to be loaded efficiently in continuous scrolling mode. If disabled then single page mode will be used for documents with many pages.
+     */
+    disableVirtualDisplayMode?: boolean;
+    /**
+     * Extension of the document to be loaded. **Multi-tab** must be an array of documents ex: Webviewer({ initialDoc: ['pdf_doc', 'word_doc'], extension: ['pdf', 'docx'] }) OR Webviewer({ initialDoc: ['pdf_doc1', 'pdf_doc2'], extension: ['pdf'] })
      */
     extension?: string | string[];
     /**

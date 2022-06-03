@@ -107,6 +107,7 @@ export default function ParsePDF({ keyWord }) {
     };
     if (instance != null) {
       instance.UI.searchTextFull(searchPattern, searchOptions);
+      instance.closeElements(['searchPanel', 'searchOverlay']);
     }
   }, [keyWord]);
 

@@ -1,11 +1,14 @@
-import React from "react";
-import { Typography, Button } from "@material-ui/core";
-import ZoomInIcon from "@material-ui/icons/ZoomIn";
-import ZoomOutIcon from "@material-ui/icons/ZoomOut";
-import RefreshIcon from "@material-ui/icons/Refresh";
-import Tooltip from "@material-ui/core/Tooltip";
-import ParsePDF from "./ParsePDF";
-import ParsePDF2 from "./ParsePDF2";
+import React from 'react';
+import { Typography, Button } from '@material-ui/core';
+import ZoomInIcon from '@material-ui/icons/ZoomIn';
+import ZoomOutIcon from '@material-ui/icons/ZoomOut';
+import RefreshIcon from '@material-ui/icons/Refresh';
+import Tooltip from '@material-ui/core/Tooltip';
+import ParsePDF from './ParsePDF';
+import ParsePDF2 from './ParsePDF2';
+import ParsePDF3 from './ParsePDF3';
+import ParsePDF4 from './ParsePDF4';
+import ParsePDF5 from './ParsePDF5';
 /**
  * Class: ParseXML
  * - takes the xml data and displays it
@@ -21,8 +24,8 @@ export default class ParseXML extends React.Component {
     super(props);
 
     const removedNoise = this.props.data.replace(
-      "GROBID - A machine learning software for extracting information from scholarly documents",
-      ""
+      'GROBID - A machine learning software for extracting information from scholarly documents',
+      ''
     );
     this.state = {
       xmlData: removedNoise,
@@ -87,7 +90,7 @@ export default class ParseXML extends React.Component {
     let keywords = this.chunks(value, 3);
 
     keywords.forEach((keyword) => {
-      let regex = new RegExp("\\b" + keyword[0] + "\\b", "ig");
+      let regex = new RegExp('\\b' + keyword[0] + '\\b', 'ig');
       _xmlData = _xmlData.replace(
         regex,
         `<mark id="highlight">${keyword[0]}</mark>`
@@ -102,7 +105,7 @@ export default class ParseXML extends React.Component {
    */
   highlightConcept() {
     var _xml = this.state.original.replaceAll(
-      new RegExp(this.props.mainhighlight, "gi"),
+      new RegExp(this.props.mainhighlight, 'gi'),
       `<mark id="main-highlight">${this.props.mainhighlight}</mark>`
     );
     this.setState({ xmlData: _xml, withConcept: _xml });
@@ -113,15 +116,15 @@ export default class ParseXML extends React.Component {
    */
   getTitle() {
     var parser = new DOMParser();
-    var xmlDoc = parser.parseFromString(this.props.data, "text/html");
-    var title = "Document Title";
-    if (xmlDoc.getElementsByClassName("title")[0] !== undefined)
-      title = xmlDoc.getElementsByTagName("title")[0].childNodes[0].nodeValue;
+    var xmlDoc = parser.parseFromString(this.props.data, 'text/html');
+    var title = 'Document Title';
+    if (xmlDoc.getElementsByClassName('title')[0] !== undefined)
+      title = xmlDoc.getElementsByTagName('title')[0].childNodes[0].nodeValue;
     const styling = (
       <h3
         style={{
-          padding: "1rem",
-          fontSize: "1rem",
+          padding: '1rem',
+          fontSize: '1rem',
           fontWeight: 800,
         }}
       >
@@ -171,7 +174,11 @@ export default class ParseXML extends React.Component {
               __html: this.state.xmlData,
             }}
           ></div> */}
-          <ParsePDF keyWord={this.props.keyWord} />
+          {/* <ParsePDF keyWord={this.props.keyWord} /> */}
+          {/* <ParsePDF2 keyWord={this.props.keyWord} /> */}
+          {/* <ParsePDF3 keyWord={this.props.keyWord} /> */}
+          {/* <ParsePDF4 keyWord={this.props.keyWord} /> */}
+          <ParsePDF5 keyWord={this.props.keyWord} />
         </>
       );
     }
