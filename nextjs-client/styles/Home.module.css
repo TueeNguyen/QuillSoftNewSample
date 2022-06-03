@@ -24,7 +24,7 @@
 
 .uploadContainer {
   height: 480px;
-  width: 1000px;
+  width: 620px;
   background-color: #f9f9f9;
   border: 2px #707070;
   border-style: dashed;
@@ -49,14 +49,52 @@
 }
 
 /* drag and drop */
-.reject_file{
-    border-color: red !important;
+.reject_file {
+  border-color: red !important;
 }
 
-.accept_file{
-    border-color: green !important;
+.accept_file {
+  border-color: green !important;
 }
 
-.none_file{
+.none_file {
   border-color: blue !important;
+}
+.viewer2 {
+  display: none;
+}
+.viewer2_1 {
+  height: 100vh;
+  width: 100px;
+  flex-grow: 2;
+}
+.MyComponent {
+  height: auto;
+}
+
+.MyComponent2 {
+  display: flex;
+  flex-direction: row;
+  gap: 1px;
+}
+.searchPanelleft {
+  display: none;
+}
+.searchPanelleft2::after {
+  content: auto;
+}
+.webviewer {
+  height: 100vh;
+}
+.webviewer2 {
+  flex-grow: 4;
+  height: 100vh;
+}
+/* ParsePDF4*/
+.MyComponent3 {
+  display: none;
+}
+.MyComponent3_1 {
+  height: auto;
+  width: 600px;
 }

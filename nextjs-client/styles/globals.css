@@ -2,7 +2,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   user-select: none;
 }
 
@@ -56,7 +56,7 @@ body {
   margin: 1rem;
 }
 
-#cur-concept>span{
+#cur-concept > span {
   font-weight: bolder;
   font-size: 2.25rem;
 }
@@ -65,67 +65,68 @@ body {
   text-align: center;
 }
 
-.card-tab-style{
-  margin: .5rem;
+.card-tab-style {
+  margin: 0.5rem;
 }
 
 .card-style {
-  margin: .5rem;
+  margin: 0.5rem;
   overflow: auto !important;
   height: 100vh;
 }
 
-.card-mode-style{
+.card-mode-style {
   height: 10vh;
-  margin-right: .5rem;
-  margin-left: .5rem;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
 }
 
-.card-pdf-style{
+.card-pdf-style {
   margin-top: 1.5rem;
   height: 125vh !important;
   align-content: center !important;
   overflow: auto !important;
 }
 
-.grid-style{
+.grid-style {
   width: 100vw !important;
 }
 
-#viewer-style{
+#viewer-style {
   font-size: 1.5rem;
   display: flex;
   justify-content: space-evenly !important;
 }
 
-.formgroup-style{
+.formgroup-style {
   border-radius: 5px !important;
   border-color: black !important;
 }
 
-#clusters{
+#clusters {
   display: inline-flex;
   align-items: flex-end;
   margin: 0.25rem;
 }
 
-#cluster-button{
+#cluster-button {
   border: rgb(43, 43, 43) solid 1px;
   border-radius: 15px;
   cursor: pointer;
   font-size: 1rem;
 }
-#cluster-button:active{
-  border-color:crimson;
+#cluster-button:active {
+  border-color: crimson;
 }
 
-.progress-style, .progresstype-style{
+.progress-style,
+.progresstype-style {
   font-size: 1.5rem;
   font-weight: 600;
 }
 
-.progresstype-style{
-  background-color: #F2F2F2;
+.progresstype-style {
+  background-color: #f2f2f2;
   border-radius: 1rem;
   padding: 2rem;
   margin-top: 1rem;
@@ -142,10 +143,10 @@ body {
 }
 
 .card-scroll {
-  padding: .5rem !important;
-  margin: .5rem !important;
+  padding: 0.5rem !important;
+  margin: 0.5rem !important;
   /* scroll property */
-  width: 95%;
+  width: auto;
   overflow-x: scroll;
 }
 
