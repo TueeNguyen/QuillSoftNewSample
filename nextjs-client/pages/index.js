@@ -29,6 +29,7 @@ export default function Home() {
         <main className={styles.main}>
           {' '}
           <script src='webviewer/lib/core/webviewer-core.min.js' />
+          <script src='webviewer/lib/core/pdf/PDFNet.js'></script>
           <FileUploader setFile={setFile} file={file} />
         </main>
       </div>

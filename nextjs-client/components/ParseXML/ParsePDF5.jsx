@@ -6,15 +6,24 @@ export default function ParsePDF5({ keyWord }) {
   const viewer = useRef(null);
   const searchTerm = useRef(null);
   const scrollView = useRef(null);
+  const searchButton = useRef(null);
   const searchContainerRef = useRef(null);
   const [instance, Setinstance] = useState(null);
   const [documentViewer, setDocumentViewer] = useState(null);
   const [annotationManager, setAnnotationManager] = useState(null);
   const [searchContainerOpen, setSearchContainerOpen] = useState(false);
-  const [Annotations, setAnnotations] = useState(null);
   const [searchPanelCss, setsearchPanelCss] = useState(styles.searchPanelleft);
   const [myComponentCss, SetmyComponentCss] = useState(styles.MyComponent);
   const [webviewerCss, SetwebviewerCss] = useState(styles.webviewer);
+
+  const Annotations = window.Core.Annotations;
+  const closeSearch = () => {
+    // instance.closeElements(['searchPanel', 'searchOverlay']);
+    setSearchContainerOpen((prevState) => !prevState);
+    setsearchPanelCss(styles.searchPanelleft2);
+    SetmyComponentCss(styles.MyComponent2);
+    SetwebviewerCss(styles.webviewer2);
+  };
   useEffect(() => {
     import('@pdftron/webviewer').then(() => {
       WebViewer(
@@ -27,11 +36,11 @@ export default function ParsePDF5({ keyWord }) {
         //save instance state, will use it for search
         Setinstance(instance);
         //Below are members of Core Class and will be using in Search & Highlight
-        const { documentViewer, Annotations } = instance.Core;
+        const { documentViewer } = instance.Core;
         // documentViewer.setViewerElement(viewer.current);
         documentViewer.setScrollViewElement(scrollView.current);
         setDocumentViewer(documentViewer);
-        setAnnotations(instance.Core.Annotations);
+        // setAnnotations(instance.Core.Annotations);
         // documentViewer.setSearchHighlightColors({
         //   // setSearchHighlightColors accepts both Annotations.Color objects or 'rgba' strings
         //   searchResult: new Annotations.Color(0, 0, 255, 0.5),
@@ -48,13 +57,7 @@ export default function ParsePDF5({ keyWord }) {
           }
         };
         //search button
-        const closeSearch = () => {
-          // instance.closeElements(['searchPanel', 'searchOverlay']);
-          setSearchContainerOpen((prevState) => !prevState);
-          setsearchPanelCss(styles.searchPanelleft2);
-          SetmyComponentCss(styles.MyComponent2);
-          SetwebviewerCss(styles.webviewer2);
-        };
+
         //Display uploaded file , receive file from FileUploader.jsx
         db.recentFiles
           .orderBy('created_at')
@@ -92,7 +95,7 @@ export default function ParsePDF5({ keyWord }) {
               type: 'actionButton',
               img: 'ic_search_black_24px',
               onClick: closeSearch,
-
+              ref: searchButton,
               dataElement: 'searchPanelButton',
             },
           ]);
@@ -137,6 +140,21 @@ export default function ParsePDF5({ keyWord }) {
     }
   }, [keyWord]);
 
+  useEffect(() => {
+    if (keyWord != '' && searchTerm.current == null) {
+      closeSearch();
+    }
+
+    setTimeout(() => {
+      if (searchTerm.current != null) {
+        searchTerm.current.value = keyWord;
+        searchButton.current.click();
+        console.log('seachcontainer open: ' + searchContainerOpen);
+        let downEv = new KeyboardEvent('keyup', { keyCode: 13, which: 13 });
+        searchTerm.current.dispatchEvent(downEv);
+      }
+    }, 300);
+  }, [keyWord]);
   return (
     <div className={myComponentCss}>
       <SearchContainer
@@ -146,8 +164,9 @@ export default function ParsePDF5({ keyWord }) {
         searchTermRef={searchTerm}
         searchContainerRef={searchContainerRef}
         open={searchContainerOpen}
-        instance={instance}
+        keyWord={keyWord}
         className={searchPanelCss}
+        searchButton={searchButton}
       />
 
       <div
