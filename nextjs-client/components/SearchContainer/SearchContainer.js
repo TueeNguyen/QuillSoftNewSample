@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from '../../styles/SearchContainer.module.css';
 const SearchContainer = (props) => {
   const [searchResults, setSearchResults] = useState([]);
+  const [searchResultsLength, setsearchResultsLength] = useState(0);
   const [activeResultIndex, setActiveResultIndex] = useState(-1);
   const [toggledSearchModes, setToggledSearchModes] = useState([]);
 
@@ -12,7 +13,7 @@ const SearchContainer = (props) => {
     open = false,
     searchContainerRef,
     searchTermRef: searchTerm,
-    instance: instance,
+    searchButton,
   } = props;
 
   const pageRenderTracker = {};
@@ -25,7 +26,9 @@ const SearchContainer = (props) => {
       documentViewer.setActiveSearchResult(searchResults[activeResultIndex]);
     }
   }, [activeResultIndex]);
-
+  useEffect(() => {
+    setsearchResultsLength(searchResults.length);
+  }, [searchResults]);
   /**
    * Side-effect function that invokes `documentViewer.textSearchInit`, and stores
    * every result in the state Array `searchResults`, and jumps the user to the
@@ -37,7 +40,7 @@ const SearchContainer = (props) => {
       current: { value: textToSearch },
     } = searchTerm;
 
-    const { PAGE_STOP, HIGHLIGHT, AMBIENT_STRING } = instance.Core.Search.Mode;
+    const { PAGE_STOP, HIGHLIGHT, AMBIENT_STRING } = window.Core.Search.Mode;
 
     const mode = toggledSearchModes.reduce(
       (prev, value) => prev | value,
@@ -49,6 +52,7 @@ const SearchContainer = (props) => {
       fullSearch,
       onResult: (result) => {
         setSearchResults((prevState) => [...prevState, result]);
+
         const { resultCode, quads, page_num: pageNumber } = result;
         const { e_found: eFound } = window.PDFNet.TextSearch.ResultCode;
         if (resultCode === eFound) {
@@ -174,15 +178,15 @@ const SearchContainer = (props) => {
   }
 
   return (
-    <span id='search-container' ref={searchContainerRef}>
-      <div id='search-input'>
+    <span className={styles.search_container} ref={searchContainerRef}>
+      <div className={styles.search_input}>
         <input
           ref={searchTerm}
           type={'text'}
           placeholder={'Search'}
           onKeyUp={listenForEnter}
         />
-        <button onClick={performSearch}>
+        <button onClick={performSearch} ref={searchButton}>
           <img src='ic_search_black_24px' alt='Search' />
         </button>
       </div>
@@ -209,13 +213,13 @@ const SearchContainer = (props) => {
         </span>
       </div>
       <div className='divider'></div>
-      <div id='search-buttons'>
+      <div className={styles.search_buttons}>
         <span>
           <button onClick={clearSearchResults}>
             <img src='icon - header - clear - search.svg' alt='Clear Search' />
           </button>
         </span>
-        <span id='search-iterators'>
+        <span className={styles.search_iterators}>
           <button
             onClick={() => {
               changeActiveSearchResult(activeResultIndex - 1);
@@ -240,6 +244,7 @@ const SearchContainer = (props) => {
           </button>
         </span>
       </div>
+      <div>Result found {searchResultsLength}</div>
       <div>
         {searchResults.map((result, idx) => {
           const {
@@ -248,7 +253,6 @@ const SearchContainer = (props) => {
             result_str_start: resultStrStart,
             result_str_end: resultStrEnd,
           } = result;
-          console.log('ambientStr: ' + ambientStr);
           const textBeforeSearchValue = ambientStr.slice(0, resultStrStart);
           const searchValue = ambientStr.slice(resultStrStart, resultStrEnd);
           const textAfterSearchValue = ambientStr.slice(resultStrEnd);
@@ -261,13 +265,13 @@ const SearchContainer = (props) => {
             <div key={`search-result-${idx}`}>
               {pageHeader}
               <div
-                className='search-result'
+                className={styles.search_result}
                 onClick={() => {
                   documentViewer.setActiveSearchResult(result);
                 }}
               >
                 {textBeforeSearchValue}
-                <span className='search-value'>{searchValue}</span>
+                <span className={styles.search_value}>{searchValue}</span>
                 {textAfterSearchValue}
               </div>
             </div>
