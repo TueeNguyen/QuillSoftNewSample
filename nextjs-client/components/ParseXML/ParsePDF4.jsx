@@ -1,10 +1,29 @@
-import { useEffect, useRef, useState, useLayoutEffect } from 'react';
-import styles from '../../styles/Home.module.css';
+import { useEffect, useRef, useState } from 'react';
 import db from '../db';
-export default function ParsePDF4({ keyWord }) {
+import SearchContainer from '../SearchContainer/SearchContainer';
+import styles from '../../styles/Home.module.css';
+export default function ParsePDF4({ keyWord, xmlData }) {
   const viewer = useRef(null);
+  const searchTerm = useRef(null);
+  const scrollView = useRef(null);
+  const searchButton = useRef(null);
+  const searchContainerRef = useRef(null);
   const [instance, Setinstance] = useState(null);
-  const [myComponentCss, SetmyComponentCss] = useState(styles.MyComponent3);
+  const [documentViewer, setDocumentViewer] = useState(null);
+  const [annotationManager, setAnnotationManager] = useState(null);
+  const [searchContainerOpen, setSearchContainerOpen] = useState(false);
+  const [searchPanelCss, setsearchPanelCss] = useState(styles.searchPanelleft);
+  const [myComponentCss, SetmyComponentCss] = useState(styles.MyComponent);
+  const [webviewerCss, SetwebviewerCss] = useState(styles.webviewer);
+
+  const Annotations = window.Core.Annotations;
+
+  const closeSearch = () => {
+    setSearchContainerOpen((prevState) => !prevState);
+    setsearchPanelCss(styles.searchPanelleft2);
+    SetmyComponentCss(styles.MyComponent2);
+    SetwebviewerCss(styles.webviewer2);
+  };
   useEffect(() => {
     import('@pdftron/webviewer').then(() => {
       WebViewer(
@@ -16,10 +35,11 @@ export default function ParsePDF4({ keyWord }) {
       ).then((instance) => {
         //save instance state, will use it for search
         Setinstance(instance);
-
         //Below are members of Core Class and will be using in Search & Highlight
-        const { annotationManager, documentViewer, Annotations } =
-          instance.Core;
+        const { documentViewer } = instance.Core;
+        // documentViewer.setViewerElement(viewer.current);
+        documentViewer.setScrollViewElement(scrollView.current);
+        setDocumentViewer(documentViewer);
 
         // Zoom in & Zomm out
         const zoomIn = () => {
@@ -30,10 +50,7 @@ export default function ParsePDF4({ keyWord }) {
             instance.setZoomLevel(instance.getZoomLevel() - 0.25);
           }
         };
-        //search button
-        const closeSearch = () => {
-          instance.closeElements(['searchPanel', 'searchOverlay']);
-        };
+
         //Display uploaded file , receive file from FileUploader.jsx
         db.recentFiles
           .orderBy('created_at')
@@ -68,56 +85,59 @@ export default function ParsePDF4({ keyWord }) {
               dataElement: 'zoomButton',
             },
             {
-              type: 'toggleElementButton',
+              type: 'actionButton',
               img: 'ic_search_black_24px',
               onClick: closeSearch,
-              element: 'searchPanel',
+              ref: searchButton,
               dataElement: 'searchPanelButton',
             },
           ]);
         });
 
-        //Search & Highlight
-        const searchListener = (searchPattern, options, results) => {
-          // add redaction annotation for each search result
-          const newAnnotations = results.map((result) => {
-            const annotation = new Annotations.RedactionAnnotation();
-            annotation.PageNumber = result.pageNum;
-            annotation.Quads = result.quads.map((quad) => quad.getPoints());
-            annotation.StrokeColor = new Annotations.Color(136, 39, 31);
-            return annotation;
-          });
-
-          annotationManager.addAnnotations(newAnnotations);
-          annotationManager.drawAnnotationsFromList(newAnnotations);
-        };
-
         documentViewer.addEventListener('documentLoaded', () => {
-          instance.UI.addSearchListener(searchListener());
+          // instance.UI.addSearchListener(searchListener());
+          setDocumentViewer(documentViewer);
+          setAnnotationManager(documentViewer.getAnnotationManager());
         });
       });
     });
   }, []);
-  //Click on new keyWord trigger new search
-  useLayoutEffect(() => {
-    const searchPattern = keyWord;
-    const searchOptions = {
-      caseSensitive: false, // match case
-      wholeWord: true, // match whole words only
-      wildcard: false, // allow using '*' as a wildcard value
-      regex: false, // string is treated as a regular expression
-      searchUp: false, // search from the end of the document upwards
-      ambientString: true, // return ambient string as part of the result
-    };
-    if (instance != null) {
-      instance.UI.searchTextFull(searchPattern, searchOptions);
-      SetmyComponentCss(styles.MyComponent3_1);
-    }
-  }, [keyWord]);
 
+  useEffect(() => {
+    if (keyWord != '' && searchTerm.current == null) {
+      closeSearch();
+    }
+
+    setTimeout(() => {
+      if (searchTerm.current != null) {
+        searchTerm.current.value = keyWord;
+        searchButton.current.click();
+        console.log('seachcontainer open: ' + searchContainerOpen);
+        let downEv = new KeyboardEvent('keyup', { keyCode: 13, which: 13 });
+        searchTerm.current.dispatchEvent(downEv);
+      }
+    }, 300);
+  }, [keyWord]);
   return (
     <div className={myComponentCss}>
-      <div className='webviewer' ref={viewer} style={{ height: '100vh' }}></div>
+      <SearchContainer
+        Annotations={Annotations}
+        annotationManager={annotationManager}
+        documentViewer={documentViewer}
+        searchTermRef={searchTerm}
+        searchContainerRef={searchContainerRef}
+        open={searchContainerOpen}
+        keyWord={keyWord}
+        className={searchPanelCss}
+        searchButton={searchButton}
+        xmlData={xmlData}
+      />
+
+      <div
+        className={webviewerCss}
+        ref={viewer}
+        style={{ height: '100vh' }}
+      ></div>
     </div>
   );
 }

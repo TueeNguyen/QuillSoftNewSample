@@ -1,5 +1,5 @@
-import React from "react";
-import ParseXML from "./../ParseXML/ParseXML";
+import React from 'react';
+import ParseXML from './../ParseXML/ParseXML';
 import {
   Grid,
   Tooltip,
@@ -9,13 +9,13 @@ import {
   MenuItem,
   Button,
   Typography,
-} from "@material-ui/core";
-import VisibilityIcon from "@material-ui/icons/Visibility";
-import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
-import KeywordViewer from "../Viewer/KeywordViewer";
-import AssignmentIcon from "@material-ui/icons/Assignment";
-import dynamic from "next/dynamic";
-const TreeMapViewer = dynamic(() => import("../Viewer/TreeMapViewer"), {
+} from '@material-ui/core';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import KeywordViewer from '../Viewer/KeywordViewer';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import dynamic from 'next/dynamic';
+const TreeMapViewer = dynamic(() => import('../Viewer/TreeMapViewer'), {
   ssr: false,
 });
 
@@ -50,10 +50,10 @@ export default class FileProcesser extends React.Component {
         open: false,
       },
       show: true,
-      tooltip: "hide table",
+      tooltip: 'hide table',
       isScrolling: false,
       cardHeight: 500,
-      keyWord: "",
+      keyWord: '',
     };
 
     /* FOR: <ParseXML> */
@@ -93,10 +93,10 @@ export default class FileProcesser extends React.Component {
     return (
       <Button onClick={this.setOpen} fullWidth={true}>
         <Select
-          defaultValue=""
+          defaultValue=''
           onOpen={this.setOpen}
           onClose={this.setClose}
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
         >
           {this.state.words.map((value, index) => (
             <MenuItem
@@ -138,8 +138,7 @@ export default class FileProcesser extends React.Component {
     this.setState({ highlight: temp }, () => {
       this.refParseXML.current.findNoise();
     });
-    //keyword clicked
-
+    /* user click the keyword, keyword value pass to ParseXml.jsx and child components */
     this.setState({ keyWord: value[0] });
   }
 
@@ -158,13 +157,13 @@ export default class FileProcesser extends React.Component {
         {this.state.show ? (
           <VisibilityIcon
             onClick={() => {
-              this.setState({ show: false, tooltip: "show table" });
+              this.setState({ show: false, tooltip: 'show table' });
             }}
           />
         ) : (
           <VisibilityOffIcon
             onClick={() => {
-              this.setState({ show: true, tooltip: "hide table" });
+              this.setState({ show: true, tooltip: 'hide table' });
             }}
           />
         )}
@@ -184,7 +183,7 @@ export default class FileProcesser extends React.Component {
   createTreeMap() {
     var text = this.props.data;
     if (this.state.words != null) {
-      const data = { name: "Total Concepts and Keywords:", children: [] };
+      const data = { name: 'Total Concepts and Keywords:', children: [] };
       var temp = { name: this.state.words[0], value: 100 };
       for (let i = 0; i < this.state.words.length; ++i) {
         var cnt = 0;
@@ -216,15 +215,15 @@ export default class FileProcesser extends React.Component {
         <Grid
           container
           spacing={2}
-          style={{ width: "1500px", padding: "1rem" }}
+          style={{ width: '1500px', padding: '1rem' }}
         >
           <Grid item xs={4}>
-            <Card className="card-style">
-              <Typography style={{ padding: "1rem" }}>
-                Select Concept:{" "}
+            <Card className='card-style'>
+              <Typography style={{ padding: '1rem' }}>
+                Select Concept:{' '}
               </Typography>
               <CardContent>{this._selectConcept()}</CardContent>
-              <div style={{ padding: "1rem", alignSelf: "center" }}>
+              <div style={{ padding: '1rem', alignSelf: 'center' }}>
                 {this._tooltip()}
               </div>
               {this.state.curr.done && this.state.show ? (
@@ -242,8 +241,8 @@ export default class FileProcesser extends React.Component {
             </Card>
           </Grid>
           <Grid item xs={8}>
-            <Card className="card-style">
-              <CardContent className="card-file-view">
+            <Card className='card-style'>
+              <CardContent className='card-file-view'>
                 {/* <div style={{ marginLeft: "1rem", display: "inline-flex" }}>
                   <Tooltip title="Xray Viewer">
                     <a href="/xray" target="_blank">

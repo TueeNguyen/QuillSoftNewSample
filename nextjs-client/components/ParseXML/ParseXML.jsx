@@ -9,6 +9,7 @@ import ParsePDF2 from './ParsePDF2';
 import ParsePDF3 from './ParsePDF3';
 import ParsePDF4 from './ParsePDF4';
 import ParsePDF5 from './ParsePDF5';
+
 /**
  * Class: ParseXML
  * - takes the xml data and displays it
@@ -145,6 +146,7 @@ export default class ParseXML extends React.Component {
     } else {
       return (
         <>
+          {/* below commented functions  will not working on the new added components (ParsePDF1-5)  */}
           {/* <div className="button-style">
             <Tooltip title="Zoom In">
               <Button variant="contained">
@@ -174,11 +176,12 @@ export default class ParseXML extends React.Component {
               __html: this.state.xmlData,
             }}
           ></div> */}
+          {/* uncomment  one component at a time to switch between  different UI */}
           {/* <ParsePDF keyWord={this.props.keyWord} /> */}
           {/* <ParsePDF2 keyWord={this.props.keyWord} /> */}
           {/* <ParsePDF3 keyWord={this.props.keyWord} /> */}
-          {/* <ParsePDF4 keyWord={this.props.keyWord} /> */}
-          <ParsePDF5 keyWord={this.props.keyWord} />
+          <ParsePDF4 keyWord={this.props.keyWord} xmlData={this.props.data} />
+          {/* <ParsePDF5 keyWord={this.props.keyWord} xmlData={this.props.data} /> */}
         </>
       );
     }

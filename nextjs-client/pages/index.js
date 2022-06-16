@@ -30,6 +30,7 @@ export default function Home() {
           {' '}
           <script src='webviewer/lib/core/webviewer-core.min.js' />
           <script src='webviewer/lib/core/pdf/PDFNet.js'></script>
+          <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js' />
           <FileUploader setFile={setFile} file={file} />
         </main>
       </div>

@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from '../../styles/SearchContainer.module.css';
+import Highlighter from 'react-highlight-words';
 const SearchContainer = (props) => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchResultsLength, setsearchResultsLength] = useState(0);
   const [activeResultIndex, setActiveResultIndex] = useState(-1);
   const [toggledSearchModes, setToggledSearchModes] = useState([]);
-
+  const [textForSearch, settextForSearch] = useState('');
   const {
     Annotations,
     annotationManager,
@@ -14,9 +15,63 @@ const SearchContainer = (props) => {
     searchContainerRef,
     searchTermRef: searchTerm,
     searchButton,
+    xmlData,
   } = props;
 
   const pageRenderTracker = {};
+
+  //use Jquery to retrieve text by tag, save as arrays and use concat method to merge to one array
+  const fullText = [].concat(
+    $(xmlData)
+      .find('header')
+      .map(function () {
+        return $(this).text();
+      })
+      .get(),
+    $(xmlData)
+      .find('footer')
+      .map(function () {
+        return $(this).text();
+      })
+      .get(),
+    $(xmlData)
+      .find('p')
+      .map(function () {
+        return $(this).text();
+      })
+      .get()
+  );
+  // search result will save in this array (base on the XML)
+  const SearchResultLong = [];
+  const testlong = useRef(SearchResultLong);
+  // search function, run on fullText
+  const searchFunction = () => {
+    for (let i = 0; i < fullText.length; i++) {
+      if (fullText[i].toLowerCase().includes(textForSearch)) {
+        let str;
+        let k;
+        if (i <= 1) {
+          for (k = 0; k < 3; k++) {
+            str += fullText[k];
+          }
+          SearchResultLong.push(str);
+        } else if (i >= 2) {
+          if (i == fullText.length - 3) {
+            for (k = i - 2; k <= i; k++) {
+              str += fullText[k];
+            }
+            SearchResultLong.push(str);
+          } else {
+            for (k = i - 3; k <= i + 3; k++) {
+              str += fullText[k];
+            }
+            SearchResultLong.push(str);
+          }
+        }
+      }
+    }
+    testlong.current = SearchResultLong;
+  };
 
   /**
    * Coupled with the function `changeActiveSearchResult`
@@ -24,11 +79,13 @@ const SearchContainer = (props) => {
   useEffect(() => {
     if (activeResultIndex >= 0 && activeResultIndex < searchResults.length) {
       documentViewer.setActiveSearchResult(searchResults[activeResultIndex]);
+      searchFunction();
     }
   }, [activeResultIndex]);
   useEffect(() => {
     setsearchResultsLength(searchResults.length);
   }, [searchResults]);
+
   /**
    * Side-effect function that invokes `documentViewer.textSearchInit`, and stores
    * every result in the state Array `searchResults`, and jumps the user to the
@@ -48,6 +105,8 @@ const SearchContainer = (props) => {
     );
     const fullSearch = true;
     let jumped = false;
+    settextForSearch(textToSearch);
+
     documentViewer.textSearchInit(textToSearch, mode, {
       fullSearch,
       onResult: (result) => {
@@ -253,9 +312,7 @@ const SearchContainer = (props) => {
             result_str_start: resultStrStart,
             result_str_end: resultStrEnd,
           } = result;
-          const textBeforeSearchValue = ambientStr.slice(0, resultStrStart);
-          const searchValue = ambientStr.slice(resultStrStart, resultStrEnd);
-          const textAfterSearchValue = ambientStr.slice(resultStrEnd);
+
           let pageHeader = null;
           if (!pageRenderTracker[pageNum]) {
             pageRenderTracker[pageNum] = true;
@@ -270,9 +327,13 @@ const SearchContainer = (props) => {
                   documentViewer.setActiveSearchResult(result);
                 }}
               >
-                {textBeforeSearchValue}
-                <span className={styles.search_value}>{searchValue}</span>
-                {textAfterSearchValue}
+                <Highlighter
+                  highlightClassName='YourHighlightClass'
+                  searchWords={[textForSearch]}
+                  autoEscape={true}
+                  textToHighlight={testlong.current[idx]}
+                  key={idx}
+                />
               </div>
             </div>
           );
