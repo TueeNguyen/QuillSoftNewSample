@@ -23,54 +23,81 @@ const SearchContainer = (props) => {
   //use Jquery to retrieve text by tag, save as arrays and use concat method to merge to one array
   const fullText = [].concat(
     $(xmlData)
-      .find('header')
+      .find('title')
       .map(function () {
         return $(this).text();
       })
       .get(),
     $(xmlData)
-      .find('footer')
+      .find('div')
       .map(function () {
-        return $(this).text();
-      })
-      .get(),
-    $(xmlData)
-      .find('p')
-      .map(function () {
-        return $(this).text();
+        return $(this)
+          .text()
+          .replace('<head>', '')
+          .replace('</head>', '')
+          .replace('<p>', '')
+          .replace('</p>', '')
+          .replace(/\s{2,}/g, ' ')
+          .trim();
       })
       .get()
   );
-  // search result will save in this array (base on the XML)
-  const SearchResultLong = [];
-  const testlong = useRef(SearchResultLong);
-  // search function, run on fullText
-  const searchFunction = () => {
+  const SearchResultLong = []; // search result will save in this array (base on the XML)
+  const SearchResultsSecondLong = []; // perform second search on SearchResultLong , break down long search result
+  const finalResults = useRef(SearchResultsSecondLong);
+  //count word function , check if search result too short.
+  const wordCount = (str) => {
+    const arr = str.split(' ');
+
+    return arr.filter((word) => word !== '').length;
+  };
+  // search function, run on fullText, include two level search
+  const searchFunction = (word) => {
     for (let i = 0; i < fullText.length; i++) {
-      if (fullText[i].toLowerCase().includes(textForSearch)) {
-        let str;
-        let k;
-        if (i <= 1) {
-          for (k = 0; k < 3; k++) {
-            str += fullText[k];
-          }
-          SearchResultLong.push(str);
-        } else if (i >= 2) {
-          if (i == fullText.length - 3) {
-            for (k = i - 2; k <= i; k++) {
-              str += fullText[k];
-            }
-            SearchResultLong.push(str);
-          } else {
-            for (k = i - 3; k <= i + 3; k++) {
-              str += fullText[k];
-            }
-            SearchResultLong.push(str);
-          }
-        }
+      if (fullText[i].toLowerCase().includes(word)) {
+        let str = '';
+        str += fullText[i];
+        SearchResultLong.push(str);
       }
     }
-    testlong.current = SearchResultLong;
+    //use .?! break down long text to short sentences
+    const breakLongText = SearchResultLong.map((element) => {
+      return element.replace(/([.?!])\s*(?=[A-Z])/g, '$1@').split('@');
+    });
+    // merge result arrays to one array
+    let resultAfterMerge = [];
+    for (let i = 0; i < breakLongText.length; i++) {
+      resultAfterMerge = resultAfterMerge.concat(breakLongText[i]);
+    }
+    //second search on previous result
+    for (let i = 0; i < resultAfterMerge.length; i++) {
+      let str = '';
+      if (resultAfterMerge[i].toLowerCase().includes(word)) {
+        if (wordCount(resultAfterMerge[i]) <= 20) {
+          if (i == 0) {
+            if (resultAfterMerge.length == 1) {
+              str += resultAfterMerge[i];
+            } else {
+              str += resultAfterMerge[i];
+              str += resultAfterMerge[i + 1];
+            }
+          } else if (i == resultAfterMerge.length - 1) {
+            str += resultAfterMerge[i - 2];
+            str += resultAfterMerge[i - 1];
+            str += resultAfterMerge[i];
+          } else {
+            str += resultAfterMerge[i - 1];
+            str += resultAfterMerge[i];
+            str += resultAfterMerge[i + 1];
+            str += resultAfterMerge[i + 2];
+          }
+        } else {
+          str += resultAfterMerge[i];
+        }
+        SearchResultsSecondLong.push(str);
+      }
+    }
+    finalResults.current = SearchResultsSecondLong;
   };
 
   /**
@@ -79,7 +106,7 @@ const SearchContainer = (props) => {
   useEffect(() => {
     if (activeResultIndex >= 0 && activeResultIndex < searchResults.length) {
       documentViewer.setActiveSearchResult(searchResults[activeResultIndex]);
-      searchFunction();
+      searchFunction(textForSearch);
     }
   }, [activeResultIndex]);
   useEffect(() => {
@@ -327,11 +354,12 @@ const SearchContainer = (props) => {
                   documentViewer.setActiveSearchResult(result);
                 }}
               >
+                <br />
                 <Highlighter
                   highlightClassName='YourHighlightClass'
                   searchWords={[textForSearch]}
                   autoEscape={true}
-                  textToHighlight={testlong.current[idx]}
+                  textToHighlight={finalResults.current[idx]}
                   key={idx}
                 />
               </div>

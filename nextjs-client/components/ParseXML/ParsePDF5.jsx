@@ -6,26 +6,34 @@ export default function ParsePDF5({ keyWord, xmlData }) {
   //each element will be a sentence
   const fullText = [].concat(
     $(xmlData)
-      .find('header')
+      .find('title')
       .map(function () {
         return $(this).text();
       })
       .get(),
     $(xmlData)
-      .find('footer')
+      .find('div')
       .map(function () {
-        return $(this).text();
-      })
-      .get(),
-    $(xmlData)
-      .find('p')
-      .map(function () {
-        return $(this).text();
+        return $(this)
+          .text()
+          .replace('<head>', '')
+          .replace('</head>', '')
+          .replace('<p>', '')
+          .replace('</p>', '')
+          .replace(/\s{2,}/g, ' ')
+          .trim();
       })
       .get()
   );
+  //count word function , check if search result too short.
+  const wordCount = (str) => {
+    const arr = str.split(' ');
+
+    return arr.filter((word) => word !== '').length;
+  };
   // search result
   const SearchResultLong = [];
+  const SearchResultsSecondLong = []; // perform second search on SearchResultLong , break down long search result
   // search function, run on paragraph array, found match element and mix previous and after elements together as a paragraph and push to search result
   const searchFunction = (word) => {
     if (word == null || word == undefined || word == '') {
@@ -34,26 +42,46 @@ export default function ParsePDF5({ keyWord, xmlData }) {
     }
     for (let i = 0; i < fullText.length; i++) {
       if (fullText[i].toLowerCase().includes(word)) {
-        let str;
-        let k;
-        if (i <= 1) {
-          for (k = 0; k < 3; k++) {
-            str += fullText[k];
-          }
-          SearchResultLong.push(str);
-        } else if (i >= 2) {
-          if (i == fullText.length - 3) {
-            for (k = i - 2; k <= i; k++) {
-              str += fullText[k];
+        let str = '';
+        str += fullText[i];
+        SearchResultLong.push(str);
+      }
+    }
+    //use .?! break down long text to short sentences
+    const breakLongText = SearchResultLong.map((element) => {
+      return element.replace(/([.?!])\s*(?=[A-Z])/g, '$1@').split('@');
+    });
+    // merge result arrays to one array
+    let resultAfterMerge = [];
+    for (let i = 0; i < breakLongText.length; i++) {
+      resultAfterMerge = resultAfterMerge.concat(breakLongText[i]);
+    }
+    //second search on previous result
+    for (let i = 0; i < resultAfterMerge.length; i++) {
+      let str = '';
+      if (resultAfterMerge[i].toLowerCase().includes(word)) {
+        if (wordCount(resultAfterMerge[i]) <= 20) {
+          if (i == 0) {
+            if (resultAfterMerge.length == 1) {
+              str += resultAfterMerge[i];
+            } else {
+              str += resultAfterMerge[i];
+              str += resultAfterMerge[i + 1];
             }
-            SearchResultLong.push(str);
+          } else if (i == resultAfterMerge.length - 1) {
+            str += resultAfterMerge[i - 2];
+            str += resultAfterMerge[i - 1];
+            str += resultAfterMerge[i];
           } else {
-            for (k = i - 4; k <= i + 4; k++) {
-              str += fullText[k];
-            }
-            SearchResultLong.push(str);
+            str += resultAfterMerge[i - 1];
+            str += resultAfterMerge[i];
+            str += resultAfterMerge[i + 1];
+            str += resultAfterMerge[i + 2];
           }
+        } else {
+          str += resultAfterMerge[i];
         }
+        SearchResultsSecondLong.push(str);
       }
     }
   };
@@ -61,7 +89,7 @@ export default function ParsePDF5({ keyWord, xmlData }) {
   //user click on new keyWord trigger new search
   useEffect(() => {
     searchFunction(keyWord); // use keyword to search
-    setsearchResults(SearchResultLong);
+    setsearchResults(SearchResultsSecondLong);
   }, [keyWord]);
   const resultFound = 'Result found: ' + searchResults.length;
   return (

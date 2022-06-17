@@ -180,8 +180,8 @@ export default class ParseXML extends React.Component {
           {/* <ParsePDF keyWord={this.props.keyWord} /> */}
           {/* <ParsePDF2 keyWord={this.props.keyWord} /> */}
           {/* <ParsePDF3 keyWord={this.props.keyWord} /> */}
-          <ParsePDF4 keyWord={this.props.keyWord} xmlData={this.props.data} />
-          {/* <ParsePDF5 keyWord={this.props.keyWord} xmlData={this.props.data} /> */}
+          {/* <ParsePDF4 keyWord={this.props.keyWord} xmlData={this.props.data} /> */}
+          <ParsePDF5 keyWord={this.props.keyWord} xmlData={this.props.data} />
         </>
       );
     }
