@@ -110,7 +110,7 @@ const SearchContainer = (props) => {
     }
   }, [activeResultIndex]);
   useEffect(() => {
-    setsearchResultsLength(searchResults.length);
+    setsearchResultsLength(finalResults.current.length);
   }, [searchResults]);
 
   /**

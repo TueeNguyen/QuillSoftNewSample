@@ -15,6 +15,7 @@ import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import KeywordViewer from '../Viewer/KeywordViewer';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import dynamic from 'next/dynamic';
+import { Height } from '@material-ui/icons';
 const TreeMapViewer = dynamic(() => import('../Viewer/TreeMapViewer'), {
   ssr: false,
 });
@@ -215,10 +216,16 @@ export default class FileProcesser extends React.Component {
         <Grid
           container
           spacing={2}
-          style={{ width: '1500px', padding: '1rem' }}
+          style={{
+            width: '1500px',
+            padding: '1rem',
+          }}
         >
           <Grid item xs={4}>
-            <Card className='card-style'>
+            <Card
+              className='card-style'
+              style={{ height: '100vh', overflow: 'scroll' }}
+            >
               <Typography style={{ padding: '1rem' }}>
                 Select Concept:{' '}
               </Typography>
