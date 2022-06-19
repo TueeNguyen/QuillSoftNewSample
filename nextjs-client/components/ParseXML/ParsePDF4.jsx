@@ -40,7 +40,6 @@ export default function ParsePDF4({ keyWord, xmlData }) {
         // documentViewer.setViewerElement(viewer.current);
         documentViewer.setScrollViewElement(scrollView.current);
         setDocumentViewer(documentViewer);
-
         // Zoom in & Zomm out
         const zoomIn = () => {
           instance.setZoomLevel(instance.getZoomLevel() + 0.25);
@@ -107,16 +106,17 @@ export default function ParsePDF4({ keyWord, xmlData }) {
     if (keyWord != '' && searchTerm.current == null) {
       closeSearch();
     }
-
     setTimeout(() => {
       if (searchTerm.current != null) {
         searchTerm.current.value = keyWord;
         searchButton.current.click();
-        console.log('seachcontainer open: ' + searchContainerOpen);
         let downEv = new KeyboardEvent('keyup', { keyCode: 13, which: 13 });
         searchTerm.current.dispatchEvent(downEv);
       }
     }, 300);
+    if (instance != null) {
+      instance.setZoomLevel(1);
+    }
   }, [keyWord]);
   return (
     <div className={myComponentCss}>
@@ -131,6 +131,7 @@ export default function ParsePDF4({ keyWord, xmlData }) {
         className={searchPanelCss}
         searchButton={searchButton}
         xmlData={xmlData}
+        instance={instance}
       />
 
       <div

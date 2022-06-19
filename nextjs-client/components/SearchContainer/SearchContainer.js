@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from '../../styles/SearchContainer.module.css';
 import Highlighter from 'react-highlight-words';
+import { colors } from '@material-ui/core';
 const SearchContainer = (props) => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchResultsLength, setsearchResultsLength] = useState(0);
   const [activeResultIndex, setActiveResultIndex] = useState(-1);
   const [toggledSearchModes, setToggledSearchModes] = useState([]);
   const [textForSearch, settextForSearch] = useState('');
+  const [searchResultChange, setsearchResultChange] = useState(false);
+  const [caseSensitive, SetcaseSensitive] = useState(false);
+  const [wholeWord, SetwholeWord] = useState(false);
   const {
     Annotations,
     annotationManager,
@@ -16,10 +20,42 @@ const SearchContainer = (props) => {
     searchTermRef: searchTerm,
     searchButton,
     xmlData,
+    instance,
   } = props;
 
   const pageRenderTracker = {};
 
+  /**
+   * Coupled with the function `changeActiveSearchResult`
+   */
+  useEffect(() => {
+    if (activeResultIndex >= 0 && activeResultIndex < searchResults.length) {
+      documentViewer.setActiveSearchResult(searchResults[activeResultIndex]);
+    }
+  }, [activeResultIndex]);
+  useEffect(() => {
+    setsearchResultsLength(finalResults.current.length);
+  }, [searchResultChange]);
+  useEffect(() => {
+    searchFunction(textForSearch);
+  }, [textForSearch]);
+  useEffect(() => {
+    if (textForSearch != '') {
+      searchFunction(textForSearch);
+      performSearch();
+    }
+  }, [caseSensitive]);
+  useEffect(() => {
+    if (textForSearch != '') {
+      searchFunction(textForSearch);
+      performSearch();
+    }
+  }, [wholeWord]);
+  /**
+   * Side-effect function that invokes `documentViewer.textSearchInit`, and stores
+   * every result in the state Array `searchResults`, and jumps the user to the
+   * first result is found.
+   */
   //use Jquery to retrieve text by tag, save as arrays and use concat method to merge to one array
   const fullText = [].concat(
     $(xmlData)
@@ -54,13 +90,19 @@ const SearchContainer = (props) => {
   // search function, run on fullText, include two level search
   const searchFunction = (word) => {
     for (let i = 0; i < fullText.length; i++) {
-      if (fullText[i].toLowerCase().includes(word)) {
-        let str = '';
+      let str = '';
+      //check if search keyword with case-insensitive
+      if (
+        caseSensitive == true
+          ? fullText[i].includes(word)
+          : fullText[i].toLowerCase().includes(word)
+      ) {
         str += fullText[i];
         SearchResultLong.push(str);
       }
     }
-    //use .?! break down long text to short sentences
+    console.log(SearchResultLong);
+    //use ".?!" break down long text to short sentences
     const breakLongText = SearchResultLong.map((element) => {
       return element.replace(/([.?!])\s*(?=[A-Z])/g, '$1@').split('@');
     });
@@ -69,10 +111,14 @@ const SearchContainer = (props) => {
     for (let i = 0; i < breakLongText.length; i++) {
       resultAfterMerge = resultAfterMerge.concat(breakLongText[i]);
     }
-    //second search on previous result
+    //second search on previous result.
     for (let i = 0; i < resultAfterMerge.length; i++) {
       let str = '';
-      if (resultAfterMerge[i].toLowerCase().includes(word)) {
+      if (
+        caseSensitive == true
+          ? resultAfterMerge[i].includes(word)
+          : resultAfterMerge[i].toLowerCase().includes(word)
+      ) {
         if (wordCount(resultAfterMerge[i]) <= 20) {
           if (i == 0) {
             if (resultAfterMerge.length == 1) {
@@ -98,26 +144,9 @@ const SearchContainer = (props) => {
       }
     }
     finalResults.current = SearchResultsSecondLong;
+    setsearchResultChange(!searchResultChange);
   };
 
-  /**
-   * Coupled with the function `changeActiveSearchResult`
-   */
-  useEffect(() => {
-    if (activeResultIndex >= 0 && activeResultIndex < searchResults.length) {
-      documentViewer.setActiveSearchResult(searchResults[activeResultIndex]);
-      searchFunction(textForSearch);
-    }
-  }, [activeResultIndex]);
-  useEffect(() => {
-    setsearchResultsLength(finalResults.current.length);
-  }, [searchResults]);
-
-  /**
-   * Side-effect function that invokes `documentViewer.textSearchInit`, and stores
-   * every result in the state Array `searchResults`, and jumps the user to the
-   * first result is found.
-   */
   const performSearch = () => {
     clearSearchResults(false);
     const {
@@ -132,7 +161,10 @@ const SearchContainer = (props) => {
     );
     const fullSearch = true;
     let jumped = false;
-    settextForSearch(textToSearch);
+    // use whole word to search
+    wholeWord == true
+      ? settextForSearch(' ' + textToSearch + ' ')
+      : settextForSearch(textToSearch);
 
     documentViewer.textSearchInit(textToSearch, mode, {
       fullSearch,
@@ -185,6 +217,7 @@ const SearchContainer = (props) => {
     annotationManager.deleteAnnotations(annotationManager.getAnnotationsList());
     setSearchResults([]);
     setActiveResultIndex(-1);
+    setsearchResultsLength(0);
   };
 
   /**
@@ -247,8 +280,10 @@ const SearchContainer = (props) => {
    * Side-effect function that toggles whether or not to perform a text search
    * with case sensitivty
    */
+
   const toggleCaseSensitive = () => {
     toggleSearchMode(window.Core.Search.Mode.CASE_SENSITIVE);
+    SetcaseSensitive(!caseSensitive);
   };
 
   /**
@@ -257,6 +292,7 @@ const SearchContainer = (props) => {
    */
   const toggleWholeWord = () => {
     toggleSearchMode(window.Core.Search.Mode.WHOLE_WORD);
+    SetwholeWord(!wholeWord);
   };
 
   if (!open) {
@@ -273,7 +309,7 @@ const SearchContainer = (props) => {
           onKeyUp={listenForEnter}
         />
         <button onClick={performSearch} ref={searchButton}>
-          <img src='ic_search_black_24px' alt='Search' />
+          <img src='ic_search_black_24px.svg' alt='Search' />
         </button>
       </div>
       <div>
@@ -302,7 +338,7 @@ const SearchContainer = (props) => {
       <div className={styles.search_buttons}>
         <span>
           <button onClick={clearSearchResults}>
-            <img src='icon - header - clear - search.svg' alt='Clear Search' />
+            <img src='icon-header-clear-search.svg' alt='Clear Search' />
           </button>
         </span>
         <span className={styles.search_iterators}>
@@ -352,6 +388,8 @@ const SearchContainer = (props) => {
                 className={styles.search_result}
                 onClick={() => {
                   documentViewer.setActiveSearchResult(result);
+                  instance.setZoomLevel(1.5);
+                  console.log(instance.getZoomLevel());
                 }}
               >
                 <br />

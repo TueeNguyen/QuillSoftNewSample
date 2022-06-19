@@ -12,7 +12,7 @@ import axios from 'axios';
  *  - if rejected, throws Promise.reject and prints the error in console
  */
 export async function uploadFile(file) {
-  const request = axios.post('http://localhost:4000/api/', file, {
+  const request = axios.post('http://localhost:7000/api/', file, {
     method: 'POST',
     headers: {
       'Content-Type': 'multipart/form-data',
@@ -102,7 +102,7 @@ export async function getConfig() {
  */
 export async function processFile() {
   // GET METHOD
-  const request = axios.get('http://localhost:4000/api/process', {
+  const request = axios.get('http://localhost:7000/api/process', {
     method: 'GET',
   });
 
@@ -125,7 +125,7 @@ export async function processFile() {
  */
 
 export async function getClusters() {
-  const request = axios.post('http://localhost:4000/api/cluster', {
+  const request = axios.post('http://localhost:7000/api/cluster', {
     method: 'POST',
   });
 
@@ -148,7 +148,7 @@ export async function getClusters() {
  *  - otherwise, throws Promise.reject and prints the error in console
  */
 export async function getText() {
-  const request = axios.get('http://localhost:4000/api/text', {
+  const request = axios.get('http://localhost:7000/api/text', {
     method: 'GET',
   });
 
@@ -172,7 +172,7 @@ export async function getText() {
  */
 
 export async function getTEI() {
-  const request = axios.get('http://localhost:4000/api/tei', {
+  const request = axios.get('http://localhost:7000/api/tei', {
     method: 'GET',
     headers: {
       'Content-Type': 'text/xml',

@@ -2,6 +2,11 @@ import { useEffect, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 export default function ParsePDF5({ keyWord, xmlData }) {
   const [searchResults, setsearchResults] = useState([]);
+  //user click on new keyWord trigger new search
+  useEffect(() => {
+    searchFunction(keyWord); // use keyword to search
+    setsearchResults(SearchResultsSecondLong);
+  }, [keyWord]);
   //use Jquery to retrieve text by tag, save and merge to one array
   //each element will be a sentence
   const fullText = [].concat(
@@ -86,11 +91,6 @@ export default function ParsePDF5({ keyWord, xmlData }) {
     }
   };
 
-  //user click on new keyWord trigger new search
-  useEffect(() => {
-    searchFunction(keyWord); // use keyword to search
-    setsearchResults(SearchResultsSecondLong);
-  }, [keyWord]);
   const resultFound = 'Result found: ' + searchResults.length;
   return (
     <div>

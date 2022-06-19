@@ -23,7 +23,6 @@ export default function ParsePDF2({ keyWord }) {
         //Below are members of Core Class and will be using in Search & Highlight
         const { annotationManager, documentViewer, Annotations } =
           instance.Core;
-
         // Zoom in & Zomm out
         const zoomIn = () => {
           instance.setZoomLevel(instance.getZoomLevel() + 0.25);
