@@ -44,19 +44,17 @@ const SearchContainer = (props) => {
       searchFunction(textForSearch);
       performSearch();
     }
-  }, [caseSensitive]);
-  useEffect(() => {
-    if (textForSearch != '') {
-      searchFunction(textForSearch);
-      performSearch();
-    }
-  }, [wholeWord]);
+  }, [caseSensitive, wholeWord]);
   /**
    * Side-effect function that invokes `documentViewer.textSearchInit`, and stores
    * every result in the state Array `searchResults`, and jumps the user to the
    * first result is found.
    */
-  //use Jquery to retrieve text by tag, save as arrays and use concat method to merge to one array
+
+  const SearchResultLong = []; // search result will save in this array (base on the XML)
+  const SearchResultsSecondLong = []; // perform second search on SearchResultLong , break down long search result
+  const finalResults = useRef(SearchResultsSecondLong);
+  //Retrieve text by tags, save as arrays and use concat method to merge to one array
   const fullText = [].concat(
     $(xmlData)
       .find('title')
@@ -78,39 +76,15 @@ const SearchContainer = (props) => {
       })
       .get()
   );
-  const SearchResultLong = []; // search result will save in this array (base on the XML)
-  const SearchResultsSecondLong = []; // perform second search on SearchResultLong , break down long search result
-  const finalResults = useRef(SearchResultsSecondLong);
-  //count word function , check if search result too short.
+
+  //count word function , check search result length.
   const wordCount = (str) => {
     const arr = str.split(' ');
 
     return arr.filter((word) => word !== '').length;
   };
-  // search function, run on fullText, include two level search
-  const searchFunction = (word) => {
-    for (let i = 0; i < fullText.length; i++) {
-      let str = '';
-      //check if search keyword with case-insensitive
-      if (
-        caseSensitive == true
-          ? fullText[i].includes(word)
-          : fullText[i].toLowerCase().includes(word)
-      ) {
-        str += fullText[i];
-        SearchResultLong.push(str);
-      }
-    }
-    console.log(SearchResultLong);
-    //use ".?!" break down long text to short sentences
-    const breakLongText = SearchResultLong.map((element) => {
-      return element.replace(/([.?!])\s*(?=[A-Z])/g, '$1@').split('@');
-    });
-    // merge result arrays to one array
-    let resultAfterMerge = [];
-    for (let i = 0; i < breakLongText.length; i++) {
-      resultAfterMerge = resultAfterMerge.concat(breakLongText[i]);
-    }
+  //second level search, break down search result
+  const secondSearch = (word, resultAfterMerge) => {
     //second search on previous result.
     for (let i = 0; i < resultAfterMerge.length; i++) {
       let str = '';
@@ -145,6 +119,32 @@ const SearchContainer = (props) => {
     }
     finalResults.current = SearchResultsSecondLong;
     setsearchResultChange(!searchResultChange);
+  };
+
+  // search function, run on fullText, include two levels search
+  const searchFunction = (word) => {
+    for (let i = 0; i < fullText.length; i++) {
+      let str = '';
+      //check if search keyword with case-insensitive
+      if (
+        caseSensitive == true
+          ? fullText[i].includes(word)
+          : fullText[i].toLowerCase().includes(word)
+      ) {
+        str += fullText[i];
+        SearchResultLong.push(str);
+      }
+    }
+    //use ".?!" break down long text to short sentences
+    const breakLongText = SearchResultLong.map((element) => {
+      return element.replace(/([.?!])\s*(?=[A-Z])/g, '$1@').split('@');
+    });
+    // merge result arrays to one array
+    let resultAfterMerge = [];
+    for (let i = 0; i < breakLongText.length; i++) {
+      resultAfterMerge = resultAfterMerge.concat(breakLongText[i]);
+    }
+    secondSearch(word, resultAfterMerge);
   };
 
   const performSearch = () => {
