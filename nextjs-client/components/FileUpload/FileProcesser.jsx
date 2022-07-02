@@ -55,6 +55,7 @@ export default class FileProcesser extends React.Component {
       isScrolling: false,
       cardHeight: 500,
       keyWord: '',
+      keyConcept: '',
     };
 
     /* FOR: <ParseXML> */
@@ -113,6 +114,7 @@ export default class FileProcesser extends React.Component {
                       done: true,
                     },
                     highlight: null,
+                    keyConcept: value,
                   },
                   () => {
                     this.refParseXML.current.highlightConcept();
@@ -267,6 +269,7 @@ export default class FileProcesser extends React.Component {
                   highlight={this.state.highlight}
                   mainhighlight={this.state.curr.currWord}
                   keyWord={this.state.keyWord}
+                  keyConcept={this.state.keyConcept}
                 />
               </CardContent>
             </Card>

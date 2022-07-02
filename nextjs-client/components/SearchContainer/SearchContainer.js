@@ -8,6 +8,7 @@ const SearchContainer = (props) => {
   const [activeResultIndex, setActiveResultIndex] = useState(-1);
   const [toggledSearchModes, setToggledSearchModes] = useState([]);
   const [textForSearch, settextForSearch] = useState('');
+  const [keyConceptForSearch, SetkeyConceptForSearch] = useState('');
   const [searchResultChange, setsearchResultChange] = useState(false);
   const [caseSensitive, SetcaseSensitive] = useState(false);
   const [wholeWord, SetwholeWord] = useState(false);
@@ -21,6 +22,7 @@ const SearchContainer = (props) => {
     searchButton,
     xmlData,
     instance,
+    keyConceptOnClick,
   } = props;
 
   const pageRenderTracker = {};
@@ -33,27 +35,43 @@ const SearchContainer = (props) => {
       documentViewer.setActiveSearchResult(searchResults[activeResultIndex]);
     }
   }, [activeResultIndex]);
+  //display found result amount
   useEffect(() => {
     setsearchResultsLength(finalResults.current.length);
   }, [searchResultChange]);
+  //keyconcept fire first level search
   useEffect(() => {
-    searchFunction(textForSearch);
-  }, [textForSearch]);
+    if (keyConceptOnClick != '') {
+      SetkeyConceptForSearch(keyConceptOnClick);
+    }
+  }, [keyConceptOnClick]);
+  useEffect(() => {
+    searchOnKeyConcept(keyConceptForSearch);
+  }, [keyConceptForSearch]);
+  //keyword trigger search function
   useEffect(() => {
     if (textForSearch != '') {
-      searchFunction(textForSearch);
+      searchFunction(textForSearch, FirstResults.current);
+      performSearch();
+    }
+  }, [textForSearch]);
+
+  useEffect(() => {
+    if (textForSearch != '') {
+      searchFunction(textForSearch, FirstResults.current);
       performSearch();
     }
   }, [caseSensitive, wholeWord]);
+
   /**
    * Side-effect function that invokes `documentViewer.textSearchInit`, and stores
    * every result in the state Array `searchResults`, and jumps the user to the
    * first result is found.
    */
-
-  const SearchResultLong = []; // search result will save in this array (base on the XML)
-  const SearchResultsSecondLong = []; // perform second search on SearchResultLong , break down long search result
+  const SearchResultLong = []; // keyword search result
+  const SearchResultsSecondLong = []; // perform further search on SearchResultLong , break down long search result
   const finalResults = useRef(SearchResultsSecondLong);
+  const FirstResults = useRef([]);
   //Retrieve text by tags, save as arrays and use concat method to merge to one array
   const fullText = [].concat(
     $(xmlData)
@@ -83,11 +101,13 @@ const SearchContainer = (props) => {
 
     return arr.filter((word) => word !== '').length;
   };
-  //second level search, break down search result
-  const secondSearch = (word, resultAfterMerge) => {
-    //second search on previous result.
+
+  //further level search, break down search result
+  const furtherSearch = (word, resultAfterMerge) => {
+    //further search on previous result.
     for (let i = 0; i < resultAfterMerge.length; i++) {
       let str = '';
+
       if (
         caseSensitive == true
           ? resultAfterMerge[i].includes(word)
@@ -117,26 +137,29 @@ const SearchContainer = (props) => {
         SearchResultsSecondLong.push(str);
       }
     }
+    console.log(SearchResultsSecondLong);
     finalResults.current = SearchResultsSecondLong;
     setsearchResultChange(!searchResultChange);
   };
 
-  // search function, run on fullText, include two levels search
-  const searchFunction = (word) => {
-    for (let i = 0; i < fullText.length; i++) {
+  // search key word function, after search on key concept
+  const searchFunction = (word, array) => {
+    for (let i = 0; i < array.length; i++) {
       let str = '';
+
       //check if search keyword with case-insensitive
       if (
         caseSensitive == true
-          ? fullText[i].includes(word)
-          : fullText[i].toLowerCase().includes(word)
+          ? array[i].includes(word)
+          : array[i].toLowerCase().includes(word)
       ) {
-        str += fullText[i];
+        str += array[i];
         SearchResultLong.push(str);
       }
     }
+    console.log(SearchResultLong);
     //use ".?!" break down long text to short sentences
-    const breakLongText = SearchResultLong.map((element) => {
+    let breakLongText = SearchResultLong.map((element) => {
       return element.replace(/([.?!])\s*(?=[A-Z])/g, '$1@').split('@');
     });
     // merge result arrays to one array
@@ -144,7 +167,28 @@ const SearchContainer = (props) => {
     for (let i = 0; i < breakLongText.length; i++) {
       resultAfterMerge = resultAfterMerge.concat(breakLongText[i]);
     }
-    secondSearch(word, resultAfterMerge);
+    console.log(resultAfterMerge);
+    furtherSearch(word, resultAfterMerge);
+  };
+
+  // search function, run on fullText
+  const searchOnKeyConcept = (concept) => {
+    let tempArray = [];
+    for (let i = 0; i < fullText.length; i++) {
+      let str = '';
+      if (fullText[i].toLowerCase().includes(concept)) {
+        str += fullText[i];
+        tempArray.push(str);
+      }
+    }
+    let breakLongText = tempArray.map((element) => {
+      return element.replace(/([.?!])\s*(?=[A-Z])/g, '$1@').split('@');
+    });
+    let resultAfterMerge = [];
+    for (let i = 0; i < breakLongText.length; i++) {
+      resultAfterMerge = resultAfterMerge.concat(breakLongText[i]);
+    }
+    FirstResults.current = resultAfterMerge;
   };
 
   const performSearch = () => {
@@ -161,10 +205,11 @@ const SearchContainer = (props) => {
     );
     const fullSearch = true;
     let jumped = false;
-    // use whole word to search
-    wholeWord == true
-      ? settextForSearch(' ' + textToSearch + ' ')
-      : settextForSearch(textToSearch);
+    if (wholeWord) {
+      settextForSearch(' ' + textToSearch + ' ');
+    } else {
+      settextForSearch(textToSearch);
+    }
 
     documentViewer.textSearchInit(textToSearch, mode, {
       fullSearch,
@@ -214,7 +259,12 @@ const SearchContainer = (props) => {
       searchTerm.current.value = '';
     }
     documentViewer.clearSearchResults();
-    annotationManager.deleteAnnotations(annotationManager.getAnnotationsList());
+    if (annotationManager != null) {
+      annotationManager.deleteAnnotations(
+        annotationManager.getAnnotationsList()
+      );
+    }
+
     setSearchResults([]);
     setActiveResultIndex(-1);
     setsearchResultsLength(0);
@@ -283,7 +333,7 @@ const SearchContainer = (props) => {
 
   const toggleCaseSensitive = () => {
     toggleSearchMode(window.Core.Search.Mode.CASE_SENSITIVE);
-    SetcaseSensitive(!caseSensitive);
+    SetcaseSensitive((prevcaseSensitive) => !prevcaseSensitive);
   };
 
   /**
@@ -292,7 +342,7 @@ const SearchContainer = (props) => {
    */
   const toggleWholeWord = () => {
     toggleSearchMode(window.Core.Search.Mode.WHOLE_WORD);
-    SetwholeWord(!wholeWord);
+    SetwholeWord((prevwholeWord) => !prevwholeWord);
   };
 
   if (!open) {

@@ -2,12 +2,19 @@ import { useEffect, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 export default function ParsePDF5({ keyWord, xmlData }) {
   const [searchResults, setsearchResults] = useState([]);
+  const [searchKeyword, SetsearchKeyword] = useState([]);
   //user click on new keyWord trigger new search
   useEffect(() => {
-    searchFunction(keyWord); // use keyword to search
+    searchFunction(searchKeyword); // use keyword to search
     setsearchResults(SearchResultsSecondLong);
+  }, [searchKeyword]);
+  useEffect(() => {
+    if (keyWord != '') {
+      const keyWordToSearch = keyWord.split(' ');
+      SetsearchKeyword(keyWordToSearch);
+    }
   }, [keyWord]);
-  //use Jquery to retrieve text by tag, save and merge to one array
+  // Retrieve text by tag, save and merge to one array
   //each element will be a sentence
   const fullText = [].concat(
     $(xmlData)
@@ -39,54 +46,57 @@ export default function ParsePDF5({ keyWord, xmlData }) {
   // search result
   const SearchResultLong = [];
   const SearchResultsSecondLong = []; // perform second search on SearchResultLong , break down long search result
+
   // search function, run on paragraph array, found match element and mix previous and after elements together as a paragraph and push to search result
   const searchFunction = (word) => {
-    if (word == null || word == undefined || word == '') {
+    if (word.length == 0) {
       console.log('empyty', word);
       return;
     }
-    for (let i = 0; i < fullText.length; i++) {
-      if (fullText[i].toLowerCase().includes(word)) {
-        let str = '';
-        str += fullText[i];
-        SearchResultLong.push(str);
+    for (let j = 0; j < word.length; j++) {
+      for (let i = 0; i < fullText.length; i++) {
+        if (fullText[i].toLowerCase().includes(word[j])) {
+          let str = '';
+          str += fullText[i];
+          SearchResultLong.push(str);
+        }
       }
-    }
-    //use .?! break down long text to short sentences
-    const breakLongText = SearchResultLong.map((element) => {
-      return element.replace(/([.?!])\s*(?=[A-Z])/g, '$1@').split('@');
-    });
-    // merge result arrays to one array
-    let resultAfterMerge = [];
-    for (let i = 0; i < breakLongText.length; i++) {
-      resultAfterMerge = resultAfterMerge.concat(breakLongText[i]);
-    }
-    //second search on previous result
-    for (let i = 0; i < resultAfterMerge.length; i++) {
-      let str = '';
-      if (resultAfterMerge[i].toLowerCase().includes(word)) {
-        if (wordCount(resultAfterMerge[i]) <= 20) {
-          if (i == 0) {
-            if (resultAfterMerge.length == 1) {
+      //use .?! break down long text to short sentences
+      const breakLongText = SearchResultLong.map((element) => {
+        return element.replace(/([.?!])\s*(?=[A-Z])/g, '$1@').split('@');
+      });
+      // merge result arrays to one array
+      let resultAfterMerge = [];
+      for (let i = 0; i < breakLongText.length; i++) {
+        resultAfterMerge = resultAfterMerge.concat(breakLongText[i]);
+      }
+      //second search on previous result
+      for (let i = 0; i < resultAfterMerge.length; i++) {
+        let str = '';
+        if (resultAfterMerge[i].toLowerCase().includes(word)) {
+          if (wordCount(resultAfterMerge[i]) <= 20) {
+            if (i == 0) {
+              if (resultAfterMerge.length == 1) {
+                str += resultAfterMerge[i];
+              } else {
+                str += resultAfterMerge[i];
+                str += resultAfterMerge[i + 1];
+              }
+            } else if (i == resultAfterMerge.length - 1) {
+              str += resultAfterMerge[i - 2];
+              str += resultAfterMerge[i - 1];
               str += resultAfterMerge[i];
             } else {
+              str += resultAfterMerge[i - 1];
               str += resultAfterMerge[i];
               str += resultAfterMerge[i + 1];
+              str += resultAfterMerge[i + 2];
             }
-          } else if (i == resultAfterMerge.length - 1) {
-            str += resultAfterMerge[i - 2];
-            str += resultAfterMerge[i - 1];
-            str += resultAfterMerge[i];
           } else {
-            str += resultAfterMerge[i - 1];
             str += resultAfterMerge[i];
-            str += resultAfterMerge[i + 1];
-            str += resultAfterMerge[i + 2];
           }
-        } else {
-          str += resultAfterMerge[i];
+          SearchResultsSecondLong.push(str);
         }
-        SearchResultsSecondLong.push(str);
       }
     }
   };

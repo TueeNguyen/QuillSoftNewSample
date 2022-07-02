@@ -9,6 +9,7 @@ import ParsePDF2 from './ParsePDF2';
 import ParsePDF3 from './ParsePDF3';
 import ParsePDF4 from './ParsePDF4';
 import ParsePDF5 from './ParsePDF5';
+import ParsePDF6 from './ParsePDF6';
 
 /**
  * Class: ParseXML
@@ -180,8 +181,17 @@ export default class ParseXML extends React.Component {
           {/* <ParsePDF keyWord={this.props.keyWord} /> */}
           {/* <ParsePDF2 keyWord={this.props.keyWord} /> */}
           {/* <ParsePDF3 keyWord={this.props.keyWord} /> */}
-          <ParsePDF4 keyWord={this.props.keyWord} xmlData={this.props.data} />
+          {/* <ParsePDF4
+            keyWord={this.props.keyWord}
+            xmlData={this.props.data}
+            keyConcept={this.props.keyConcept}
+          /> */}
           {/* <ParsePDF5 keyWord={this.props.keyWord} xmlData={this.props.data} /> */}
+          <ParsePDF6
+            keyWord={this.props.keyWord}
+            xmlData={this.props.data}
+            keyConcept={this.props.keyConcept}
+          />
         </>
       );
     }

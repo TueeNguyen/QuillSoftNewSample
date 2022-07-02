@@ -25,6 +25,7 @@
 .search_input input {
   border: 1px solid var(--grey-1);
   border-right: none;
+  width: 200px;
 }
 
 .search_input input:focus {

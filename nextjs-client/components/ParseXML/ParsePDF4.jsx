@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import db from '../db';
 import SearchContainer from '../SearchContainer/SearchContainer';
 import styles from '../../styles/Home.module.css';
-export default function ParsePDF4({ keyWord, xmlData }) {
+export default function ParsePDF4(props) {
   const viewer = useRef(null);
   const searchTerm = useRef(null);
   const scrollView = useRef(null);
@@ -15,15 +15,10 @@ export default function ParsePDF4({ keyWord, xmlData }) {
   const [searchPanelCss, setsearchPanelCss] = useState(styles.searchPanelleft);
   const [myComponentCss, SetmyComponentCss] = useState(styles.MyComponent);
   const [webviewerCss, SetwebviewerCss] = useState(styles.webviewer);
-
+  const [keyConceptOnClick, SetkeyConceptOnClick] = useState('');
+  const { keyWord, xmlData, keyConcept } = props;
   const Annotations = window.Core.Annotations;
 
-  const closeSearch = () => {
-    setSearchContainerOpen((prevState) => !prevState);
-    setsearchPanelCss(styles.searchPanelleft2);
-    SetmyComponentCss(styles.MyComponent2);
-    SetwebviewerCss(styles.webviewer2);
-  };
   useEffect(() => {
     import('@pdftron/webviewer').then(() => {
       WebViewer(
@@ -114,10 +109,18 @@ export default function ParsePDF4({ keyWord, xmlData }) {
         searchTerm.current.dispatchEvent(downEv);
       }
     }, 300);
-    if (instance != null) {
-      instance.setZoomLevel(1);
-    }
   }, [keyWord]);
+  useEffect(() => {
+    if (keyConcept != '') {
+      SetkeyConceptOnClick(keyConcept);
+    }
+  }, [keyConcept]);
+  const closeSearch = () => {
+    setSearchContainerOpen((prevState) => !prevState);
+    setsearchPanelCss(styles.searchPanelleft2);
+    SetmyComponentCss(styles.MyComponent2);
+    SetwebviewerCss(styles.webviewer2);
+  };
   return (
     <div className={myComponentCss}>
       <SearchContainer
@@ -132,6 +135,7 @@ export default function ParsePDF4({ keyWord, xmlData }) {
         searchButton={searchButton}
         xmlData={xmlData}
         instance={instance}
+        keyConceptOnClick={keyConceptOnClick}
       />
 
       <div
