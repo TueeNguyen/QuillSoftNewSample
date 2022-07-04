@@ -20,7 +20,7 @@ const SearchContainer = (props) => {
     searchContainerRef,
     searchTermRef: searchTerm,
     searchButton,
-    xmlData,
+    fullText,
     instance,
     keyConceptOnClick,
   } = props;
@@ -72,28 +72,6 @@ const SearchContainer = (props) => {
   const SearchResultsSecondLong = []; // perform further search on SearchResultLong , break down long search result
   const finalResults = useRef(SearchResultsSecondLong);
   const FirstResults = useRef([]);
-  //Retrieve text by tags, save as arrays and use concat method to merge to one array
-  const fullText = [].concat(
-    $(xmlData)
-      .find('title')
-      .map(function () {
-        return $(this).text();
-      })
-      .get(),
-    $(xmlData)
-      .find('div')
-      .map(function () {
-        return $(this)
-          .text()
-          .replace('<head>', '')
-          .replace('</head>', '')
-          .replace('<p>', '')
-          .replace('</p>', '')
-          .replace(/\s{2,}/g, ' ')
-          .trim();
-      })
-      .get()
-  );
 
   //count word function , check search result length.
   const wordCount = (str) => {
@@ -137,7 +115,6 @@ const SearchContainer = (props) => {
         SearchResultsSecondLong.push(str);
       }
     }
-    console.log(SearchResultsSecondLong);
     finalResults.current = SearchResultsSecondLong;
     setsearchResultChange(!searchResultChange);
   };
@@ -157,7 +134,6 @@ const SearchContainer = (props) => {
         SearchResultLong.push(str);
       }
     }
-    console.log(SearchResultLong);
     //use ".?!" break down long text to short sentences
     let breakLongText = SearchResultLong.map((element) => {
       return element.replace(/([.?!])\s*(?=[A-Z])/g, '$1@').split('@');
@@ -167,7 +143,6 @@ const SearchContainer = (props) => {
     for (let i = 0; i < breakLongText.length; i++) {
       resultAfterMerge = resultAfterMerge.concat(breakLongText[i]);
     }
-    console.log(resultAfterMerge);
     furtherSearch(word, resultAfterMerge);
   };
 

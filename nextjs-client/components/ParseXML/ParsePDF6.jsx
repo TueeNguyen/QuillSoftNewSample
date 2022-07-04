@@ -147,11 +147,6 @@ export default function ParsePDF6(props) {
   );
   return (
     <div className={myComponentCss}>
-      <div
-        className={webviewerCss}
-        ref={viewer}
-        style={{ height: '100vh' }}
-      ></div>
       <SearchContainer2
         Annotations={Annotations}
         annotationManager={annotationManager}
@@ -166,6 +161,11 @@ export default function ParsePDF6(props) {
         instance={instance}
         keyConceptOnClick={keyConceptOnClick}
       />
+      <div
+        className={webviewerCss}
+        ref={viewer}
+        style={{ height: '100vh' }}
+      ></div>
     </div>
   );
 }

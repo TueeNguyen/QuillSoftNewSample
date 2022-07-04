@@ -121,6 +121,27 @@ export default function ParsePDF4(props) {
     SetmyComponentCss(styles.MyComponent2);
     SetwebviewerCss(styles.webviewer2);
   };
+  const fullText = [].concat(
+    $(xmlData)
+      .find('title')
+      .map(function () {
+        return $(this).text();
+      })
+      .get(),
+    $(xmlData)
+      .find('div')
+      .map(function () {
+        return $(this)
+          .text()
+          .replace('<head>', '')
+          .replace('</head>', '')
+          .replace('<p>', '')
+          .replace('</p>', '')
+          .replace(/\s{2,}/g, ' ')
+          .trim();
+      })
+      .get()
+  );
   return (
     <div className={myComponentCss}>
       <SearchContainer
@@ -133,7 +154,7 @@ export default function ParsePDF4(props) {
         keyWord={keyWord}
         className={searchPanelCss}
         searchButton={searchButton}
-        xmlData={xmlData}
+        fullText={fullText}
         instance={instance}
         keyConceptOnClick={keyConceptOnClick}
       />
