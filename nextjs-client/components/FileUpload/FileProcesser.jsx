@@ -54,7 +54,7 @@ export default class FileProcesser extends React.Component {
       tooltip: 'hide table',
       isScrolling: false,
       cardHeight: 500,
-      keyWord: '',
+      keyWord: [],
       keyConcept: '',
     };
 
@@ -81,6 +81,7 @@ export default class FileProcesser extends React.Component {
       keys.push(key);
     });
     this.setState({ groups: temp, words: keys, done: true });
+    console.log('keyword now ', temp);
   }
 
   /* Concept to be highlighted */
@@ -143,6 +144,7 @@ export default class FileProcesser extends React.Component {
     });
     /* user click the keyword, keyword value pass to ParseXml.jsx and child components */
     this.setState({ keyWord: value[0] });
+    console.log(value);
   }
 
   /* Open or Close visibility of keywords table */
@@ -270,6 +272,7 @@ export default class FileProcesser extends React.Component {
                   mainhighlight={this.state.curr.currWord}
                   keyWord={this.state.keyWord}
                   keyConcept={this.state.keyConcept}
+                  groups={this.state.groups}
                 />
               </CardContent>
             </Card>

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from '../../styles/SearchContainer.module.css';
 import { colors } from '@material-ui/core';
 import HighlightWord from '../HighlightWord/HighlightWord';
-const SearchContainer2 = (props) => {
+const SearchContainer3 = (props) => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchResultsLength, setsearchResultsLength] = useState(0);
   const [activeResultIndex, setActiveResultIndex] = useState(-1);
@@ -99,14 +99,6 @@ const SearchContainer2 = (props) => {
     thirdResults.current = resultAfterMerge;
   };
 
-  //perform search use multiple words on text
-  const searchMultiple = (keyWordArray, resultArray) => {
-    for (let i = 0; i < keyWordArray.length; i++) {
-      searchFunction(keyWordArray[i], resultArray);
-      console.log(keyWordArray);
-    }
-  };
-
   //further level search, break down search result
   const furtherSearch = (word, resultAfterMerge) => {
     console.log(word);
@@ -172,7 +164,13 @@ const SearchContainer2 = (props) => {
     breakWord(secondResults.current);
     furtherSearch(word, thirdResults.current);
   };
-
+  //perform search use multiple words on text
+  const searchMultiple = (keyWordArray, resultArray) => {
+    for (let i = 0; i < keyWordArray.length; i++) {
+      searchFunction(keyWordArray[i], resultArray);
+      console.log(keyWordArray);
+    }
+  };
   // search function, run on fullText
   const searchOnKeyConcept = (concept) => {
     let tempArray = [];
@@ -467,4 +465,4 @@ const SearchContainer2 = (props) => {
   );
 };
 
-export default SearchContainer2;
+export default SearchContainer3;

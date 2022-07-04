@@ -17,7 +17,7 @@ export default function ParsePDF6(props) {
   const [webviewerCss, SetwebviewerCss] = useState(styles.webviewer);
   const [keyConceptOnClick, SetkeyConceptOnClick] = useState('');
   const [newKeyWrod, SetnewKeyWrod] = useState([]);
-  const { keyWord, xmlData, keyConcept } = props;
+  const { keyWord, xmlData, keyConcept, groups } = props;
   const Annotations = window.Core.Annotations;
 
   useEffect(() => {
@@ -88,7 +88,7 @@ export default function ParsePDF6(props) {
             },
           ]);
         });
-
+        console.log(viewer.current);
         documentViewer.addEventListener('documentLoaded', () => {
           // instance.UI.addSearchListener(searchListener());
           setDocumentViewer(documentViewer);
@@ -110,7 +110,7 @@ export default function ParsePDF6(props) {
         let downEv = new KeyboardEvent('keyup', { keyCode: 13, which: 13 });
         searchTerm.current.dispatchEvent(downEv);
       }
-    }, 300);
+    }, 200);
   }, [keyWord]);
   useEffect(() => {
     if (keyConcept != '') {
@@ -123,8 +123,35 @@ export default function ParsePDF6(props) {
     SetmyComponentCss(styles.MyComponent2);
     SetwebviewerCss(styles.webviewer2);
   };
+
+  const fullText = [].concat(
+    $(xmlData)
+      .find('title')
+      .map(function () {
+        return $(this).text();
+      })
+      .get(),
+    $(xmlData)
+      .find('div')
+      .map(function () {
+        return $(this)
+          .text()
+          .replace('<head>', '')
+          .replace('</head>', '')
+          .replace('<p>', '')
+          .replace('</p>', '')
+          .replace(/\s{2,}/g, ' ')
+          .trim();
+      })
+      .get()
+  );
   return (
     <div className={myComponentCss}>
+      <div
+        className={webviewerCss}
+        ref={viewer}
+        style={{ height: '100vh' }}
+      ></div>
       <SearchContainer2
         Annotations={Annotations}
         annotationManager={annotationManager}
@@ -135,16 +162,10 @@ export default function ParsePDF6(props) {
         keyWord={newKeyWrod}
         className={searchPanelCss}
         searchButton={searchButton}
-        xmlData={xmlData}
+        fullText={fullText}
         instance={instance}
         keyConceptOnClick={keyConceptOnClick}
       />
-
-      <div
-        className={webviewerCss}
-        ref={viewer}
-        style={{ height: '100vh' }}
-      ></div>
     </div>
   );
 }

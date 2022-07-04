@@ -6,7 +6,7 @@ export default function ParsePDF5({ keyWord, xmlData }) {
   //user click on new keyWord trigger new search
   useEffect(() => {
     searchFunction(searchKeyword); // use keyword to search
-    setsearchResults(SearchResultsSecondLong);
+    setsearchResults(KeyWordSearchResult2);
   }, [searchKeyword]);
   useEffect(() => {
     if (keyWord != '') {
@@ -44,8 +44,8 @@ export default function ParsePDF5({ keyWord, xmlData }) {
     return arr.filter((word) => word !== '').length;
   };
   // search result
-  const SearchResultLong = [];
-  const SearchResultsSecondLong = []; // perform second search on SearchResultLong , break down long search result
+  const KeyWordSearchResult = [];
+  const KeyWordSearchResult2 = []; // perform second search on KeyWordSearchResult , break down long search result
 
   // search function, run on paragraph array, found match element and mix previous and after elements together as a paragraph and push to search result
   const searchFunction = (word) => {
@@ -58,11 +58,11 @@ export default function ParsePDF5({ keyWord, xmlData }) {
         if (fullText[i].toLowerCase().includes(word[j])) {
           let str = '';
           str += fullText[i];
-          SearchResultLong.push(str);
+          KeyWordSearchResult.push(str);
         }
       }
       //use .?! break down long text to short sentences
-      const breakLongText = SearchResultLong.map((element) => {
+      const breakLongText = KeyWordSearchResult.map((element) => {
         return element.replace(/([.?!])\s*(?=[A-Z])/g, '$1@').split('@');
       });
       // merge result arrays to one array
@@ -95,7 +95,7 @@ export default function ParsePDF5({ keyWord, xmlData }) {
           } else {
             str += resultAfterMerge[i];
           }
-          SearchResultsSecondLong.push(str);
+          KeyWordSearchResult2.push(str);
         }
       }
     }

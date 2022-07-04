@@ -191,6 +191,7 @@ export default class ParseXML extends React.Component {
             keyWord={this.props.keyWord}
             xmlData={this.props.data}
             keyConcept={this.props.keyConcept}
+            groups={this.props.groups}
           />
         </>
       );

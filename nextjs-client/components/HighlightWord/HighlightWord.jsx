@@ -27,18 +27,20 @@ export default function HighlightWord(props) {
         const parts = textToHighlight.split(regex);
         return (
           <>
-            {parts.filter(String).map((part, i) => {
-              return regex.test(part) ? (
-                <span
-                  key={`${part}` + i}
-                  style={{ backgroundColor: color[idx] }}
-                >
-                  {part}
-                </span>
-              ) : (
-                <span key={i}> {part}</span>
-              );
-            })}
+            <div key={`${word}` + idx}>
+              {parts.filter(String).map((part, i) => {
+                return regex.test(part) ? (
+                  <span
+                    key={`${part}` + i}
+                    style={{ backgroundColor: color[idx] }}
+                  >
+                    {part}
+                  </span>
+                ) : (
+                  <span key={i}> {part}</span>
+                );
+              })}
+            </div>
           </>
         );
       })}
