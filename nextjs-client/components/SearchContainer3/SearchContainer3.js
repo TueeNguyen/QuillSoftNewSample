@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from '../../styles/SearchContainer.module.css';
 import { colors } from '@material-ui/core';
 import HighlightWord from '../HighlightWord/HighlightWord';
+import { ProcessKeyword } from '../keyWordProcessing';
 const SearchContainer3 = (props) => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchResultsLength, setsearchResultsLength] = useState(0);
