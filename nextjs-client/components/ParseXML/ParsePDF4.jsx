@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import db from '../db';
 import SearchContainer from '../SearchContainer/SearchContainer';
 import styles from '../../styles/Home.module.css';
+import { getFullText } from '../keyWordProcessing';
 export default function ParsePDF4(props) {
   const viewer = useRef(null);
   const searchTerm = useRef(null);
@@ -18,7 +19,7 @@ export default function ParsePDF4(props) {
   const [keyConceptOnClick, SetkeyConceptOnClick] = useState('');
   const { keyWord, xmlData, keyConcept } = props;
   const Annotations = window.Core.Annotations;
-
+  const fullText = getFullText(xmlData);
   useEffect(() => {
     import('@pdftron/webviewer').then(() => {
       WebViewer(
@@ -121,27 +122,7 @@ export default function ParsePDF4(props) {
     SetmyComponentCss(styles.MyComponent2);
     SetwebviewerCss(styles.webviewer2);
   };
-  const fullText = [].concat(
-    $(xmlData)
-      .find('title')
-      .map(function () {
-        return $(this).text();
-      })
-      .get(),
-    $(xmlData)
-      .find('div')
-      .map(function () {
-        return $(this)
-          .text()
-          .replace('<head>', '')
-          .replace('</head>', '')
-          .replace('<p>', '')
-          .replace('</p>', '')
-          .replace(/\s{2,}/g, ' ')
-          .trim();
-      })
-      .get()
-  );
+
   return (
     <div className={myComponentCss}>
       <SearchContainer

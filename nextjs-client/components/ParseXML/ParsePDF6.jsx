@@ -1,7 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
-import db from '../db';
-import SearchContainer2 from '../SearchContainer2/SearchContainer2';
-import styles from '../../styles/Home.module.css';
+import { useEffect, useRef, useState } from "react";
+import db from "../db";
+import SearchContainer2 from "../SearchContainer2/SearchContainer2";
+import SearchContainer3 from "../SearchContainer3/SearchContainer3";
+import styles from "../../styles/Home.module.css";
+import { getFullText } from "../keyWordProcessing";
+import { Grow } from "@material-ui/core";
 export default function ParsePDF6(props) {
   const viewer = useRef(null);
   const searchTerm = useRef(null);
@@ -15,17 +18,17 @@ export default function ParsePDF6(props) {
   const [searchPanelCss, setsearchPanelCss] = useState(styles.searchPanelleft);
   const [myComponentCss, SetmyComponentCss] = useState(styles.MyComponent);
   const [webviewerCss, SetwebviewerCss] = useState(styles.webviewer);
-  const [keyConceptOnClick, SetkeyConceptOnClick] = useState('');
+  const [keyConceptOnClick, SetkeyConceptOnClick] = useState("");
   const [newKeyWrod, SetnewKeyWrod] = useState([]);
   const { keyWord, xmlData, keyConcept, groups } = props;
   const Annotations = window.Core.Annotations;
-
+  const fullText = getFullText(xmlData);
   useEffect(() => {
-    import('@pdftron/webviewer').then(() => {
+    import("@pdftron/webviewer").then(() => {
       WebViewer(
         {
-          path: '/webviewer/lib',
-          initialDoc: '/files/10.pdf',
+          path: "/webviewer/lib",
+          initialDoc: "/files/10.pdf",
         },
         viewer.current
       ).then((instance) => {
@@ -48,7 +51,7 @@ export default function ParsePDF6(props) {
 
         //Display uploaded file , receive file from FileUploader.jsx
         db.recentFiles
-          .orderBy('created_at')
+          .orderBy("created_at")
           .last()
           .then((result) => {
             if (result.file) {
@@ -60,36 +63,36 @@ export default function ParsePDF6(props) {
         instance.UI.setHeaderItems(function (header) {
           header.update([
             {
-              type: 'toggleElementButton',
-              img: 'icon-header-sidebar-line',
-              element: 'leftPanel',
-              dataElement: 'leftPanelButton',
+              type: "toggleElementButton",
+              img: "icon-header-sidebar-line",
+              element: "leftPanel",
+              dataElement: "leftPanelButton",
             },
-            { type: 'divider' },
-            { type: 'toolButton', toolName: 'Pan' },
+            { type: "divider" },
+            { type: "toolButton", toolName: "Pan" },
             {
-              type: 'actionButton',
-              img: 'icon-header-zoom-in-line',
+              type: "actionButton",
+              img: "icon-header-zoom-in-line",
               onClick: zoomIn,
-              dataElement: 'zoomInButton',
+              dataElement: "zoomInButton",
             },
             {
-              type: 'actionButton',
-              img: 'icon-header-zoom-out-line',
+              type: "actionButton",
+              img: "icon-header-zoom-out-line",
               onClick: zoomOut,
-              dataElement: 'zoomButton',
+              dataElement: "zoomButton",
             },
             {
-              type: 'actionButton',
-              img: 'ic_search_black_24px',
+              type: "actionButton",
+              img: "ic_search_black_24px",
               onClick: closeSearch,
               ref: searchButton,
-              dataElement: 'searchPanelButton',
+              dataElement: "searchPanelButton",
             },
           ]);
         });
         console.log(viewer.current);
-        documentViewer.addEventListener('documentLoaded', () => {
+        documentViewer.addEventListener("documentLoaded", () => {
           // instance.UI.addSearchListener(searchListener());
           setDocumentViewer(documentViewer);
           setAnnotationManager(documentViewer.getAnnotationManager());
@@ -99,21 +102,21 @@ export default function ParsePDF6(props) {
   }, []);
 
   useEffect(() => {
-    if (keyWord != '' && searchTerm.current == null) {
+    if (keyWord != "" && searchTerm.current == null) {
       closeSearch();
     }
     setTimeout(() => {
       if (searchTerm.current != null) {
-        searchTerm.current.value += keyWord + ' ';
-        let tempArray = searchTerm.current.value.trim().split(' ');
+        searchTerm.current.value += keyWord + " ";
+        let tempArray = searchTerm.current.value.trim().split(" ");
         SetnewKeyWrod(tempArray);
-        let downEv = new KeyboardEvent('keyup', { keyCode: 13, which: 13 });
+        let downEv = new KeyboardEvent("keyup", { keyCode: 13, which: 13 });
         searchTerm.current.dispatchEvent(downEv);
       }
     }, 200);
   }, [keyWord]);
   useEffect(() => {
-    if (keyConcept != '') {
+    if (keyConcept != "") {
       SetkeyConceptOnClick(keyConcept);
     }
   }, [keyConcept]);
@@ -124,27 +127,10 @@ export default function ParsePDF6(props) {
     SetwebviewerCss(styles.webviewer2);
   };
 
-  const fullText = [].concat(
-    $(xmlData)
-      .find('title')
-      .map(function () {
-        return $(this).text();
-      })
-      .get(),
-    $(xmlData)
-      .find('div')
-      .map(function () {
-        return $(this)
-          .text()
-          .replace('<head>', '')
-          .replace('</head>', '')
-          .replace('<p>', '')
-          .replace('</p>', '')
-          .replace(/\s{2,}/g, ' ')
-          .trim();
-      })
-      .get()
-  );
+  // SearchContainer2 : search selected keywords, show text seperately (no relationship between keywords)
+  //
+  //
+
   return (
     <div className={myComponentCss}>
       <SearchContainer2
@@ -159,12 +145,30 @@ export default function ParsePDF6(props) {
         searchButton={searchButton}
         fullText={fullText}
         instance={instance}
+        groups={groups}
         keyConceptOnClick={keyConceptOnClick}
+        style={{ flexGrow: 3 }}
       />
+      {/* <SearchContainer3
+        Annotations={Annotations}
+        annotationManager={annotationManager}
+        documentViewer={documentViewer}
+        searchTermRef={searchTerm}
+        searchContainerRef={searchContainerRef}
+        open={searchContainerOpen}
+        keyWord={newKeyWrod}
+        className={searchPanelCss}
+        searchButton={searchButton}
+        fullText={fullText}
+        instance={instance}
+        keyConceptOnClick={keyConceptOnClick}
+        groups={groups}
+        style={{ flexGrow: 3 }}
+      /> */}
       <div
         className={webviewerCss}
         ref={viewer}
-        style={{ height: '100vh' }}
+        style={{ display: "none" }}
       ></div>
     </div>
   );

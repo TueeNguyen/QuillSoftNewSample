@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from '../../styles/SearchContainer.module.css';
 import { colors } from '@material-ui/core';
 import HighlightWord from '../HighlightWord/HighlightWord';
+import HighlightWord2 from '../HighlightWord/HighlightWord2';
 import { ProcessKeyword } from '../keyWordProcessing';
 const SearchContainer3 = (props) => {
   const [searchResults, setSearchResults] = useState([]);
@@ -34,6 +35,7 @@ const SearchContainer3 = (props) => {
   const secondResults = useRef([]);
   const thirdResults = useRef([]);
   const finalResults = useRef(KeyWordSearchResult2);
+  const Resultlength = useRef(0);
 
   /**
    * Coupled with the function `changeActiveSearchResult`
@@ -45,7 +47,7 @@ const SearchContainer3 = (props) => {
   }, [activeResultIndex]);
   //display found result amount
   useEffect(() => {
-    setsearchResultsLength(finalResults.current.length);
+    setsearchResultsLength(Resultlength.current.length);
     console.log(finalResults.current);
   }, [searchResultChange]);
   //keyconcept fire first level search
@@ -96,8 +98,15 @@ const SearchContainer3 = (props) => {
     for (let i = 0; i < breakLongText.length; i++) {
       resultAfterMerge = resultAfterMerge.concat(breakLongText[i]);
     }
-    console.log(resultAfterMerge);
-    thirdResults.current = resultAfterMerge;
+    return resultAfterMerge;
+  };
+
+  //perform search use multiple words on text
+  const searchMultiple = (keyWordArray, resultArray) => {
+    for (let i = 0; i < keyWordArray.length; i++) {
+      searchFunction(keyWordArray[i], resultArray);
+      console.log(keyWordArray);
+    }
   };
 
   //further level search, break down search result
@@ -133,7 +142,9 @@ const SearchContainer3 = (props) => {
           str += resultAfterMerge[i];
         }
         KeyWordSearchResult2.push(str);
-        finalResults.current = KeyWordSearchResult2;
+        Resultlength.current = KeyWordSearchResult2;
+        const removeDuplicate = [...new Set(KeyWordSearchResult2)];
+        finalResults.current = removeDuplicate;
         console.log(finalResults.current);
       }
     }
@@ -162,16 +173,10 @@ const SearchContainer3 = (props) => {
     }
     console.log(secondResults.current);
 
-    breakWord(secondResults.current);
-    furtherSearch(word, thirdResults.current);
+    const tempArray = breakWord(secondResults.current);
+    furtherSearch(word, tempArray);
   };
-  //perform search use multiple words on text
-  const searchMultiple = (keyWordArray, resultArray) => {
-    for (let i = 0; i < keyWordArray.length; i++) {
-      searchFunction(keyWordArray[i], resultArray);
-      console.log(keyWordArray);
-    }
-  };
+
   // search function, run on fullText
   const searchOnKeyConcept = (concept) => {
     let tempArray = [];
@@ -193,8 +198,8 @@ const SearchContainer3 = (props) => {
       }
     }
 
-    breakWord(tempArray);
-    FirstResults.current = thirdResults.current;
+    const tempArray2 = breakWord(tempArray);
+    FirstResults.current = tempArray2;
   };
   //
   //
@@ -453,10 +458,7 @@ const SearchContainer3 = (props) => {
                 // }}
               >
                 <br />
-                <HighlightWord
-                  searchWords={keyWord}
-                  textToHighlight={finalResults.current[idx]}
-                />
+                <HighlightWord searchWords={keyWord} textToHighlight={result} />
               </div>
             </div>
           );

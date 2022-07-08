@@ -1,14 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styles from '../../styles/SearchContainer.module.css';
-import { colors } from '@material-ui/core';
-import HighlightWord from '../HighlightWord/HighlightWord';
+import React, { useState, useEffect, useRef } from "react";
+import styles from "../../styles/SearchContainer.module.css";
+import { colors } from "@material-ui/core";
+import HighlightWord from "../HighlightWord/HighlightWord";
+import HighlightWord2 from "../HighlightWord/HighlightWord2";
+import { keyWordList, breakArryDimension } from "../keyWordProcessing";
 const SearchContainer2 = (props) => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchResultsLength, setsearchResultsLength] = useState(0);
   const [activeResultIndex, setActiveResultIndex] = useState(-1);
   const [toggledSearchModes, setToggledSearchModes] = useState([]);
-  const [textForSearch, settextForSearch] = useState('');
-  const [keyConceptForSearch, SetkeyConceptForSearch] = useState('');
+  const [textForSearch, settextForSearch] = useState("");
+  const [keyConceptForSearch, SetkeyConceptForSearch] = useState("");
   const [searchResultChange, setsearchResultChange] = useState(false);
   const [caseSensitive, SetcaseSensitive] = useState(false);
   const [wholeWord, SetwholeWord] = useState(false);
@@ -24,6 +26,7 @@ const SearchContainer2 = (props) => {
     instance,
     keyConceptOnClick,
     keyWord,
+    groups,
   } = props;
 
   const pageRenderTracker = {};
@@ -33,7 +36,10 @@ const SearchContainer2 = (props) => {
   const secondResults = useRef([]);
   const thirdResults = useRef([]);
   const finalResults = useRef(KeyWordSearchResult2);
-
+  const Resultlength = useRef(0);
+  const kewWords = breakArryDimension(groups);
+  const keywordFullList = keyWordList(kewWords, textForSearch);
+  let flag = false;
   /**
    * Coupled with the function `changeActiveSearchResult`
    */
@@ -44,12 +50,12 @@ const SearchContainer2 = (props) => {
   }, [activeResultIndex]);
   //display found result amount
   useEffect(() => {
-    setsearchResultsLength(finalResults.current.length);
+    setsearchResultsLength(Resultlength.current.length);
     console.log(finalResults.current);
   }, [searchResultChange]);
   //keyconcept fire first level search
   useEffect(() => {
-    if (keyConceptOnClick != '') {
+    if (keyConceptOnClick != "") {
       SetkeyConceptForSearch(keyConceptOnClick);
     }
   }, [keyConceptOnClick]);
@@ -68,7 +74,7 @@ const SearchContainer2 = (props) => {
     settextForSearch(keyWord);
   }, [keyWord]);
   useEffect(() => {
-    if (textForSearch != '') {
+    if (textForSearch != "") {
       searchFunction(textForSearch, FirstResults.current);
       performSearch();
     }
@@ -80,23 +86,43 @@ const SearchContainer2 = (props) => {
    * first result is found.
    */
 
+  const color = [
+    "#f3ff33",
+    "#e285f5",
+    "#c8fae9",
+    "#f5e385",
+    "#fe4164",
+    "#fcf7c2",
+    "#9cff33",
+    "#dffac8",
+    "#ff33e9",
+    "#fefce5",
+    "#33fffc",
+    "#33e0ff",
+    "#c8d9fa",
+    "#fac8e9",
+    "#c0f7a7",
+    "#a7f3f7",
+    "#85f5d8",
+    "#85aaf5",
+  ];
+
   //count word function , check search result length.
   const wordCount = (str) => {
-    const arr = str.split(' ');
+    const arr = str.split(" ");
 
-    return arr.filter((word) => word !== '').length;
+    return arr.filter((word) => word !== "").length;
   };
   // break down long text to short sentences, merge result arrays to one array
   const breakWord = (arr) => {
     let breakLongText = arr.map((element) => {
-      return element.replace(/([.?!])\s*(?=[A-Z])/g, '$1@').split('@');
+      return element.replace(/([.?!])\s*(?=[A-Z])/g, "$1@").split("@");
     });
     let resultAfterMerge = [];
     for (let i = 0; i < breakLongText.length; i++) {
       resultAfterMerge = resultAfterMerge.concat(breakLongText[i]);
     }
-    console.log(resultAfterMerge);
-    thirdResults.current = resultAfterMerge;
+    return resultAfterMerge;
   };
 
   //perform search use multiple words on text
@@ -113,7 +139,7 @@ const SearchContainer2 = (props) => {
     console.log(resultAfterMerge);
     //further search on previous result.
     for (let i = 0; i < resultAfterMerge.length; i++) {
-      let str = '';
+      let str = "";
 
       if (
         caseSensitive == true
@@ -134,13 +160,16 @@ const SearchContainer2 = (props) => {
           } else {
             str += resultAfterMerge[i];
             str += resultAfterMerge[i + 1];
-            str += resultAfterMerge[i + 2];
           }
         } else {
           str += resultAfterMerge[i];
         }
         KeyWordSearchResult2.push(str);
-        finalResults.current = KeyWordSearchResult2;
+        Resultlength.current = KeyWordSearchResult2;
+        console.log(KeyWordSearchResult2.length);
+        const removeDuplicate = [...new Set(KeyWordSearchResult2)];
+        console.log(removeDuplicate.length);
+        finalResults.current = removeDuplicate;
         console.log(finalResults.current);
       }
     }
@@ -154,7 +183,7 @@ const SearchContainer2 = (props) => {
     console.log(array);
     console.log(word);
     for (let i = 0; i < array.length; i++) {
-      let str = '';
+      let str = "";
       //check if search keyword with case-insensitive
       if (
         caseSensitive == true
@@ -169,15 +198,31 @@ const SearchContainer2 = (props) => {
     }
     console.log(secondResults.current);
 
-    breakWord(secondResults.current);
-    furtherSearch(word, thirdResults.current);
+    const tempArray = breakWord(secondResults.current);
+    furtherSearch(word, tempArray);
   };
+  const searchFunction2 = (word, array1) => {
+    let temp = [];
+    for (let i = 0; i < array1.length; i++) {
+      let str = "";
+      //check if search keyword with case-insensitive
+      if (
+        caseSensitive == true
+          ? array1[i].includes(word)
+          : array1[i].toLowerCase().includes(word)
+      ) {
+        str += array1[i];
+        temp.push(str);
 
+        FirstResults.current = temp;
+      }
+    }
+  };
   // search function, run on fullText
   const searchOnKeyConcept = (concept) => {
     let tempArray = [];
     for (let i = 0; i < fullText.length; i++) {
-      let str = '';
+      let str = "";
       if (fullText[i].toLowerCase().includes(concept)) {
         if (i > 0 && i < fullText.length) {
           str += fullText[i - 1];
@@ -194,9 +239,13 @@ const SearchContainer2 = (props) => {
       }
     }
 
-    breakWord(tempArray);
-    FirstResults.current = thirdResults.current;
+    const tempArray2 = breakWord(tempArray);
+    FirstResults.current = tempArray2;
+    if (flag) {
+      searchFunction2(textForSearch[0], FirstResults.current);
+    }
   };
+
   //
   //
   //
@@ -220,7 +269,12 @@ const SearchContainer2 = (props) => {
     //   settextForSearch(textToSearch);
     // }
     //console.log(keyWord);
-
+    //keywordFullList
+    // if (flag) {
+    //   searchMultiple(keywordFullList, FirstResults.current);
+    // } else {
+    //   searchMultiple(textForSearch, FirstResults.current);
+    // }
     searchMultiple(textForSearch, FirstResults.current);
     documentViewer.textSearchInit(textToSearch, mode, {
       fullSearch,
@@ -267,7 +321,7 @@ const SearchContainer2 = (props) => {
    */
   const clearSearchResults = (clearSearchTermValue = true) => {
     if (clearSearchTermValue) {
-      searchTerm.current.value = '';
+      searchTerm.current.value = "";
     }
     documentViewer.clearSearchResults();
     if (annotationManager != null) {
@@ -365,18 +419,18 @@ const SearchContainer2 = (props) => {
       <div className={styles.search_input}>
         <input
           ref={searchTerm}
-          type={'text'}
-          placeholder={'Search'}
+          type={"text"}
+          placeholder={"Search"}
           onKeyUp={listenForEnter}
         />
         <button onClick={performSearch} ref={searchButton}>
-          <img src='ic_search_black_24px.svg' alt='Search' />
+          <img src="ic_search_black_24px.svg" alt="Search" />
         </button>
       </div>
       <div>
         <span>
           <input
-            type='checkbox'
+            type="checkbox"
             value={toggledSearchModes.includes(
               window.Core.Search.Mode.CASE_SENSITIVE
             )}
@@ -386,7 +440,7 @@ const SearchContainer2 = (props) => {
         </span>
         <span>
           <input
-            type='checkbox'
+            type="checkbox"
             value={toggledSearchModes.includes(
               window.Core.Search.Mode.WHOLE_WORD
             )}
@@ -395,11 +449,11 @@ const SearchContainer2 = (props) => {
           Whole word
         </span>
       </div>
-      <div className='divider'></div>
+      <div className="divider"></div>
       <div className={styles.search_buttons}>
         <span>
           <button onClick={clearSearchResults}>
-            <img src='icon-header-clear-search.svg' alt='Clear Search' />
+            <img src="icon-header-clear-search.svg" alt="Clear Search" />
           </button>
         </span>
         <span className={styles.search_iterators}>
@@ -410,8 +464,8 @@ const SearchContainer2 = (props) => {
             disabled={activeResultIndex < 0}
           >
             <img
-              src='ic_chevron_left_black_24px.svg'
-              alt='Previous Search Result'
+              src="ic_chevron_left_black_24px.svg"
+              alt="Previous Search Result"
             />
           </button>
           <button
@@ -421,8 +475,8 @@ const SearchContainer2 = (props) => {
             disabled={activeResultIndex < 0}
           >
             <img
-              src='ic_chevron_right_black_24px.svg'
-              alt='Next Search Result'
+              src="ic_chevron_right_black_24px.svg"
+              alt="Next Search Result"
             />
           </button>
         </span>
@@ -454,9 +508,10 @@ const SearchContainer2 = (props) => {
                 // }}
               >
                 <br />
-                <HighlightWord
-                  searchWords={keyWord}
-                  textToHighlight={finalResults.current[idx]}
+                {/* <HighlightWord searchWords={keyWord} textToHighlight={result} /> */}
+                <HighlightWord2
+                  searchWords={textForSearch}
+                  textToHighlight={result}
                 />
               </div>
             </div>
