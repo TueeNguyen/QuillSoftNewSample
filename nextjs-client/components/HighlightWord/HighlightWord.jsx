@@ -1,5 +1,8 @@
 export default function HighlightWord(props) {
   const { searchWords, textToHighlight } = props;
+  const highLightWords = searchWords.filter((keyword) => {
+    return keyword !== "";
+  });
   const color = [
     "#f3ff33",
     "#e285f5",
@@ -20,31 +23,37 @@ export default function HighlightWord(props) {
     "#85f5d8",
     "#85aaf5",
   ];
+  let tempArray = [];
+  for (let i = 0; i < highLightWords.length; i++) {
+    tempArray[i] = [highLightWords[i], color[i]];
+  }
 
-  return (
+  return textToHighlight && searchWords.length ? (
     <div>
-      {searchWords.map((word, idx) => {
-        const regex = new RegExp(`(${word})`, "gi");
-        const parts = textToHighlight.split(regex);
-        return (
-          <div key={`${word}` + idx}>
-            <br />
-
-            {parts.filter(String).map((part, i) => {
-              return regex.test(part) ? (
-                <span
-                  key={`${part}` + i}
-                  style={{ backgroundColor: color[idx] }}
-                >
-                  {part}
-                </span>
-              ) : (
-                <span key={i}> {part}</span>
-              );
-            })}
-          </div>
-        );
-      })}
+      {textToHighlight
+        .toLowerCase()
+        .split(
+          new RegExp(
+            `(?<=${highLightWords.join("|")})|(?=${highLightWords.join("|")})`
+          )
+        )
+        .map((str) => {
+          if (highLightWords.includes(str)) {
+            let colorIndex = 0;
+            for (let i = 0; i < tempArray.length; i++) {
+              if (tempArray[i][0] == str) {
+                colorIndex = i;
+              }
+            }
+            return (
+              <span style={{ backgroundColor: color[colorIndex] }}>{str}</span>
+            );
+          } else {
+            return str;
+          }
+        })}
     </div>
+  ) : (
+    <>{textToHighlight || ""}</>
   );
 }

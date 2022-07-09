@@ -3,7 +3,11 @@ import styles from "../../styles/SearchContainer.module.css";
 import { colors } from "@material-ui/core";
 import HighlightWord from "../HighlightWord/HighlightWord";
 import HighlightWord2 from "../HighlightWord/HighlightWord2";
-import { keyWordList, breakArryDimension } from "../keyWordProcessing";
+import {
+  keyWordList,
+  breakArryDimension,
+  removeDupicate,
+} from "../keyWordProcessing";
 const SearchContainer2 = (props) => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchResultsLength, setsearchResultsLength] = useState(0);
@@ -167,7 +171,7 @@ const SearchContainer2 = (props) => {
         KeyWordSearchResult2.push(str);
         Resultlength.current = KeyWordSearchResult2;
         console.log(KeyWordSearchResult2.length);
-        const removeDuplicate = [...new Set(KeyWordSearchResult2)];
+        const removeDuplicate = removeDupicate(KeyWordSearchResult2);
         console.log(removeDuplicate.length);
         finalResults.current = removeDuplicate;
         console.log(finalResults.current);
@@ -507,9 +511,7 @@ const SearchContainer2 = (props) => {
                 //   console.log(instance.getZoomLevel());
                 // }}
               >
-                <br />
-                {/* <HighlightWord searchWords={keyWord} textToHighlight={result} /> */}
-                <HighlightWord2
+                <HighlightWord
                   searchWords={textForSearch}
                   textToHighlight={result}
                 />
