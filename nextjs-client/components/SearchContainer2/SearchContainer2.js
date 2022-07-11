@@ -3,11 +3,7 @@ import styles from "../../styles/SearchContainer.module.css";
 import { colors } from "@material-ui/core";
 import HighlightWord from "../HighlightWord/HighlightWord";
 import HighlightWord2 from "../HighlightWord/HighlightWord2";
-import {
-  keyWordList,
-  breakArryDimension,
-  removeDupicate,
-} from "../keyWordProcessing";
+import { breakArryDimension, removeDupicate } from "../keyWordProcessing";
 const SearchContainer2 = (props) => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchResultsLength, setsearchResultsLength] = useState(0);
@@ -16,8 +12,11 @@ const SearchContainer2 = (props) => {
   const [textForSearch, settextForSearch] = useState("");
   const [keyConceptForSearch, SetkeyConceptForSearch] = useState("");
   const [searchResultChange, setsearchResultChange] = useState(false);
+  const [keyWords, SetkeyWords] = useState([]);
   const [caseSensitive, SetcaseSensitive] = useState(false);
   const [wholeWord, SetwholeWord] = useState(false);
+  const [keywordInUse, SetkeywordInUse] = useState([]);
+  const [searchMultipleWords, SetsearchMultipleWords] = useState(false);
   const {
     Annotations,
     annotationManager,
@@ -38,12 +37,9 @@ const SearchContainer2 = (props) => {
   const KeyWordSearchResult2 = []; // perform further search on KeyWordSearchResult , break down long search result
   const FirstResults = useRef([]);
   const secondResults = useRef([]);
-  const thirdResults = useRef([]);
   const finalResults = useRef(KeyWordSearchResult2);
   const Resultlength = useRef(0);
-  const kewWords = breakArryDimension(groups);
-  const keywordFullList = keyWordList(kewWords, textForSearch);
-  let flag = false;
+
   /**
    * Coupled with the function `changeActiveSearchResult`
    */
@@ -61,6 +57,7 @@ const SearchContainer2 = (props) => {
   useEffect(() => {
     if (keyConceptOnClick != "") {
       SetkeyConceptForSearch(keyConceptOnClick);
+      SetkeyWords(breakArryDimension(groups));
     }
   }, [keyConceptOnClick]);
   useEffect(() => {
@@ -74,15 +71,18 @@ const SearchContainer2 = (props) => {
   //   }
   // }, [textForSearch]);
   useEffect(() => {
-    console.log(keyWord);
-    settextForSearch(keyWord);
-  }, [keyWord]);
-  useEffect(() => {
-    if (textForSearch != "") {
-      searchFunction(textForSearch, FirstResults.current);
-      performSearch();
+    console.log(keywordInUse);
+    if (keywordInUse != []) {
+      settextForSearch(keywordInUse);
     }
-  }, [caseSensitive, wholeWord]);
+  }, [keywordInUse]);
+  useEffect(() => {
+    if (searchMultipleWords) {
+      SetkeywordInUse(removeDupicate(keyWords));
+    } else {
+      SetkeywordInUse(keyWord);
+    }
+  }, [keyWord]);
 
   /**
    * Side-effect function that invokes `documentViewer.textSearchInit`, and stores
@@ -90,6 +90,7 @@ const SearchContainer2 = (props) => {
    * first result is found.
    */
 
+  //highlight colors
   const color = [
     "#f3ff33",
     "#e285f5",
@@ -139,8 +140,6 @@ const SearchContainer2 = (props) => {
 
   //further level search, break down search result
   const furtherSearch = (word, resultAfterMerge) => {
-    console.log(word);
-    console.log(resultAfterMerge);
     //further search on previous result.
     for (let i = 0; i < resultAfterMerge.length; i++) {
       let str = "";
@@ -154,14 +153,19 @@ const SearchContainer2 = (props) => {
           if (i == 0) {
             if (resultAfterMerge.length == 1) {
               str += resultAfterMerge[i];
+            } else if (resultAfterMerge.length == 2) {
+              str += resultAfterMerge[i];
+              str += resultAfterMerge[i + 1];
             } else {
               str += resultAfterMerge[i];
               str += resultAfterMerge[i + 1];
+              str += resultAfterMerge[i + 2];
             }
           } else if (i == resultAfterMerge.length - 1) {
             str += resultAfterMerge[i - 1];
             str += resultAfterMerge[i];
           } else {
+            str += resultAfterMerge[i - 1];
             str += resultAfterMerge[i];
             str += resultAfterMerge[i + 1];
           }
@@ -170,9 +174,7 @@ const SearchContainer2 = (props) => {
         }
         KeyWordSearchResult2.push(str);
         Resultlength.current = KeyWordSearchResult2;
-        console.log(KeyWordSearchResult2.length);
         const removeDuplicate = removeDupicate(KeyWordSearchResult2);
-        console.log(removeDuplicate.length);
         finalResults.current = removeDuplicate;
         console.log(finalResults.current);
       }
@@ -217,17 +219,16 @@ const SearchContainer2 = (props) => {
       ) {
         str += array1[i];
         temp.push(str);
-
-        FirstResults.current = temp;
       }
     }
+    return temp;
   };
   // search function, run on fullText
   const searchOnKeyConcept = (concept) => {
     let tempArray = [];
     for (let i = 0; i < fullText.length; i++) {
       let str = "";
-      if (fullText[i].toLowerCase().includes(concept)) {
+      if (fullText[i].toLowerCase().includes(concept.toLowerCase())) {
         if (i > 0 && i < fullText.length) {
           str += fullText[i - 1];
           str += fullText[i];
@@ -245,9 +246,7 @@ const SearchContainer2 = (props) => {
 
     const tempArray2 = breakWord(tempArray);
     FirstResults.current = tempArray2;
-    if (flag) {
-      searchFunction2(textForSearch[0], FirstResults.current);
-    }
+    console.log(FirstResults.current);
   };
 
   //
@@ -273,13 +272,20 @@ const SearchContainer2 = (props) => {
     //   settextForSearch(textToSearch);
     // }
     //console.log(keyWord);
-    //keywordFullList
-    // if (flag) {
-    //   searchMultiple(keywordFullList, FirstResults.current);
-    // } else {
-    //   searchMultiple(textForSearch, FirstResults.current);
-    // }
-    searchMultiple(textForSearch, FirstResults.current);
+    if (searchMultipleWords == true) {
+      console.log(keyWord[0]);
+      const mainKeyWord = removeDupicate(
+        searchFunction2(keyWord[0], FirstResults.current)
+      );
+      console.log(mainKeyWord);
+      finalResults.current = mainKeyWord;
+      Resultlength.current = mainKeyWord;
+      setsearchResultChange(!searchResultChange);
+      //furtherSearch(keyWord[0], mainKeyWord);
+    } else {
+      searchMultiple(textForSearch, FirstResults.current);
+    }
+
     documentViewer.textSearchInit(textToSearch, mode, {
       fullSearch,
       onResult: (result) => {
@@ -326,6 +332,7 @@ const SearchContainer2 = (props) => {
   const clearSearchResults = (clearSearchTermValue = true) => {
     if (clearSearchTermValue) {
       searchTerm.current.value = "";
+      SetkeywordInUse([]);
     }
     documentViewer.clearSearchResults();
     if (annotationManager != null) {
@@ -418,6 +425,16 @@ const SearchContainer2 = (props) => {
     return null;
   }
 
+  /**
+   * Change search mode
+   */
+
+  const changeSearchMode = () => {
+    SetsearchMultipleWords(
+      (prevsearchMultipleWords) => !prevsearchMultipleWords
+    );
+  };
+
   return (
     <span className={styles.search_container} ref={searchContainerRef}>
       <div className={styles.search_input}>
@@ -451,6 +468,10 @@ const SearchContainer2 = (props) => {
             onChange={toggleWholeWord}
           />
           Whole word
+        </span>
+        <span>
+          <input type="checkbox" onChange={changeSearchMode} />
+          Case 1
         </span>
       </div>
       <div className="divider"></div>

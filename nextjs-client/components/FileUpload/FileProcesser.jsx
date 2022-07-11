@@ -81,9 +81,6 @@ export default class FileProcesser extends React.Component {
       keys.push(key);
     });
     this.setState({ groups: temp, words: keys, done: true });
-    console.log("keyword now ", temp);
-    console.log(temp[0][0]);
-    console.log(temp[0][0][0]);
   }
 
   /* Concept to be highlighted */
@@ -146,7 +143,7 @@ export default class FileProcesser extends React.Component {
     });
     /* user click the keyword, keyword value pass to ParseXml.jsx and child components */
     this.setState({ keyWord: value[0] });
-    console.log(value);
+    console.log(value[0]);
   }
 
   /* Open or Close visibility of keywords table */
@@ -192,6 +189,7 @@ export default class FileProcesser extends React.Component {
     if (this.state.words != null) {
       const data = { name: "Total Concepts and Keywords:", children: [] };
       var temp = { name: this.state.words[0], value: 100 };
+      console.log(this.state.groups);
       for (let i = 0; i < this.state.words.length; ++i) {
         var cnt = 0;
         cnt = this.state.groups[i].length;

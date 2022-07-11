@@ -1,7 +1,7 @@
 //covert 3d array to 1d
 export const breakArryDimension = (longArray) => {
   let tempArray = [];
-  for (let i = 0; i < longArray.length; i++) {
+  for (let i = 0; i < longArray[0].length; i++) {
     if (longArray[0][i] != undefined) {
       tempArray[i] = longArray[0][i][0];
     }

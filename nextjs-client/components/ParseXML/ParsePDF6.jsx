@@ -4,7 +4,6 @@ import SearchContainer2 from "../SearchContainer2/SearchContainer2";
 import SearchContainer3 from "../SearchContainer3/SearchContainer3";
 import styles from "../../styles/Home.module.css";
 import { getFullText } from "../keyWordProcessing";
-import { Grow } from "@material-ui/core";
 export default function ParsePDF6(props) {
   const viewer = useRef(null);
   const searchTerm = useRef(null);

@@ -3,6 +3,7 @@ export default function HighlightWord(props) {
   const highLightWords = searchWords.filter((keyword) => {
     return keyword !== "";
   });
+  console.log(searchWords);
   const color = [
     "#f3ff33",
     "#e285f5",
