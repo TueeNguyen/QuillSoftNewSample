@@ -3,7 +3,11 @@ import styles from "../../styles/SearchContainer.module.css";
 import { colors } from "@material-ui/core";
 import HighlightWord from "../HighlightWord/HighlightWord";
 import HighlightWord2 from "../HighlightWord/HighlightWord2";
-import { breakArryDimension, removeDupicate } from "../keyWordProcessing";
+import {
+  breakArryDimension,
+  removeDupicate,
+  changeArraytoWholeWord,
+} from "../keyWordProcessing";
 const SearchContainer2 = (props) => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchResultsLength, setsearchResultsLength] = useState(0);
@@ -17,6 +21,7 @@ const SearchContainer2 = (props) => {
   const [wholeWord, SetwholeWord] = useState(false);
   const [keywordInUse, SetkeywordInUse] = useState([]);
   const [searchMultipleWords, SetsearchMultipleWords] = useState(false);
+  const [searchOnPDF, SetsearchOnPDF] = useState("");
   const {
     Annotations,
     annotationManager,
@@ -43,11 +48,11 @@ const SearchContainer2 = (props) => {
   /**
    * Coupled with the function `changeActiveSearchResult`
    */
-  useEffect(() => {
-    if (activeResultIndex >= 0 && activeResultIndex < searchResults.length) {
-      documentViewer.setActiveSearchResult(searchResults[activeResultIndex]);
-    }
-  }, [activeResultIndex]);
+  // useEffect(() => {
+  //   if (activeResultIndex >= 0 && activeResultIndex < searchResults.length) {
+  //     documentViewer.setActiveSearchResult(searchResults[activeResultIndex]);
+  //   }
+  // }, [activeResultIndex]);
   //display found result amount
   useEffect(() => {
     setsearchResultsLength(Resultlength.current.length);
@@ -56,6 +61,7 @@ const SearchContainer2 = (props) => {
   //keyconcept fire first level search
   useEffect(() => {
     if (keyConceptOnClick != "") {
+      clearSearchResults();
       SetkeyConceptForSearch(keyConceptOnClick);
       SetkeyWords(breakArryDimension(groups));
     }
@@ -78,12 +84,24 @@ const SearchContainer2 = (props) => {
   }, [keywordInUse]);
   useEffect(() => {
     if (searchMultipleWords) {
-      SetkeywordInUse(removeDupicate(keyWords));
+      wholeWord
+        ? SetkeywordInUse(removeDupicate(changeArraytoWholeWord(keyWords)))
+        : SetkeywordInUse(removeDupicate(keyWords));
     } else {
-      SetkeywordInUse(keyWord);
+      wholeWord
+        ? SetkeywordInUse(changeArraytoWholeWord(keyWord))
+        : SetkeywordInUse(keyWord);
     }
-  }, [keyWord]);
+  }, [keyWord, wholeWord]);
 
+  useEffect(() => {
+    if (searchOnPDF != "") {
+      performSearch2(searchOnPDF);
+    }
+  }, [searchOnPDF]);
+  useEffect(() => {
+    clearResult();
+  }, [wholeWord]);
   /**
    * Side-effect function that invokes `documentViewer.textSearchInit`, and stores
    * every result in the state Array `searchResults`, and jumps the user to the
@@ -111,7 +129,12 @@ const SearchContainer2 = (props) => {
     "#85f5d8",
     "#85aaf5",
   ];
-
+  //clear searchResult;
+  const clearResult = () => {
+    finalResults.current = [];
+    setsearchResultsLength(0);
+    SetsearchOnPDF("");
+  };
   //count word function , check search result length.
   const wordCount = (str) => {
     const arr = str.split(" ");
@@ -249,15 +272,11 @@ const SearchContainer2 = (props) => {
     console.log(FirstResults.current);
   };
 
-  //
-  //
-  //
-  const performSearch = () => {
-    clearSearchResults(false);
-    const {
-      current: { value: textToSearch },
-    } = searchTerm;
-
+  // use keywords search result as search input, locate text position in PDF
+  const performSearch2 = (textToSearch) => {
+    console.log(textToSearch);
+    let tempStrings = textToSearch.split(" ").slice(0, 12).join(" ");
+    console.log(tempStrings);
     const { PAGE_STOP, HIGHLIGHT, AMBIENT_STRING } = window.Core.Search.Mode;
 
     const mode = toggledSearchModes.reduce(
@@ -266,27 +285,12 @@ const SearchContainer2 = (props) => {
     );
     const fullSearch = true;
     let jumped = false;
-    // if (wholeWord) {
-    //   settextForSearch(' ' + textToSearch + ' ');
-    // } else {
-    //   settextForSearch(textToSearch);
-    // }
-    //console.log(keyWord);
-    if (searchMultipleWords == true) {
-      console.log(keyWord[0]);
-      const mainKeyWord = removeDupicate(
-        searchFunction2(keyWord[0], FirstResults.current)
-      );
-      console.log(mainKeyWord);
-      finalResults.current = mainKeyWord;
-      Resultlength.current = mainKeyWord;
-      setsearchResultChange(!searchResultChange);
-      //furtherSearch(keyWord[0], mainKeyWord);
-    } else {
-      searchMultiple(textForSearch, FirstResults.current);
-    }
 
-    documentViewer.textSearchInit(textToSearch, mode, {
+    // remove annotations , click on new result will remove previous result highlight
+    const annots = annotationManager.getAnnotationsList();
+    annotationManager.deleteAnnotations(annots);
+
+    documentViewer.textSearchInit(tempStrings, mode, {
       fullSearch,
       onResult: (result) => {
         setSearchResults((prevState) => [...prevState, result]);
@@ -318,6 +322,79 @@ const SearchContainer2 = (props) => {
         }
       },
     });
+    console.log(searchResults);
+    if (searchResults[0] != undefined) {
+      documentViewer.setActiveSearchResult(searchResults[0]);
+    }
+  };
+
+  //
+  const performSearch = () => {
+    clearSearchResults(false);
+    const {
+      current: { value: textToSearch },
+    } = searchTerm;
+
+    const { PAGE_STOP, HIGHLIGHT, AMBIENT_STRING } = window.Core.Search.Mode;
+
+    // const mode = toggledSearchModes.reduce(
+    //   (prev, value) => prev | value,
+    //   PAGE_STOP | HIGHLIGHT | AMBIENT_STRING
+    // );
+    // const fullSearch = true;
+    // let jumped = false;
+    // if (wholeWord) {
+    //   settextForSearch(' ' + textToSearch + ' ');
+    // } else {
+    //   settextForSearch(textToSearch);
+    // }
+    //console.log(keyWord);
+    if (searchMultipleWords == true) {
+      console.log(keyWord[0]);
+      const mainKeyWord = removeDupicate(
+        searchFunction2(keyWord[0], FirstResults.current)
+      );
+      console.log(mainKeyWord);
+      finalResults.current = mainKeyWord;
+      Resultlength.current = mainKeyWord;
+      setsearchResultChange(!searchResultChange);
+      //furtherSearch(keyWord[0], mainKeyWord);
+    } else {
+      searchMultiple(textForSearch, FirstResults.current);
+    }
+
+    // documentViewer.textSearchInit(textToSearch, mode, {
+    //   fullSearch,
+    //   onResult: (result) => {
+    //     setSearchResults((prevState) => [...prevState, result]);
+
+    //     const { resultCode, quads, page_num: pageNumber } = result;
+    //     const { e_found: eFound } = window.PDFNet.TextSearch.ResultCode;
+    //     // if (resultCode === eFound) {
+    //     //   const highlight = new Annotations.TextHighlightAnnotation();
+    //     //   /**
+    //     //    * The page number in Annotations.TextHighlightAnnotation is not
+    //     //    * 0-indexed
+    //     //    */
+    //     //   highlight.setPageNumber(pageNumber);
+    //     //   highlight.Quads.push(quads[0].getPoints());
+    //     //   annotationManager.addAnnotation(highlight);
+    //     //   annotationManager.drawAnnotations(highlight.PageNumber);
+    //     //   if (!jumped) {
+    //     //     jumped = true;
+    //     //     // This is the first result found, so set `activeResult` accordingly
+    //     //     setActiveResultIndex(0);
+    //     //     documentViewer.displaySearchResult(result, () => {
+    //     //       /**
+    //     //        * The page number in documentViewer.displayPageLocation is not
+    //     //        * 0-indexed
+    //     //        */
+    //     //       documentViewer.displayPageLocation(pageNumber, 0, 0, true);
+    //     //     });
+    //     //   }
+    //     // }
+    //   },
+    // });
   };
 
   /**
@@ -331,7 +408,10 @@ const SearchContainer2 = (props) => {
    */
   const clearSearchResults = (clearSearchTermValue = true) => {
     if (clearSearchTermValue) {
-      searchTerm.current.value = "";
+      if (searchTerm.current != null) {
+        searchTerm.current.value = "";
+      }
+
       SetkeywordInUse([]);
     }
     documentViewer.clearSearchResults();
@@ -343,7 +423,7 @@ const SearchContainer2 = (props) => {
     setSearchResults([]);
     setActiveResultIndex(-1);
     setsearchResultsLength(0);
-    finalResults.current = [];
+    clearResult();
   };
 
   /**
@@ -429,7 +509,7 @@ const SearchContainer2 = (props) => {
    * Change search mode
    */
 
-  const changeSearchMode = () => {
+  const changeSearchCase = () => {
     SetsearchMultipleWords(
       (prevsearchMultipleWords) => !prevsearchMultipleWords
     );
@@ -470,7 +550,7 @@ const SearchContainer2 = (props) => {
           Whole word
         </span>
         <span>
-          <input type="checkbox" onChange={changeSearchMode} />
+          <input type="checkbox" onChange={changeSearchCase} />
           Case 1
         </span>
       </div>
@@ -481,7 +561,7 @@ const SearchContainer2 = (props) => {
             <img src="icon-header-clear-search.svg" alt="Clear Search" />
           </button>
         </span>
-        <span className={styles.search_iterators}>
+        {/* <span className={styles.search_iterators}>
           <button
             onClick={() => {
               changeActiveSearchResult(activeResultIndex - 1);
@@ -504,7 +584,7 @@ const SearchContainer2 = (props) => {
               alt="Next Search Result"
             />
           </button>
-        </span>
+        </span> */}
       </div>
       <div>Result found {searchResultsLength}</div>
       <div>
@@ -526,11 +606,9 @@ const SearchContainer2 = (props) => {
               {/* {pageHeader} */}
               <div
                 className={styles.search_result}
-                // onClick={() => {
-                //   documentViewer.setActiveSearchResult(result);
-                //   instance.setZoomLevel(1.5);
-                //   console.log(instance.getZoomLevel());
-                // }}
+                onClick={() => {
+                  SetsearchOnPDF(result);
+                }}
               >
                 <HighlightWord
                   searchWords={textForSearch}

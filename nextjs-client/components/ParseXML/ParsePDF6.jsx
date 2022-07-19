@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import db from "../db";
 import SearchContainer2 from "../SearchContainer2/SearchContainer2";
-import SearchContainer3 from "../SearchContainer3/SearchContainer3";
 import styles from "../../styles/Home.module.css";
 import { getFullText } from "../keyWordProcessing";
 export default function ParsePDF6(props) {
@@ -21,7 +20,10 @@ export default function ParsePDF6(props) {
   const [newKeyWrod, SetnewKeyWrod] = useState([]);
   const { keyWord, xmlData, keyConcept, groups } = props;
   const Annotations = window.Core.Annotations;
+
+  //get PDF text from XML
   const fullText = getFullText(xmlData);
+
   useEffect(() => {
     import("@pdftron/webviewer").then(() => {
       WebViewer(
@@ -148,26 +150,10 @@ export default function ParsePDF6(props) {
         keyConceptOnClick={keyConceptOnClick}
         style={{ flexGrow: 3 }}
       />
-      {/* <SearchContainer3
-        Annotations={Annotations}
-        annotationManager={annotationManager}
-        documentViewer={documentViewer}
-        searchTermRef={searchTerm}
-        searchContainerRef={searchContainerRef}
-        open={searchContainerOpen}
-        keyWord={newKeyWrod}
-        className={searchPanelCss}
-        searchButton={searchButton}
-        fullText={fullText}
-        instance={instance}
-        keyConceptOnClick={keyConceptOnClick}
-        groups={groups}
-        style={{ flexGrow: 3 }}
-      /> */}
       <div
         className={webviewerCss}
         ref={viewer}
-        style={{ display: "none" }}
+        //style={{ display: "none" }}
       ></div>
     </div>
   );

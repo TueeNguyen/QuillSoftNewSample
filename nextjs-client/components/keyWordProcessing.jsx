@@ -1,4 +1,4 @@
-//covert 3d array to 1d
+//covert 3d array to 1d, save the first element "keyword " to new array
 export const breakArryDimension = (longArray) => {
   let tempArray = [];
   for (let i = 0; i < longArray[0].length; i++) {
@@ -7,14 +7,6 @@ export const breakArryDimension = (longArray) => {
     }
   }
   return tempArray;
-};
-//return keyword list without the first selected keyword
-export const keyWordList = (arr1, arr2) => {
-  const index = arr1.indexOf(arr2[0]);
-  if (index > -1) {
-    arr1.splice(index, 1);
-  }
-  return arr1;
 };
 
 // to remove similar results , check the similarity (Jaro-Winkler Algorithm)
@@ -95,7 +87,14 @@ export const removeDupicate = (arr) => {
   }
   return arr;
 };
-
+//change array element to meet wholeword search
+export const changeArraytoWholeWord = (arr) => {
+  let tempArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    tempArr[i] = " " + arr[i] + " ";
+  }
+  return tempArr;
+};
 //Node server send back xml file, extract text from xml file by tags
 export const getFullText = (xmlData) => {
   const fullText = [].concat(

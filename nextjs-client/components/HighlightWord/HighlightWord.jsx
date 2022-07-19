@@ -25,6 +25,7 @@ export default function HighlightWord(props) {
     "#85aaf5",
   ];
   let tempArray = [];
+  let keyValue = 0;
   for (let i = 0; i < highLightWords.length; i++) {
     tempArray[i] = [highLightWords[i], color[i]];
   }
@@ -47,7 +48,12 @@ export default function HighlightWord(props) {
               }
             }
             return (
-              <span style={{ backgroundColor: color[colorIndex] }}>{str}</span>
+              <span
+                key={`${str}` + `${keyValue++}`}
+                style={{ backgroundColor: color[colorIndex] }}
+              >
+                {str}
+              </span>
             );
           } else {
             return str;
