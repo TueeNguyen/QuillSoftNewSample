@@ -56,6 +56,10 @@ export default class FileProcesser extends React.Component {
       cardHeight: 500,
       keyWord: [],
       keyConcept: "",
+      ConceptsAndWords: {
+        concepts: null,
+        words: null,
+      },
     };
 
     /* FOR: <ParseXML> */
@@ -81,6 +85,13 @@ export default class FileProcesser extends React.Component {
       keys.push(key);
     });
     this.setState({ groups: temp, words: keys, done: true });
+    this.setState({
+      ConceptsAndWords: {
+        words: temp,
+        concepts: keys,
+      },
+    });
+    console.log(keys);
   }
 
   /* Concept to be highlighted */
@@ -214,18 +225,19 @@ export default class FileProcesser extends React.Component {
   - One shows concepts, keywords, and treemap
   - Other shows  the text from PDF and highlights selections.
   */
+
   render() {
     return (
       <div>
         <Grid
           container
-          spacing={2}
+          spacing={1}
           style={{
             width: "1500px",
             padding: "1rem",
           }}
         >
-          <Grid item xs={4}>
+          {/* <Grid item xs={4}>
             <Card
               className="card-style"
               style={{ height: "100vh", overflow: "scroll" }}
@@ -250,8 +262,8 @@ export default class FileProcesser extends React.Component {
 
               {this.createTreeMap()}
             </Card>
-          </Grid>
-          <Grid item xs={8}>
+          </Grid> */}
+          <Grid item xs={10}>
             <Card className="card-style">
               <CardContent className="card-file-view">
                 {/* <div style={{ marginLeft: "1rem", display: "inline-flex" }}>
@@ -273,6 +285,8 @@ export default class FileProcesser extends React.Component {
                   keyWord={this.state.keyWord}
                   keyConcept={this.state.keyConcept}
                   groups={this.state.groups}
+                  words={this.state.words}
+                  ConceptsAndWords={this.state.ConceptsAndWords}
                 />
               </CardContent>
             </Card>

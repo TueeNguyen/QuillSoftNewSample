@@ -89,6 +89,7 @@
 .webviewer2 {
   flex-grow: 4;
   height: 100vh;
+  margin: 0;
 }
 /* ParsePDF4*/
 .MyComponent3 {
@@ -97,4 +98,13 @@
 .MyComponent3_1 {
   height: auto;
   width: 600px;
+}
+.testResize {
+  display: flex;
+  flex-direction: row;
+}
+/*ParsePDF7*/
+.newMyComponent {
+  display: flex;
+  flex-direction: row;
 }

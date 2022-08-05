@@ -1,9 +1,11 @@
+import Split from "react-split";
 import { useEffect, useRef, useState, useMemo } from "react";
 import db from "../db";
-import SearchContainer2 from "../SearchContainer2/SearchContainer2";
+import SearchContainer3 from "../SearchContainer3/SearchContainer3";
 import styles from "../../styles/Home.module.css";
 import { getFullText } from "../keyWordProcessing";
-export default function ParsePDF6(props) {
+import img from "../../public/horizontal.png";
+export default function ParsePDF7(props) {
   const viewer = useRef(null);
   const searchTerm = useRef(null);
   const scrollView = useRef(null);
@@ -12,13 +14,14 @@ export default function ParsePDF6(props) {
   const [instance, Setinstance] = useState(null);
   const [documentViewer, setDocumentViewer] = useState(null);
   const [annotationManager, setAnnotationManager] = useState(null);
-  const [searchContainerOpen, setSearchContainerOpen] = useState(false);
+  const [searchContainerOpen, setSearchContainerOpen] = useState(true);
   const [searchPanelCss, setsearchPanelCss] = useState(styles.searchPanelleft);
-  const [myComponentCss, SetmyComponentCss] = useState(styles.MyComponent);
-  const [webviewerCss, SetwebviewerCss] = useState(styles.webviewer);
+  const [myComponentCss, SetmyComponentCss] = useState(styles.newMyComponent);
+  const [webviewerCss, SetwebviewerCss] = useState(styles.webviewer2);
   const [keyConceptOnClick, SetkeyConceptOnClick] = useState("");
   const [newKeyWrod, SetnewKeyWrod] = useState([]);
-  const { keyWord, xmlData, keyConcept, groups } = props;
+  const { keyWord, xmlData, keyConcept, groups, words, ConceptsAndWords } =
+    props;
   const Annotations = window.Core.Annotations;
 
   //get PDF text from XML
@@ -92,7 +95,7 @@ export default function ParsePDF6(props) {
             },
           ]);
         });
-        console.log(viewer.current);
+
         documentViewer.addEventListener("documentLoaded", () => {
           instance.setZoomLevel(instance.getZoomLevel() * 0.85);
           // instance.UI.addSearchListener(searchListener());
@@ -131,7 +134,7 @@ export default function ParsePDF6(props) {
 
   return (
     <div className={myComponentCss}>
-      <SearchContainer2
+      <SearchContainer3
         Annotations={Annotations}
         annotationManager={annotationManager}
         documentViewer={documentViewer}
@@ -147,12 +150,10 @@ export default function ParsePDF6(props) {
         keyConceptOnClick={keyConceptOnClick}
         style={{ flexGrow: 3 }}
         setSearchContainerOpen={setSearchContainerOpen}
+        words={words}
+        ConceptsAndWords={ConceptsAndWords}
       />
-      <div
-        className={webviewerCss}
-        ref={viewer}
-        //style={{ display: "none" }}
-      ></div>
+      <div className={webviewerCss} ref={viewer}></div>
     </div>
   );
 }

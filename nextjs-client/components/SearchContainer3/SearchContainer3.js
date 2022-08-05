@@ -1,19 +1,32 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styles from '../../styles/SearchContainer.module.css';
-import { colors } from '@material-ui/core';
-import HighlightWord from '../HighlightWord/HighlightWord';
-import HighlightWord2 from '../HighlightWord/HighlightWord2';
-import { ProcessKeyword } from '../keyWordProcessing';
+import React, { useState, useEffect, useRef } from "react";
+import styles from "../../styles/SearchContainer.module.css";
+import { colors } from "@material-ui/core";
+import HighlightWord from "../HighlightWord/HighlightWord";
+import HighlightWord2 from "../HighlightWord/HighlightWord2";
+import KeyConcepts from "../KeyConcepts/KeyConcepts";
+import KeywordsPanel from "../KeywordsPanel/KeywordsPanel";
+import {
+  breakArryDimension,
+  removeDupicate,
+  changeArraytoWholeWord,
+} from "../keyWordProcessing";
 const SearchContainer3 = (props) => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchResultsLength, setsearchResultsLength] = useState(0);
   const [activeResultIndex, setActiveResultIndex] = useState(-1);
   const [toggledSearchModes, setToggledSearchModes] = useState([]);
-  const [textForSearch, settextForSearch] = useState('');
-  const [keyConceptForSearch, SetkeyConceptForSearch] = useState('');
+  const [textForSearch, settextForSearch] = useState("");
+  const [keyConceptForSearch, SetkeyConceptForSearch] = useState("");
   const [searchResultChange, setsearchResultChange] = useState(false);
+  const [keyWords, SetkeyWords] = useState([]);
   const [caseSensitive, SetcaseSensitive] = useState(false);
   const [wholeWord, SetwholeWord] = useState(false);
+  const [keywordInUse, SetkeywordInUse] = useState([]);
+  const [searchMultipleWords, SetsearchMultipleWords] = useState(false);
+  const [searchOnPDF, SetsearchOnPDF] = useState("");
+  const searchResultOnClick = useRef([]);
+  const [conceptIndex, setConceptIndex] = useState(null);
+  const [keywordsToPanel, setKeywordsToPanel] = useState([]);
   const {
     Annotations,
     annotationManager,
@@ -26,6 +39,10 @@ const SearchContainer3 = (props) => {
     instance,
     keyConceptOnClick,
     keyWord,
+    groups,
+    setSearchContainerOpen,
+    words,
+    ConceptsAndWords,
   } = props;
 
   const pageRenderTracker = {};
@@ -33,32 +50,38 @@ const SearchContainer3 = (props) => {
   const KeyWordSearchResult2 = []; // perform further search on KeyWordSearchResult , break down long search result
   const FirstResults = useRef([]);
   const secondResults = useRef([]);
-  const thirdResults = useRef([]);
   const finalResults = useRef(KeyWordSearchResult2);
   const Resultlength = useRef(0);
-
   /**
    * Coupled with the function `changeActiveSearchResult`
    */
-  useEffect(() => {
-    if (activeResultIndex >= 0 && activeResultIndex < searchResults.length) {
-      documentViewer.setActiveSearchResult(searchResults[activeResultIndex]);
-    }
-  }, [activeResultIndex]);
+  // useEffect(() => {
+  //   if (activeResultIndex >= 0 && activeResultIndex < searchResults.length) {
+  //     documentViewer.setActiveSearchResult(searchResults[activeResultIndex]);
+  //   }
+  // }, [activeResultIndex]);
   //display found result amount
-  useEffect(() => {
-    setsearchResultsLength(Resultlength.current.length);
-    console.log(finalResults.current);
-  }, [searchResultChange]);
+  // useEffect(() => {
+  //   setsearchResultsLength(Resultlength.current.length);
+  //   console.log(finalResults.current);
+  // }, [searchResultChange]);
   //keyconcept fire first level search
   useEffect(() => {
-    if (keyConceptOnClick != '') {
+    if (keyConceptOnClick != "") {
+      clearSearchResults();
       SetkeyConceptForSearch(keyConceptOnClick);
+      SetkeyWords(breakArryDimension(groups));
     }
   }, [keyConceptOnClick]);
   useEffect(() => {
     searchOnKeyConcept(keyConceptForSearch);
   }, [keyConceptForSearch]);
+  useEffect(() => {
+    if (ConceptsAndWords.words !== null && conceptIndex !== null) {
+      console.log(ConceptsAndWords.words[conceptIndex]);
+      setKeywordsToPanel(ConceptsAndWords.words[conceptIndex]);
+    }
+  }, [ConceptsAndWords, conceptIndex]);
   //keyword trigger search function
   // useEffect(() => {
   //   if (textForSearch != '') {
@@ -67,32 +90,57 @@ const SearchContainer3 = (props) => {
   //   }
   // }, [textForSearch]);
   useEffect(() => {
-    console.log(keyWord);
-    settextForSearch(keyWord);
-  }, [keyWord]);
-  useEffect(() => {
-    if (textForSearch != '') {
-      searchFunction(textForSearch, FirstResults.current);
-      performSearch();
+    console.log(keywordInUse);
+    if (keywordInUse != []) {
+      settextForSearch(keywordInUse);
     }
-  }, [caseSensitive, wholeWord]);
-
+  }, [keywordInUse]);
+  useEffect(() => {
+    if (searchMultipleWords) {
+      wholeWord
+        ? SetkeywordInUse(removeDupicate(changeArraytoWholeWord(keyWords)))
+        : SetkeywordInUse(removeDupicate(keyWords));
+    } else {
+      wholeWord
+        ? SetkeywordInUse(changeArraytoWholeWord(keyWord))
+        : SetkeywordInUse(keyWord);
+    }
+  }, [keyWord, wholeWord]);
+  useEffect(() => {
+    if (searchResults != []) {
+      searchResultOnClick.current = searchResults;
+    }
+  }, [searchResults]);
+  useEffect(() => {
+    if (searchOnPDF != "") {
+      performSearch2(searchOnPDF);
+    }
+  }, [searchOnPDF]);
+  useEffect(() => {
+    clearResult();
+  }, [wholeWord]);
   /**
    * Side-effect function that invokes `documentViewer.textSearchInit`, and stores
    * every result in the state Array `searchResults`, and jumps the user to the
    * first result is found.
    */
 
+  //clear searchResult;
+  const clearResult = () => {
+    finalResults.current = [];
+    setsearchResultsLength(0);
+    SetsearchOnPDF("");
+  };
   //count word function , check search result length.
   const wordCount = (str) => {
-    const arr = str.split(' ');
+    const arr = str.split(" ");
 
-    return arr.filter((word) => word !== '').length;
+    return arr.filter((word) => word !== "").length;
   };
   // break down long text to short sentences, merge result arrays to one array
   const breakWord = (arr) => {
     let breakLongText = arr.map((element) => {
-      return element.replace(/([.?!])\s*(?=[A-Z])/g, '$1@').split('@');
+      return element.replace(/([.?!])\s*(?=[A-Z])/g, "$1@").split("@");
     });
     let resultAfterMerge = [];
     for (let i = 0; i < breakLongText.length; i++) {
@@ -111,11 +159,9 @@ const SearchContainer3 = (props) => {
 
   //further level search, break down search result
   const furtherSearch = (word, resultAfterMerge) => {
-    console.log(word);
-    console.log(resultAfterMerge);
     //further search on previous result.
     for (let i = 0; i < resultAfterMerge.length; i++) {
-      let str = '';
+      let str = "";
 
       if (
         caseSensitive == true
@@ -126,25 +172,43 @@ const SearchContainer3 = (props) => {
           if (i == 0) {
             if (resultAfterMerge.length == 1) {
               str += resultAfterMerge[i];
+            } else if (resultAfterMerge.length == 2) {
+              str += resultAfterMerge[i];
+              if (!resultAfterMerge[i + 1].toLowerCase().includes(word)) {
+                str += resultAfterMerge[i + 1];
+              }
             } else {
               str += resultAfterMerge[i];
-              str += resultAfterMerge[i + 1];
+              if (!resultAfterMerge[i + 1].toLowerCase().includes(word)) {
+                str += resultAfterMerge[i + 1];
+              }
+              if (!resultAfterMerge[i + 2].toLowerCase().includes(word)) {
+                str += resultAfterMerge[i + 2];
+              }
             }
           } else if (i == resultAfterMerge.length - 1) {
-            str += resultAfterMerge[i - 1];
+            if (!resultAfterMerge[i - 1].toLowerCase().includes(word)) {
+              str += resultAfterMerge[i - 1];
+            }
             str += resultAfterMerge[i];
           } else {
+            if (!resultAfterMerge[i - 1].toLowerCase().includes(word)) {
+              str += resultAfterMerge[i - 1];
+            }
             str += resultAfterMerge[i];
-            str += resultAfterMerge[i + 1];
-            str += resultAfterMerge[i + 2];
+            if (!resultAfterMerge[i + 1].toLowerCase().includes(word)) {
+              str += resultAfterMerge[i + 1];
+            }
           }
         } else {
           str += resultAfterMerge[i];
         }
         KeyWordSearchResult2.push(str);
-        Resultlength.current = KeyWordSearchResult2;
-        const removeDuplicate = [...new Set(KeyWordSearchResult2)];
+        console.log(KeyWordSearchResult2.length);
+        const removeDuplicate = removeDupicate(KeyWordSearchResult2);
+        console.log(removeDuplicate.length);
         finalResults.current = removeDuplicate;
+        Resultlength.current = removeDuplicate;
         console.log(finalResults.current);
       }
     }
@@ -158,7 +222,7 @@ const SearchContainer3 = (props) => {
     console.log(array);
     console.log(word);
     for (let i = 0; i < array.length; i++) {
-      let str = '';
+      let str = "";
       //check if search keyword with case-insensitive
       if (
         caseSensitive == true
@@ -176,13 +240,28 @@ const SearchContainer3 = (props) => {
     const tempArray = breakWord(secondResults.current);
     furtherSearch(word, tempArray);
   };
-
+  const searchFunction2 = (word, array1) => {
+    let temp = [];
+    for (let i = 0; i < array1.length; i++) {
+      let str = "";
+      //check if search keyword with case-insensitive
+      if (
+        caseSensitive == true
+          ? array1[i].includes(word)
+          : array1[i].toLowerCase().includes(word)
+      ) {
+        str += array1[i];
+        temp.push(str);
+      }
+    }
+    return temp;
+  };
   // search function, run on fullText
   const searchOnKeyConcept = (concept) => {
     let tempArray = [];
     for (let i = 0; i < fullText.length; i++) {
-      let str = '';
-      if (fullText[i].toLowerCase().includes(concept)) {
+      let str = "";
+      if (fullText[i].toLowerCase().includes(concept.toLowerCase())) {
         if (i > 0 && i < fullText.length) {
           str += fullText[i - 1];
           str += fullText[i];
@@ -200,16 +279,14 @@ const SearchContainer3 = (props) => {
 
     const tempArray2 = breakWord(tempArray);
     FirstResults.current = tempArray2;
+    console.log(FirstResults.current);
   };
-  //
-  //
-  //
-  const performSearch = () => {
-    clearSearchResults(false);
-    const {
-      current: { value: textToSearch },
-    } = searchTerm;
 
+  // use keywords search result as search input, locate text position in PDF
+  const performSearch2 = (textToSearch) => {
+    console.log(textToSearch);
+    let tempStrings = textToSearch.split(" ").slice(0, 12).join(" ");
+    console.log(tempStrings);
     const { PAGE_STOP, HIGHLIGHT, AMBIENT_STRING } = window.Core.Search.Mode;
 
     const mode = toggledSearchModes.reduce(
@@ -218,15 +295,8 @@ const SearchContainer3 = (props) => {
     );
     const fullSearch = true;
     let jumped = false;
-    // if (wholeWord) {
-    //   settextForSearch(' ' + textToSearch + ' ');
-    // } else {
-    //   settextForSearch(textToSearch);
-    // }
-    //console.log(keyWord);
 
-    searchMultiple(textForSearch, FirstResults.current);
-    documentViewer.textSearchInit(textToSearch, mode, {
+    documentViewer.textSearchInit(tempStrings, mode, {
       fullSearch,
       onResult: (result) => {
         setSearchResults((prevState) => [...prevState, result]);
@@ -234,6 +304,11 @@ const SearchContainer3 = (props) => {
         const { resultCode, quads, page_num: pageNumber } = result;
         const { e_found: eFound } = window.PDFNet.TextSearch.ResultCode;
         if (resultCode === eFound) {
+          // remove annotations , click on new result will remove previous result highlight
+          if (annotationManager != null) {
+            const annots = annotationManager.getAnnotationsList();
+            annotationManager.deleteAnnotations(annots);
+          }
           const highlight = new Annotations.TextHighlightAnnotation();
           /**
            * The page number in Annotations.TextHighlightAnnotation is not
@@ -241,6 +316,7 @@ const SearchContainer3 = (props) => {
            */
           highlight.setPageNumber(pageNumber);
           highlight.Quads.push(quads[0].getPoints());
+          //  highlight.StrokeColor = new Annotations.Color(255, 0, 0);
           annotationManager.addAnnotation(highlight);
           annotationManager.drawAnnotations(highlight.PageNumber);
           if (!jumped) {
@@ -258,6 +334,81 @@ const SearchContainer3 = (props) => {
         }
       },
     });
+    console.log(searchResultOnClick.current);
+    if (searchResultOnClick.current[0] != undefined) {
+      setSearchContainerOpen(false);
+      documentViewer.setActiveSearchResult(searchResultOnClick.current[0]);
+      console.log(searchResultOnClick[0]);
+    }
+  };
+
+  //
+  const performSearch = () => {
+    clearSearchResults(false);
+    const {
+      current: { value: textToSearch },
+    } = searchTerm;
+
+    const { PAGE_STOP, HIGHLIGHT, AMBIENT_STRING } = window.Core.Search.Mode;
+
+    // const mode = toggledSearchModes.reduce(
+    //   (prev, value) => prev | value,
+    //   PAGE_STOP | HIGHLIGHT | AMBIENT_STRING
+    // );
+    // const fullSearch = true;
+    // let jumped = false;
+    // if (wholeWord) {
+    //   settextForSearch(' ' + textToSearch + ' ');
+    // } else {
+    //   settextForSearch(textToSearch);
+    // }
+    //console.log(keyWord);
+    if (searchMultipleWords == true) {
+      console.log(keyWord[0]);
+      const mainKeyWord = removeDupicate(
+        searchFunction2(keyWord[0], FirstResults.current)
+      );
+      console.log(mainKeyWord);
+      finalResults.current = mainKeyWord;
+      Resultlength.current = mainKeyWord;
+      setsearchResultChange(!searchResultChange);
+      //furtherSearch(keyWord[0], mainKeyWord);
+    } else {
+      searchMultiple(textForSearch, FirstResults.current);
+    }
+
+    // documentViewer.textSearchInit(textToSearch, mode, {
+    //   fullSearch,
+    //   onResult: (result) => {
+    //     setSearchResults((prevState) => [...prevState, result]);
+
+    //     const { resultCode, quads, page_num: pageNumber } = result;
+    //     const { e_found: eFound } = window.PDFNet.TextSearch.ResultCode;
+    //     // if (resultCode === eFound) {
+    //     //   const highlight = new Annotations.TextHighlightAnnotation();
+    //     //   /**
+    //     //    * The page number in Annotations.TextHighlightAnnotation is not
+    //     //    * 0-indexed
+    //     //    */
+    //     //   highlight.setPageNumber(pageNumber);
+    //     //   highlight.Quads.push(quads[0].getPoints());
+    //     //   annotationManager.addAnnotation(highlight);
+    //     //   annotationManager.drawAnnotations(highlight.PageNumber);
+    //     //   if (!jumped) {
+    //     //     jumped = true;
+    //     //     // This is the first result found, so set `activeResult` accordingly
+    //     //     setActiveResultIndex(0);
+    //     //     documentViewer.displaySearchResult(result, () => {
+    //     //       /**
+    //     //        * The page number in documentViewer.displayPageLocation is not
+    //     //        * 0-indexed
+    //     //        */
+    //     //       documentViewer.displayPageLocation(pageNumber, 0, 0, true);
+    //     //     });
+    //     //   }
+    //     // }
+    //   },
+    // });
   };
 
   /**
@@ -271,7 +422,11 @@ const SearchContainer3 = (props) => {
    */
   const clearSearchResults = (clearSearchTermValue = true) => {
     if (clearSearchTermValue) {
-      searchTerm.current.value = '';
+      if (searchTerm.current != null) {
+        searchTerm.current.value = "";
+      }
+
+      SetkeywordInUse([]);
     }
     documentViewer.clearSearchResults();
     if (annotationManager != null) {
@@ -282,7 +437,7 @@ const SearchContainer3 = (props) => {
     setSearchResults([]);
     setActiveResultIndex(-1);
     setsearchResultsLength(0);
-    finalResults.current = [];
+    clearResult();
   };
 
   /**
@@ -364,23 +519,52 @@ const SearchContainer3 = (props) => {
     return null;
   }
 
+  /**
+   * Change search mode
+   */
+
+  const changeSearchCase = () => {
+    SetsearchMultipleWords(
+      (prevsearchMultipleWords) => !prevsearchMultipleWords
+    );
+  };
+
+  //update the index of selected keyconcept, use same index to find the keyword array
+  const updateKeyconceptIndex = (idx) => {
+    setConceptIndex(idx);
+  };
+
   return (
     <span className={styles.search_container} ref={searchContainerRef}>
+      <KeyConcepts
+        words={words}
+        updateKeyconceptIndex={updateKeyconceptIndex}
+      />
       <div className={styles.search_input}>
         <input
           ref={searchTerm}
-          type={'text'}
-          placeholder={'Search'}
+          type={"text"}
+          placeholder={"Search"}
           onKeyUp={listenForEnter}
         />
-        <button onClick={performSearch} ref={searchButton}>
-          <img src='ic_search_black_24px.svg' alt='Search' />
+        <button
+          style={{ cursor: "pointer" }}
+          onClick={performSearch}
+          ref={searchButton}
+        >
+          <img src="ic_search_black_24px.svg" alt="Search" />
         </button>
+        <span style={{ float: "right" }}>
+          <button onClick={clearSearchResults} style={{ cursor: "pointer" }}>
+            <img src="icon-header-clear-search.svg" alt="Clear Search" />
+          </button>
+        </span>
       </div>
-      <div>
+      <KeywordsPanel keywordsToPanel={keywordsToPanel} />
+      {/* <div>
         <span>
           <input
-            type='checkbox'
+            type="checkbox"
             value={toggledSearchModes.includes(
               window.Core.Search.Mode.CASE_SENSITIVE
             )}
@@ -390,7 +574,7 @@ const SearchContainer3 = (props) => {
         </span>
         <span>
           <input
-            type='checkbox'
+            type="checkbox"
             value={toggledSearchModes.includes(
               window.Core.Search.Mode.WHOLE_WORD
             )}
@@ -398,15 +582,19 @@ const SearchContainer3 = (props) => {
           />
           Whole word
         </span>
-      </div>
-      <div className='divider'></div>
-      <div className={styles.search_buttons}>
         <span>
-          <button onClick={clearSearchResults}>
-            <img src='icon-header-clear-search.svg' alt='Clear Search' />
-          </button>
+          <input type="checkbox" onChange={changeSearchCase} />
+          Case 1
         </span>
-        <span className={styles.search_iterators}>
+      </div> */}
+      <div className="divider"></div>
+      <div className={styles.search_buttons}>
+        {/* <span>
+          <button onClick={clearSearchResults}>
+            <img src="icon-header-clear-search.svg" alt="Clear Search" />
+          </button>
+        </span> */}
+        {/* <span className={styles.search_iterators}>
           <button
             onClick={() => {
               changeActiveSearchResult(activeResultIndex - 1);
@@ -414,8 +602,8 @@ const SearchContainer3 = (props) => {
             disabled={activeResultIndex < 0}
           >
             <img
-              src='ic_chevron_left_black_24px.svg'
-              alt='Previous Search Result'
+              src="ic_chevron_left_black_24px.svg"
+              alt="Previous Search Result"
             />
           </button>
           <button
@@ -425,13 +613,15 @@ const SearchContainer3 = (props) => {
             disabled={activeResultIndex < 0}
           >
             <img
-              src='ic_chevron_right_black_24px.svg'
-              alt='Next Search Result'
+              src="ic_chevron_right_black_24px.svg"
+              alt="Next Search Result"
             />
           </button>
-        </span>
+        </span> */}
       </div>
-      <div>Result found {searchResultsLength}</div>
+
+      {/* <div>Result found {searchResultsLength}</div> */}
+
       <div>
         {finalResults.current.map((result, idx) => {
           // const {
@@ -451,14 +641,14 @@ const SearchContainer3 = (props) => {
               {/* {pageHeader} */}
               <div
                 className={styles.search_result}
-                // onClick={() => {
-                //   documentViewer.setActiveSearchResult(result);
-                //   instance.setZoomLevel(1.5);
-                //   console.log(instance.getZoomLevel());
-                // }}
+                onClick={() => {
+                  SetsearchOnPDF(result);
+                }}
               >
-                <br />
-                <HighlightWord searchWords={keyWord} textToHighlight={result} />
+                <HighlightWord
+                  searchWords={textForSearch}
+                  textToHighlight={result}
+                />
               </div>
             </div>
           );

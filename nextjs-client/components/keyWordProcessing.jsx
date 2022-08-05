@@ -80,9 +80,11 @@ export const similarityCheck = (s1, s2) => {
 
 // use similarityCheck function to check if elements are almost the same, and remove the duplicate.
 export const removeDupicate = (arr) => {
-  for (let i = 0; i < arr.length - 1; i++) {
-    if (similarityCheck(arr[i], arr[i + 1]) > 0.9) {
-      arr.splice(i + 1, 1);
+  for (let i = 0, m = arr.length; i < m; i++) {
+    for (let k = i + 1, j = arr.length - 1; k < j; k++) {
+      if (similarityCheck(arr[i], arr[k]) > 0.9) {
+        arr.splice(k, 1);
+      }
     }
   }
   return arr;

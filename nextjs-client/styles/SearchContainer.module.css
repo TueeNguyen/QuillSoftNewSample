@@ -14,7 +14,10 @@
   outline: none;
   box-shadow: none;
 }
-
+.search_input {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 .search_input * {
   vertical-align: middle;
   box-sizing: content-box;
@@ -25,7 +28,7 @@
 .search_input input {
   border: 1px solid var(--grey-1);
   border-right: none;
-  width: 200px;
+  width: auto;
 }
 
 .search_input input:focus {

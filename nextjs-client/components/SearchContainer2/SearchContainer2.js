@@ -22,6 +22,7 @@ const SearchContainer2 = (props) => {
   const [keywordInUse, SetkeywordInUse] = useState([]);
   const [searchMultipleWords, SetsearchMultipleWords] = useState(false);
   const [searchOnPDF, SetsearchOnPDF] = useState("");
+  const searchResultOnClick = useRef([]);
   const {
     Annotations,
     annotationManager,
@@ -35,6 +36,7 @@ const SearchContainer2 = (props) => {
     keyConceptOnClick,
     keyWord,
     groups,
+    setSearchContainerOpen,
   } = props;
 
   const pageRenderTracker = {};
@@ -93,7 +95,11 @@ const SearchContainer2 = (props) => {
         : SetkeywordInUse(keyWord);
     }
   }, [keyWord, wholeWord]);
-
+  useEffect(() => {
+    if (searchResults != []) {
+      searchResultOnClick.current = searchResults;
+    }
+  }, [searchResults]);
   useEffect(() => {
     if (searchOnPDF != "") {
       performSearch2(searchOnPDF);
@@ -108,27 +114,6 @@ const SearchContainer2 = (props) => {
    * first result is found.
    */
 
-  //highlight colors
-  const color = [
-    "#f3ff33",
-    "#e285f5",
-    "#c8fae9",
-    "#f5e385",
-    "#fe4164",
-    "#fcf7c2",
-    "#9cff33",
-    "#dffac8",
-    "#ff33e9",
-    "#fefce5",
-    "#33fffc",
-    "#33e0ff",
-    "#c8d9fa",
-    "#fac8e9",
-    "#c0f7a7",
-    "#a7f3f7",
-    "#85f5d8",
-    "#85aaf5",
-  ];
   //clear searchResult;
   const clearResult = () => {
     finalResults.current = [];
@@ -178,27 +163,41 @@ const SearchContainer2 = (props) => {
               str += resultAfterMerge[i];
             } else if (resultAfterMerge.length == 2) {
               str += resultAfterMerge[i];
-              str += resultAfterMerge[i + 1];
+              if (!resultAfterMerge[i + 1].toLowerCase().includes(word)) {
+                str += resultAfterMerge[i + 1];
+              }
             } else {
               str += resultAfterMerge[i];
-              str += resultAfterMerge[i + 1];
-              str += resultAfterMerge[i + 2];
+              if (!resultAfterMerge[i + 1].toLowerCase().includes(word)) {
+                str += resultAfterMerge[i + 1];
+              }
+              if (!resultAfterMerge[i + 2].toLowerCase().includes(word)) {
+                str += resultAfterMerge[i + 2];
+              }
             }
           } else if (i == resultAfterMerge.length - 1) {
-            str += resultAfterMerge[i - 1];
+            if (!resultAfterMerge[i - 1].toLowerCase().includes(word)) {
+              str += resultAfterMerge[i - 1];
+            }
             str += resultAfterMerge[i];
           } else {
-            str += resultAfterMerge[i - 1];
+            if (!resultAfterMerge[i - 1].toLowerCase().includes(word)) {
+              str += resultAfterMerge[i - 1];
+            }
             str += resultAfterMerge[i];
-            str += resultAfterMerge[i + 1];
+            if (!resultAfterMerge[i + 1].toLowerCase().includes(word)) {
+              str += resultAfterMerge[i + 1];
+            }
           }
         } else {
           str += resultAfterMerge[i];
         }
         KeyWordSearchResult2.push(str);
-        Resultlength.current = KeyWordSearchResult2;
+        console.log(KeyWordSearchResult2.length);
         const removeDuplicate = removeDupicate(KeyWordSearchResult2);
+        console.log(removeDuplicate.length);
         finalResults.current = removeDuplicate;
+        Resultlength.current = removeDuplicate;
         console.log(finalResults.current);
       }
     }
@@ -286,10 +285,6 @@ const SearchContainer2 = (props) => {
     const fullSearch = true;
     let jumped = false;
 
-    // remove annotations , click on new result will remove previous result highlight
-    const annots = annotationManager.getAnnotationsList();
-    annotationManager.deleteAnnotations(annots);
-
     documentViewer.textSearchInit(tempStrings, mode, {
       fullSearch,
       onResult: (result) => {
@@ -298,6 +293,11 @@ const SearchContainer2 = (props) => {
         const { resultCode, quads, page_num: pageNumber } = result;
         const { e_found: eFound } = window.PDFNet.TextSearch.ResultCode;
         if (resultCode === eFound) {
+          // remove annotations , click on new result will remove previous result highlight
+          if (annotationManager != null) {
+            const annots = annotationManager.getAnnotationsList();
+            annotationManager.deleteAnnotations(annots);
+          }
           const highlight = new Annotations.TextHighlightAnnotation();
           /**
            * The page number in Annotations.TextHighlightAnnotation is not
@@ -305,6 +305,7 @@ const SearchContainer2 = (props) => {
            */
           highlight.setPageNumber(pageNumber);
           highlight.Quads.push(quads[0].getPoints());
+          //  highlight.StrokeColor = new Annotations.Color(255, 0, 0);
           annotationManager.addAnnotation(highlight);
           annotationManager.drawAnnotations(highlight.PageNumber);
           if (!jumped) {
@@ -322,9 +323,11 @@ const SearchContainer2 = (props) => {
         }
       },
     });
-    console.log(searchResults);
-    if (searchResults[0] != undefined) {
-      documentViewer.setActiveSearchResult(searchResults[0]);
+    console.log(searchResultOnClick.current);
+    if (searchResultOnClick.current[0] != undefined) {
+      setSearchContainerOpen(false);
+      documentViewer.setActiveSearchResult(searchResultOnClick.current[0]);
+      console.log(searchResultOnClick[0]);
     }
   };
 
