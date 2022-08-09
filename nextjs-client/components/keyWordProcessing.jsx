@@ -8,6 +8,16 @@ export const breakArryDimension = (longArray) => {
   }
   return tempArray;
 };
+//covert 3d array to 1d, save the first element "keyword " to new array
+export const breakArrayDimension2 = (longArray) => {
+  let tempArray = [];
+  for (let i = 0; i < 3; i++) {
+    if (longArray[i][0] != undefined) {
+      tempArray[i] = longArray[i][0];
+    }
+  }
+  return tempArray;
+};
 
 // to remove similar results , check the similarity (Jaro-Winkler Algorithm)
 export const similarityCheck = (s1, s2) => {
@@ -80,15 +90,27 @@ export const similarityCheck = (s1, s2) => {
 
 // use similarityCheck function to check if elements are almost the same, and remove the duplicate.
 export const removeDupicate = (arr) => {
-  for (let i = 0, m = arr.length; i < m; i++) {
-    for (let k = i + 1, j = arr.length - 1; k < j; k++) {
-      if (similarityCheck(arr[i], arr[k]) > 0.9) {
-        arr.splice(k, 1);
+  if (arr.length === 2) {
+    for (let i = 0, m = arr.length; i < m; i++) {
+      for (let k = i + 1, j = arr.length; k < j; k++) {
+        if (similarityCheck(arr[i], arr[k]) > 0.9) {
+          arr.splice(k, 1);
+        }
+      }
+    }
+  } else {
+    for (let i = 0, m = arr.length; i < m; i++) {
+      for (let k = i + 1, j = arr.length - 1; k < j; k++) {
+        if (similarityCheck(arr[i], arr[k]) > 0.9) {
+          arr.splice(k, 1);
+        }
       }
     }
   }
+
   return arr;
 };
+
 //change array element to meet wholeword search
 export const changeArraytoWholeWord = (arr) => {
   let tempArr = [];

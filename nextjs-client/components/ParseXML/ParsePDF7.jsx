@@ -1,10 +1,11 @@
 import Split from "react-split";
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState, useMemo, useContext } from "react";
 import db from "../db";
 import SearchContainer3 from "../SearchContainer3/SearchContainer3";
 import styles from "../../styles/Home.module.css";
 import { getFullText } from "../keyWordProcessing";
 import img from "../../public/horizontal.png";
+import DataContext from "../context/DataContext";
 export default function ParsePDF7(props) {
   const viewer = useRef(null);
   const searchTerm = useRef(null);
@@ -24,6 +25,8 @@ export default function ParsePDF7(props) {
     props;
   const Annotations = window.Core.Annotations;
 
+  // const value = useContext(DataContext);
+  // console.log(value);
   //get PDF text from XML
   const fullText = useMemo(() => getFullText(xmlData), [xmlData]);
 
@@ -133,7 +136,16 @@ export default function ParsePDF7(props) {
   };
 
   return (
-    <div className={myComponentCss}>
+    <Split
+      className={myComponentCss}
+      sizes={[20, 70, 10]}
+      minSize={10}
+      cursor="col-resize"
+      gutterSize={10}
+      gutterAlign="center"
+      snapOffset={30}
+      dragInterval={1}
+    >
       <SearchContainer3
         Annotations={Annotations}
         annotationManager={annotationManager}
@@ -154,6 +166,7 @@ export default function ParsePDF7(props) {
         ConceptsAndWords={ConceptsAndWords}
       />
       <div className={webviewerCss} ref={viewer}></div>
-    </div>
+      <div>work place</div>
+    </Split>
   );
 }

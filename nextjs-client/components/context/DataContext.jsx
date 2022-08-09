@@ -17,6 +17,7 @@ export const DataProvider = ({ children }) => {
       setKeyWordList(clusters.words[keyWordIndex]);
     }
   }, [keyConceptList]);
+
   return (
     <DataContext.Provider
       value={{

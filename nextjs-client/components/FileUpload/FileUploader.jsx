@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import Dropzone from "react-dropzone";
 import styles from "../../styles/Home.module.css";
-import PDFIcon from "../icons/PDF";
 import StyledButton from "../StyledButton";
 import ProgressBar from "./../ProgressBar/ProgressBar";
 import { fileToBinary } from "./UploadHelper";
@@ -151,7 +150,7 @@ class FileUploader extends Component {
               >
                 <input {...getInputProps()} />
                 <div className={styles.topSection}>
-                  <PDFIcon width={111} height={111} />
+                  <PictureAsPdfIcon width={111} height={111} />
                   <p className={styles.dragLabel}>
                     Drag & Drop a PDF or TEI.XML here
                   </p>

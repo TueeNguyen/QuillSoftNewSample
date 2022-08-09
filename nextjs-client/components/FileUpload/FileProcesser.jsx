@@ -263,7 +263,7 @@ export default class FileProcesser extends React.Component {
               {this.createTreeMap()}
             </Card>
           </Grid> */}
-          <Grid item xs={10}>
+          <Grid item xs={12}>
             <Card className="card-style">
               <CardContent className="card-file-view">
                 {/* <div style={{ marginLeft: "1rem", display: "inline-flex" }}>
