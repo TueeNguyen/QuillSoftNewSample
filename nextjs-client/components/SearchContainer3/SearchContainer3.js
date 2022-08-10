@@ -5,6 +5,7 @@ import HighlightWord from "../HighlightWord/HighlightWord";
 import HighlightWord2 from "../HighlightWord/HighlightWord2";
 import KeyConcepts from "../KeyConcepts/KeyConcepts";
 import KeywordsPanel from "../KeywordsPanel/KeywordsPanel";
+import { Tabs, Tab } from "@mui/material";
 import {
   breakArryDimension,
   removeDupicate,
@@ -26,6 +27,7 @@ const SearchContainer3 = (props) => {
   const [searchMultipleWords, SetsearchMultipleWords] = useState(false);
   const [searchOnPDF, SetsearchOnPDF] = useState("");
   const searchResultOnClick = useRef([]);
+  const [selectedTab, setSelectedTab] = useState(0); // parsePDF7, Tab setting
   const [conceptIndex, setConceptIndex] = useState(null); //ParsePDF7, pass index of clicked concept back to parent component, use it to decide the keyword group
   const [keywordsToPanel, setKeywordsToPanel] = useState([]); //ParsePDF7 , pass keywords to keywordspanel to display list
   const [resultTopanel, setResultTopanel] = useState([]); //ParsePDF7, save search result from perfomr search
@@ -87,6 +89,7 @@ const SearchContainer3 = (props) => {
       let keywordTmp = breakArrayDimension2(
         ConceptsAndWords.words[conceptIndex]
       );
+
       setKeywordsToPanel(keywordTmp);
       settextForSearch(keywordTmp); //set keywords list use on search function
     }
@@ -155,6 +158,11 @@ const SearchContainer3 = (props) => {
    * every result in the state Array `searchResults`, and jumps the user to the
    * first result is found.
    */
+
+  // handle tab selection
+  const handleChange = (event, newValue) => {
+    setSelectedTab(newValue);
+  };
 
   //clear searchResult;
   const clearResult = () => {
@@ -638,7 +646,7 @@ const SearchContainer3 = (props) => {
   }
 
   return (
-    <span className={styles.search_container} ref={searchContainerRef}>
+    <div className={styles.search_container} ref={searchContainerRef}>
       <KeyConcepts
         words={words}
         updateKeyconceptIndex={updateKeyconceptIndex}
@@ -663,107 +671,26 @@ const SearchContainer3 = (props) => {
           </button>
         </span>
       </div>
-      <KeywordsPanel
-        keywordsToPanel={keywordsToPanel}
-        Annotations={Annotations}
-        annotationManager={annotationManager}
-        documentViewer={documentViewer}
-        searchTermRef={searchTerm}
-        resultTopanel={resultTopanel}
-      />
-      {/* <div>
-        <span>
-          <input
-            type="checkbox"
-            value={toggledSearchModes.includes(
-              window.Core.Search.Mode.CASE_SENSITIVE
-            )}
-            onChange={toggleCaseSensitive}
-          />
-          Case sensitive
-        </span>
-        <span>
-          <input
-            type="checkbox"
-            value={toggledSearchModes.includes(
-              window.Core.Search.Mode.WHOLE_WORD
-            )}
-            onChange={toggleWholeWord}
-          />
-          Whole word
-        </span>
-        <span>
-          <input type="checkbox" onChange={changeSearchCase} />
-          Case 1
-        </span>
-      </div> */}
-      <div className="divider"></div>
-      <div className={styles.search_buttons}>
-        {/* <span>
-          <button onClick={clearSearchResults}>
-            <img src="icon-header-clear-search.svg" alt="Clear Search" />
-          </button>
-        </span> */}
-        {/* <span className={styles.search_iterators}>
-          <button
-            onClick={() => {
-              changeActiveSearchResult(activeResultIndex - 1);
-            }}
-            disabled={activeResultIndex < 0}
-          >
-            <img
-              src="ic_chevron_left_black_24px.svg"
-              alt="Previous Search Result"
-            />
-          </button>
-          <button
-            onClick={() => {
-              changeActiveSearchResult(activeResultIndex + 1);
-            }}
-            disabled={activeResultIndex < 0}
-          >
-            <img
-              src="ic_chevron_right_black_24px.svg"
-              alt="Next Search Result"
-            />
-          </button>
-        </span> */}
-      </div>
 
-      {/* <div>Result found {searchResultsLength}</div> */}
-      <div>
-        {finalResults.current.map((result, idx) => {
-          // const {
-          //   ambient_str: ambientStr,
-          //   page_num: pageNum,
-          //   result_str_start: resultStrStart,
-          //   result_str_end: resultStrEnd,
-          // } = result;
+      <Tabs value={selectedTab} onChange={handleChange}>
+        <Tab style={{ minWidth: 105 }} label="High" />
+        <Tab style={{ minWidth: 105 }} label="Medium" />
+        <Tab style={{ minWidth: 105 }} label="low" />
+      </Tabs>
 
-          // let pageHeader = null;
-          // if (!pageRenderTracker[pageNum]) {
-          //   pageRenderTracker[pageNum] = true;
-          //   pageHeader = <div>Page {pageNum}</div>;
-          // }
-          return (
-            <div key={`search-result-${idx}`}>
-              {/* {pageHeader} */}
-              <div
-                className={styles.search_result}
-                onClick={() => {
-                  SetsearchOnPDF(result);
-                }}
-              >
-                {/* <HighlightWord
-                  searchWords={textForSearch}
-                  textToHighlight={result}
-                /> */}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </span>
+      {selectedTab === 0 && (
+        <KeywordsPanel
+          keywordsToPanel={keywordsToPanel}
+          Annotations={Annotations}
+          annotationManager={annotationManager}
+          documentViewer={documentViewer}
+          searchTermRef={searchTerm}
+          resultTopanel={resultTopanel}
+        />
+      )}
+      {selectedTab === 1 && "medium"}
+      {selectedTab === 2 && "Low"}
+    </div>
   );
 };
 

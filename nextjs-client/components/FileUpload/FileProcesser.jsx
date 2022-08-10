@@ -1,21 +1,19 @@
 import React from "react";
 import ParseXML from "./../ParseXML/ParseXML";
-import {
-  Grid,
-  Tooltip,
-  Card,
-  CardContent,
-  Select,
-  MenuItem,
-  Button,
-  Typography,
-} from "@material-ui/core";
-import VisibilityIcon from "@material-ui/icons/Visibility";
-import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import CardContent from "@mui/material/CardContent";
+import Card from "@mui/material/Card";
+import Grid from "@mui/material/Grid";
+import Tooltip from "@mui/material/Tooltip";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import KeywordViewer from "../Viewer/KeywordViewer";
-import AssignmentIcon from "@material-ui/icons/Assignment";
+// import AssignmentIcon from "@material-ui/icons/Assignment";
 import dynamic from "next/dynamic";
-import { Height } from "@material-ui/icons";
+//import { Height } from "@material-ui/icons";
 const TreeMapViewer = dynamic(() => import("../Viewer/TreeMapViewer"), {
   ssr: false,
 });
