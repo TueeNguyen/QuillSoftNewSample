@@ -11,7 +11,7 @@ export const breakArryDimension = (longArray) => {
 //covert 3d array to 1d, save the first element "keyword " to new array
 export const breakArrayDimension2 = (longArray) => {
   let tempArray = [];
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0, j = longArray.length; i < j; i++) {
     if (longArray[i][0] != undefined) {
       tempArray[i] = longArray[i][0];
     }
@@ -25,6 +25,9 @@ export const similarityCheck = (s1, s2) => {
   let i = 0;
   let j = 0;
   let n_trans = 0;
+  if (s1 === undefined || s2 === undefined) {
+    return 0;
+  }
   // Exit early if either are empty.
   if (s1.length === 0 || s2.length === 0) {
     return 0;
@@ -92,7 +95,7 @@ export const similarityCheck = (s1, s2) => {
 export const removeDupicate = (arr) => {
   if (arr.length === 2) {
     for (let i = 0, m = arr.length; i < m; i++) {
-      for (let k = i + 1, j = arr.length; k < j; k++) {
+      for (let k = 1, j = arr.length; k < j; k++) {
         if (similarityCheck(arr[i], arr[k]) > 0.9) {
           arr.splice(k, 1);
         }
@@ -100,7 +103,7 @@ export const removeDupicate = (arr) => {
     }
   } else {
     for (let i = 0, m = arr.length; i < m; i++) {
-      for (let k = i + 1, j = arr.length - 1; k < j; k++) {
+      for (let k = 1, j = arr.length - 1; k < j; k++) {
         if (similarityCheck(arr[i], arr[k]) > 0.9) {
           arr.splice(k, 1);
         }
@@ -143,4 +146,32 @@ export const getFullText = (xmlData) => {
       .get()
   );
   return fullText;
+};
+// split array "a".  "n" is how many chunks need to split to, balanced if set to "true", subarrays' lengths differ as less as possible, else all subarrays but the last have the same length)
+export const chunkify = (a, n, balanced) => {
+  if (n < 2) return [a];
+  let len = a.length,
+    out = [],
+    i = 0,
+    size;
+  if (len % n === 0) {
+    size = Math.floor(len / n);
+    while (i < len) {
+      out.push(a.slice(i, (i += size)));
+    }
+  } else if (balanced) {
+    while (i < len) {
+      size = Math.ceil((len - i) / n--);
+      out.push(a.slice(i, (i += size)));
+    }
+  } else {
+    n--;
+    size = Math.floor(len / n);
+    if (len % size === 0) size--;
+    while (i < size * n) {
+      out.push(a.slice(i, (i += size)));
+    }
+    out.push(a.slice(size * n));
+  }
+  return out;
 };

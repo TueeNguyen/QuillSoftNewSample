@@ -10,7 +10,6 @@ export default function KeywrodResult(props) {
     <div>
       {resultTopanel.length > 0 &&
         resultTopanel[idx].map((result, index) => {
-          console.log(result);
           return (
             <div key={index}>
               <AccordionDetails>
