@@ -3,20 +3,6 @@ export default function HighlightWord(props) {
   const highLightWords = searchWords.filter((keyword) => {
     return keyword !== "";
   });
-  //convert HEX to RGB
-  const convertToRGB = () => {
-    if (this.length != 6) {
-      throw "Only six-digit hex colors are allowed.";
-    }
-
-    var aRgbHex = this.match(/.{1,2}/g);
-    var aRgb = [
-      parseInt(aRgbHex[0], 16),
-      parseInt(aRgbHex[1], 16),
-      parseInt(aRgbHex[2], 16),
-    ];
-    return aRgb;
-  };
   const color = [
     "#f3ff33",
     "#e285f5",
@@ -36,8 +22,20 @@ export default function HighlightWord(props) {
     "#a7f3f7",
     "#85f5d8",
     "#85aaf5",
+    "#eb9234",
+    "#ebc034",
+    "#e5eb34",
+    "#34ebae",
+    "#34c3eb",
+    "#3480eb",
+    "#eb34eb",
+    "#eb34d3",
+    "#eb3471",
+    "#12a325",
+    "#4ca312",
+    "#88a312",
+    "#a34712",
   ];
-  let currentColor = "";
   let tempArray = [];
   let keyValue = 0;
   for (let i = 0; i < highLightWords.length; i++) {

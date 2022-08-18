@@ -89,6 +89,7 @@
 .webviewer2 {
   height: 100vh;
   margin: 0;
+  flex-grow: 6;
 }
 /* ParsePDF4*/
 .MyComponent3 {
@@ -106,4 +107,24 @@
 .newMyComponent {
   display: flex;
   flex-direction: row;
+  flex: 8;
+}
+/* ParsePDF7*/
+.container {
+  display: flex;
+  flex-direction: row;
+}
+/*ParsePDF7*/
+.CloseSearch {
+  display: none;
+}
+.OpenSearch {
+  flex-grow: 3;
+}
+/*ParsePDF7  open/close search panel button*/
+.CloseButton {
+  display: "flex";
+  align-items: "center";
+  flex-wrap: "wrap";
+  min-height: 100vh;
 }

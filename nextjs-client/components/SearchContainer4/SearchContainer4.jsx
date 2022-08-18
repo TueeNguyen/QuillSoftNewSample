@@ -10,7 +10,7 @@ import {
   breakArrayDimension2,
   chunkify,
 } from "../keyWordProcessing";
-const SearchContainer3 = (props) => {
+const SearchContainer4 = (props) => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchResultsLength, setsearchResultsLength] = useState(0);
   const [activeResultIndex, setActiveResultIndex] = useState(-1);
@@ -28,11 +28,7 @@ const SearchContainer3 = (props) => {
   const [selectedTab, setSelectedTab] = useState(0); // parsePDF7, Tab setting
   const [conceptIndex, setConceptIndex] = useState(null); //ParsePDF7, pass index of clicked concept back to parent component, use it to decide the keyword group
   const [keywordsToPanel, setKeywordsToPanel] = useState([]); //ParsePDF7 , pass keywords to keywordspanel to display list(High occurance)
-  const [keywordsToPanelMedium, setKeywordsToPanelMedium] = useState([]); //ParsePDF7 , pass keywords to keywordspanel to display list(Medium occurance)
-  const [keywordsToPanelLow, setKeywordsToPanelLow] = useState([]); //ParsePDF7 , pass keywords to keywordspanel to display list (Low occurance)
   const [resultTopanel, setResultTopanel] = useState([]); //ParsePDF7, save search result from perfomr search(High occurance)
-  const [resultTopanelMedium, setResultTopanelMedium] = useState([]); //ParsePDF7, save search result from perfomr search(Medium occurance)
-  const [resultTopanelLow, setResultTopanelLow] = useState([]); //ParsePDF7, save search result from perfomr search(Low occurance)
 
   const {
     Annotations,
@@ -88,19 +84,12 @@ const SearchContainer3 = (props) => {
   //ParsePDF7 update user selected concept, update keywords list
   useEffect(() => {
     if (ConceptsAndWords.words !== null && conceptIndex !== null) {
-      let keywordTmp = chunkify(
-        breakArrayDimension2(
-          ConceptsAndWords.words[conceptIndex].sort((a, b) => {
-            return b[2] - a[2];
-          })
-        ),
-        3,
-        true
+      let keywordTmp = breakArrayDimension2(
+        ConceptsAndWords.words[conceptIndex].sort((a, b) => {
+          return b[2] - a[2];
+        })
       );
-
-      setKeywordsToPanel(keywordTmp[0]);
-      setKeywordsToPanelMedium(keywordTmp[1]);
-      setKeywordsToPanelLow(keywordTmp[2]);
+      setKeywordsToPanel(keywordTmp);
       settextForSearch(keywordTmp); //set keywords list use on search function
     }
   }, [ConceptsAndWords, conceptIndex]);
@@ -123,32 +112,6 @@ const SearchContainer3 = (props) => {
         temp[i] = removeDupicate(temp[i]);
       }
       setResultTopanel(temp);
-    }
-    if (keywordsToPanelMedium) {
-      let temp = [];
-      for (let i = 0, j = keywordsToPanelMedium.length; i < j; i++) {
-        temp.push(
-          searchFunction2(keywordsToPanelMedium[i], FirstResults.current)
-        );
-        console.log(temp);
-      }
-      console.log(temp);
-      for (let i = 0, j = temp.length; i < j; i++) {
-        temp[i] = removeDupicate(temp[i]);
-      }
-      setResultTopanelMedium(temp);
-    }
-    if (keywordsToPanelLow) {
-      let temp = [];
-      for (let i = 0, j = keywordsToPanelLow.length; i < j; i++) {
-        temp.push(searchFunction2(keywordsToPanelLow[i], FirstResults.current));
-        console.log(temp);
-      }
-      console.log(temp);
-      for (let i = 0, j = temp.length; i < j; i++) {
-        temp[i] = removeDupicate(temp[i]);
-      }
-      setResultTopanelLow(temp);
     }
   }, [keywordsToPanel]);
   //keyword trigger search function
@@ -698,43 +661,14 @@ const SearchContainer3 = (props) => {
           </button>
         </span>
       </div>
-
-      <Tabs value={selectedTab} onChange={handleChange}>
-        <Tab style={{ minWidth: 105 }} label="High" />
-        <Tab style={{ minWidth: 105 }} label="Medium" />
-        <Tab style={{ minWidth: 105 }} label="low" />
-      </Tabs>
-
-      {selectedTab === 0 && (
-        <KeywordsPanel
-          keywordsToPanel={keywordsToPanel}
-          Annotations={Annotations}
-          annotationManager={annotationManager}
-          documentViewer={documentViewer}
-          searchTermRef={searchTerm}
-          resultTopanel={resultTopanel}
-        />
-      )}
-      {selectedTab === 1 && (
-        <KeywordsPanel
-          keywordsToPanel={keywordsToPanelMedium}
-          Annotations={Annotations}
-          annotationManager={annotationManager}
-          documentViewer={documentViewer}
-          searchTermRef={searchTerm}
-          resultTopanel={resultTopanelMedium}
-        />
-      )}
-      {selectedTab === 2 && (
-        <KeywordsPanel
-          keywordsToPanel={keywordsToPanelLow}
-          Annotations={Annotations}
-          annotationManager={annotationManager}
-          documentViewer={documentViewer}
-          searchTermRef={searchTerm}
-          resultTopanel={resultTopanelLow}
-        />
-      )}
+      <KeywordsPanel
+        keywordsToPanel={keywordsToPanel}
+        Annotations={Annotations}
+        annotationManager={annotationManager}
+        documentViewer={documentViewer}
+        searchTermRef={searchTerm}
+        resultTopanel={resultTopanel}
+      />
     </div>
   );
 };

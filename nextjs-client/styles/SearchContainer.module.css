@@ -1,11 +1,10 @@
 .search_container {
   overflow: auto;
-  flex: 1;
   background-color: var(--search-background);
   padding: 1em;
-  min-width: 293px;
+  max-width: 293px;
   overflow-y: scroll;
-  max-height: 100vh;
+  height: 100vh;
 }
 
 .search_container button {

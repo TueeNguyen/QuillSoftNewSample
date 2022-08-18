@@ -32,6 +32,9 @@ export default function KeywordsPanel(props) {
                   keywordsToPanel={keywordsToPanel}
                   resultTopanel={resultTopanel}
                   idx={idx}
+                  Annotations={Annotations}
+                  annotationManager={annotationManager}
+                  documentViewer={documentViewer}
                 />
               </Accordion>
             </div>
