@@ -1,9 +1,21 @@
 export default function HighlightWord(props) {
-  const { searchWords, textToHighlight } = props;
-  const highLightWords = searchWords.filter((keyword) => {
-    return keyword !== "";
-  });
+  const { searchWords, textToHighlight, keyWordSelected } = props;
+  let subString = [];
+  // searchWords.forEach((element, index) => {
+  //   if (keyWordSelected.includes(element) && keyWordSelected != element) {
+  //     subString.push(element);
+  //     searchWords.splice(index, 1);
+  //   }
+  // });
+  console.log(searchWords);
+  const highLightWords = searchWords
+    .filter((keyword) => {
+      return keyword !== "";
+    })
+    .sort((i, j) => j.length - i.length);
+  console.log(highLightWords);
   const color = [
+    "#a34712",
     "#f3ff33",
     "#e285f5",
     "#c8fae9",
@@ -34,7 +46,8 @@ export default function HighlightWord(props) {
     "#12a325",
     "#4ca312",
     "#88a312",
-    "#a34712",
+
+    ,
   ];
   let tempArray = [];
   let keyValue = 0;
@@ -42,13 +55,12 @@ export default function HighlightWord(props) {
     tempArray[i] = [highLightWords[i], color[i]];
   }
 
-  return textToHighlight && searchWords.length ? (
+  return textToHighlight && highLightWords.length ? (
     <div>
       {textToHighlight
-        .toLowerCase()
         .split(
           new RegExp(
-            `(?<=${highLightWords.join("|")})|(?=${highLightWords.join("|")})`
+            `(\b?<=${highLightWords.join("|")})|(?=${highLightWords.join("|")})`
           )
         )
         .map((str) => {
@@ -57,7 +69,6 @@ export default function HighlightWord(props) {
             for (let i = 0; i < tempArray.length; i++) {
               if (tempArray[i][0] == str) {
                 colorIndex = i;
-                // currentColor = color[colorIndex].substring(1).convertToRGB();
               }
             }
             return (
@@ -66,6 +77,7 @@ export default function HighlightWord(props) {
                 style={{ backgroundColor: color[colorIndex] }}
               >
                 {str}
+                {console.log(str)}
               </span>
             );
           } else {
@@ -77,3 +89,5 @@ export default function HighlightWord(props) {
     <>{textToHighlight || ""}</>
   );
 }
+
+//(\btest[\s.])

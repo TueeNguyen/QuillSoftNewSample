@@ -13,6 +13,7 @@ export default function KeywordsPanel(props) {
     searchTermRef: searchTerm,
     keywordsToPanel,
     resultTopanel,
+    instance,
   } = props;
   return (
     <div>
@@ -26,7 +27,7 @@ export default function KeywordsPanel(props) {
                   aria-controls="panel1a-content"
                   style={{ width: "100%", padding: "0.5rem" }}
                 >
-                  <Typography>{result}</Typography>
+                  <Typography component={"div"}>{result}</Typography>
                 </AccordionSummary>
                 <KeywrodResult
                   keywordsToPanel={keywordsToPanel}
@@ -35,6 +36,8 @@ export default function KeywordsPanel(props) {
                   Annotations={Annotations}
                   annotationManager={annotationManager}
                   documentViewer={documentViewer}
+                  instance={instance}
+                  keyWordSelected={result}
                 />
               </Accordion>
             </div>

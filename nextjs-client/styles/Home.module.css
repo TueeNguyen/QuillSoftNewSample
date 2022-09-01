@@ -116,10 +116,10 @@
 }
 /*ParsePDF7*/
 .CloseSearch {
-  display: none;
+  width: 100%;
 }
 .OpenSearch {
-  flex-grow: 3;
+  width: 100%;
 }
 /*ParsePDF7  open/close search panel button*/
 .CloseButton {
@@ -127,4 +127,9 @@
   align-items: "center";
   flex-wrap: "wrap";
   min-height: 100vh;
+}
+
+/*ParsePDF7  open/close webviewer*/
+.CloseViewer {
+  display: none;
 }

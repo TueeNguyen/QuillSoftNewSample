@@ -2,7 +2,8 @@
   overflow: auto;
   background-color: var(--search-background);
   padding: 1em;
-  max-width: 293px;
+  min-width: 293px;
+  flex: 1;
   overflow-y: scroll;
   height: 100vh;
 }

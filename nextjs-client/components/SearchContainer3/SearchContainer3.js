@@ -387,6 +387,9 @@ const SearchContainer3 = (props) => {
   };
   const searchFunction2 = (word, array1) => {
     let temp = [];
+    //search whole word, another option will be const regex = new RegExp(String.raw`\${word}[\s.]`);
+    const regex = new RegExp(String.raw`\s${word}[^a-zA-Z0-9]`);
+
     for (let i = 0; i < array1.length; i++) {
       let str = "";
       //check if search keyword with case-insensitive
@@ -395,8 +398,10 @@ const SearchContainer3 = (props) => {
           ? array1[i].includes(word)
           : array1[i].toLowerCase().includes(word)
       ) {
-        str += array1[i];
-        temp.push(str);
+        if (regex.test(array1[i].toLowerCase()) === true) {
+          str += array1[i];
+          temp.push(str);
+        }
       }
     }
     return temp;
@@ -713,6 +718,7 @@ const SearchContainer3 = (props) => {
           documentViewer={documentViewer}
           searchTermRef={searchTerm}
           resultTopanel={resultTopanel}
+          instance={instance}
         />
       )}
       {selectedTab === 1 && (
@@ -723,6 +729,7 @@ const SearchContainer3 = (props) => {
           documentViewer={documentViewer}
           searchTermRef={searchTerm}
           resultTopanel={resultTopanelMedium}
+          instance={instance}
         />
       )}
       {selectedTab === 2 && (
@@ -733,6 +740,7 @@ const SearchContainer3 = (props) => {
           documentViewer={documentViewer}
           searchTermRef={searchTerm}
           resultTopanel={resultTopanelLow}
+          instance={instance}
         />
       )}
     </div>

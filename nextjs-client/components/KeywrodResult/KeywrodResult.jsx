@@ -12,6 +12,7 @@ export default function KeywrodResult(props) {
     Annotations,
     annotationManager,
     documentViewer,
+    keyWordSelected,
   } = props;
   const [toggledSearchModes, setToggledSearchModes] = useState([]);
   /**
@@ -63,6 +64,7 @@ export default function KeywrodResult(props) {
           annotationManager.drawAnnotations(highlight.PageNumber);
         }
         documentViewer.setActiveSearchResult(result);
+        instance.setZoomLevel(instance.getZoomLevel() + 1);
       },
     });
   };
@@ -82,16 +84,12 @@ export default function KeywrodResult(props) {
                   }}
                   style={{ cursor: "pointer" }}
                 >
-                  <Typography>
-                    {/* <Highlighted
-                      text={result}
-                      highlight={keywordsToPanel[idx]}
-                      style={{ cursor: "pointer" }}
-                    /> */}
+                  <Typography component="span">
                     <HighlightWord
                       searchWords={keywordsToPanel}
                       textToHighlight={result}
                       style={{ cursor: "pointer" }}
+                      keyWordSelected={keyWordSelected}
                     />
                   </Typography>
                 </span>

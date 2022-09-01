@@ -27,7 +27,7 @@ export default function ParsePDF7(props) {
   const { keyWord, xmlData, keyConcept, groups, words, ConceptsAndWords } =
     props;
   const Annotations = window.Core.Annotations;
-
+  console.log(ConceptsAndWords);
   //get PDF text from XML
   const fullText = useMemo(() => getFullText(xmlData), [xmlData]);
 
@@ -155,37 +155,39 @@ export default function ParsePDF7(props) {
 
   return (
     <div className={styles.container}>
-      <span className={openSearchPanel == false && styles.CloseSearch}>
-        <SearchContainer3
-          Annotations={Annotations}
-          annotationManager={annotationManager}
-          documentViewer={documentViewer}
-          searchTermRef={searchTerm}
-          searchContainerRef={searchContainerRef}
-          open={searchContainerOpen}
-          keyWord={newKeyWrod}
-          className={searchPanelCss}
-          searchButton={searchButton}
-          fullText={fullText}
-          instance={instance}
-          groups={groups}
-          keyConceptOnClick={keyConceptOnClick}
-          // style={{ flexGrow: 3 }}
-          setSearchContainerOpen={setSearchContainerOpen}
-          words={words}
-          ConceptsAndWords={ConceptsAndWords}
-        />
-      </span>
+      <SearchContainer3
+        Annotations={Annotations}
+        annotationManager={annotationManager}
+        documentViewer={documentViewer}
+        searchTermRef={searchTerm}
+        searchContainerRef={searchContainerRef}
+        open={searchContainerOpen}
+        keyWord={newKeyWrod}
+        className={searchPanelCss}
+        searchButton={searchButton}
+        fullText={fullText}
+        instance={instance}
+        groups={groups}
+        keyConceptOnClick={keyConceptOnClick}
+        style={{ flexGrow: 8 }}
+        setSearchContainerOpen={setSearchContainerOpen}
+        words={words}
+        ConceptsAndWords={ConceptsAndWords}
+      />
+
       <div
         className={styles.CloseButton}
         onClick={() => {
           setSearchPanel((prevState) => !prevState);
         }}
       >
-        {openSearchPanel ? <ArrowCircleLeftIcon /> : <ArrowCircleRightIcon />}
+        {openSearchPanel ? <ArrowCircleRightIcon /> : <ArrowCircleLeftIcon />}
       </div>
 
-      <div className={webviewerCss} ref={viewer}></div>
+      <div
+        className={openSearchPanel ? webviewerCss : styles.CloseViewer}
+        ref={viewer}
+      ></div>
     </div>
   );
 }
