@@ -1,12 +1,5 @@
 export default function HighlightWord(props) {
   const { searchWords, textToHighlight, keyWordSelected } = props;
-  let subString = [];
-  // searchWords.forEach((element, index) => {
-  //   if (keyWordSelected.includes(element) && keyWordSelected != element) {
-  //     subString.push(element);
-  //     searchWords.splice(index, 1);
-  //   }
-  // });
   console.log(searchWords);
   const highLightWords = searchWords
     .filter((keyword) => {
@@ -15,6 +8,10 @@ export default function HighlightWord(props) {
     .sort((i, j) => j.length - i.length);
   console.log(highLightWords);
   const color = [
+    "#eb3471",
+    "#12a325",
+    "#4ca312",
+    "#88a312",
     "#a34712",
     "#f3ff33",
     "#e285f5",
@@ -42,12 +39,6 @@ export default function HighlightWord(props) {
     "#3480eb",
     "#eb34eb",
     "#eb34d3",
-    "#eb3471",
-    "#12a325",
-    "#4ca312",
-    "#88a312",
-
-    ,
   ];
   let tempArray = [];
   let keyValue = 0;
@@ -60,7 +51,10 @@ export default function HighlightWord(props) {
       {textToHighlight
         .split(
           new RegExp(
-            `(\b?<=${highLightWords.join("|")})|(?=${highLightWords.join("|")})`
+            `(\b?<=${highLightWords.join("|")})|(?=${highLightWords.join(
+              "|"
+            )})`,
+            "i"
           )
         )
         .map((str) => {
@@ -74,7 +68,15 @@ export default function HighlightWord(props) {
             return (
               <span
                 key={`${str}` + `${keyValue++}`}
-                style={{ backgroundColor: color[colorIndex] }}
+                style={
+                  str === keyWordSelected
+                    ? {
+                        backgroundColor: color[colorIndex],
+                        fontWeight: "bold",
+                        fontSize: "110%",
+                      }
+                    : { backgroundColor: color[colorIndex] }
+                }
               >
                 {str}
                 {console.log(str)}
