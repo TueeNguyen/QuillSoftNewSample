@@ -1,12 +1,11 @@
 export default function HighlightWord(props) {
   const { searchWords, textToHighlight, keyWordSelected } = props;
-  console.log(searchWords);
   const highLightWords = searchWords
     .filter((keyword) => {
       return keyword !== "";
     })
     .sort((i, j) => j.length - i.length);
-  console.log(highLightWords);
+  //highlight color array
   const color = [
     "#eb3471",
     "#12a325",
@@ -40,6 +39,7 @@ export default function HighlightWord(props) {
     "#eb34eb",
     "#eb34d3",
   ];
+  //pair key words and color and save it to array
   let tempArray = [];
   let keyValue = 0;
   for (let i = 0; i < highLightWords.length; i++) {
@@ -91,5 +91,3 @@ export default function HighlightWord(props) {
     <>{textToHighlight || ""}</>
   );
 }
-
-//(\btest[\s.])

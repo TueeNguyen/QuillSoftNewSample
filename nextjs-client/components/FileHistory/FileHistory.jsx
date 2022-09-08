@@ -1,5 +1,6 @@
 import React from "react";
 import FileProcesser from "../FileUpload/FileProcesser";
+import FileProcesser2 from "../FileUpload/FileProcesser2";
 import _ from "lodash";
 import { isEqual } from "lodash/isEqual";
 
@@ -53,7 +54,12 @@ export default class FileHistory extends React.Component {
   render() {
     return (
       <>
-        <FileProcesser
+        {/* <FileProcesser
+          clusters={this.props.clusters}
+          data={this.props.data}
+          file={this.props.file}
+        /> */}
+        <FileProcesser2
           clusters={this.props.clusters}
           data={this.props.data}
           file={this.props.file}

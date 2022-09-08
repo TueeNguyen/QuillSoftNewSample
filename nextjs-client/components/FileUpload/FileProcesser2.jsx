@@ -1,5 +1,5 @@
 import React from "react";
-import ParseXML from "./../ParseXML/ParseXML";
+import ParseXML from "../ParseXML/ParseXML";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
@@ -28,7 +28,7 @@ const REACT_VERSION = React.version;
  * - create treemap data and passes to TreeMapViewer with occurences
  * - passes concepts from clusters to KeyWordViewer
  */
-export default class FileProcesser extends React.Component {
+export default class FileProcesser2 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -235,7 +235,7 @@ export default class FileProcesser extends React.Component {
             padding: "1rem",
           }}
         >
-          <Grid item xs={4}>
+          {/* <Grid item xs={4}>
             <Card
               className="card-style"
               style={{ height: "100vh", overflow: "scroll" }}
@@ -260,8 +260,8 @@ export default class FileProcesser extends React.Component {
 
               {this.createTreeMap()}
             </Card>
-          </Grid>
-          <Grid item xs={8}>
+          </Grid> */}
+          <Grid item xs={12}>
             <Card className="card-style">
               <CardContent className="card-file-view">
                 {/* <div style={{ marginLeft: "1rem", display: "inline-flex" }}>
