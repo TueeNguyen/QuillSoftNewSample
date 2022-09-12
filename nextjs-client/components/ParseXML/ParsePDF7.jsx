@@ -1,9 +1,13 @@
-import { useEffect, useRef, useState, useMemo } from "react";
+import Split from "react-split";
+import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
+import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import { useEffect, useRef, useState, useMemo, useContext } from "react";
 import db from "../db";
-import SearchContainer2 from "../SearchContainer2/SearchContainer2";
+import SearchContainer3 from "../SearchContainer3/SearchContainer3";
 import styles from "../../styles/Home.module.css";
 import { getFullText } from "../keyWordProcessing";
-export default function ParsePDF6(props) {
+
+export default function ParsePDF7(props) {
   const viewer = useRef(null);
   const searchTerm = useRef(null);
   const scrollView = useRef(null);
@@ -12,15 +16,18 @@ export default function ParsePDF6(props) {
   const [instance, Setinstance] = useState(null);
   const [documentViewer, setDocumentViewer] = useState(null);
   const [annotationManager, setAnnotationManager] = useState(null);
-  const [searchContainerOpen, setSearchContainerOpen] = useState(false);
+  const [searchContainerOpen, setSearchContainerOpen] = useState(true);
   const [searchPanelCss, setsearchPanelCss] = useState(styles.searchPanelleft);
-  const [myComponentCss, SetmyComponentCss] = useState(styles.MyComponent);
-  const [webviewerCss, SetwebviewerCss] = useState(styles.webviewer);
+  const [myComponentCss, SetmyComponentCss] = useState(styles.newMyComponent);
+  const [webviewerCss, SetwebviewerCss] = useState(styles.webviewer2);
   const [keyConceptOnClick, SetkeyConceptOnClick] = useState("");
   const [newKeyWrod, SetnewKeyWrod] = useState([]);
-  const { keyWord, xmlData, keyConcept, groups } = props;
+  const [openSearchPanel, setSearchPanel] = useState(true);
+  const [notesPanel, setNotesPanel] = useState(false);
+  const { keyWord, xmlData, keyConcept, groups, words, ConceptsAndWords } =
+    props;
   const Annotations = window.Core.Annotations;
-
+  console.log(ConceptsAndWords);
   //get PDF text from XML
   const fullText = useMemo(() => getFullText(xmlData), [xmlData]);
 
@@ -50,6 +57,9 @@ export default function ParsePDF6(props) {
           }
         };
 
+        const closeNotesPanel = () => {
+          setNotesPanel((prevState) => !prevState);
+        };
         //Display uploaded file , receive file from FileUploader.jsx
         db.recentFiles
           .orderBy("created_at")
@@ -90,9 +100,15 @@ export default function ParsePDF6(props) {
               ref: searchButton,
               dataElement: "searchPanelButton",
             },
+            {
+              type: "actionButton",
+              img: "icon-header-chat-line",
+              onClick: closeNotesPanel,
+              dataElement: "notesPanel",
+            },
           ]);
         });
-        console.log(viewer.current);
+
         documentViewer.addEventListener("documentLoaded", () => {
           instance.setZoomLevel(instance.getZoomLevel() * 0.85);
           // instance.UI.addSearchListener(searchListener());
@@ -102,6 +118,14 @@ export default function ParsePDF6(props) {
       });
     });
   }, []);
+  //comment "notes panel" open/close
+  useEffect(() => {
+    if (instance !== null) {
+      notesPanel
+        ? instance.UI.openElements(["menuOverlay", "notesPanel"])
+        : instance.UI.closeElements(["menuOverlay", "notesPanel"]);
+    }
+  }, [notesPanel]);
 
   useEffect(() => {
     if (keyWord != "" && searchTerm.current == null) {
@@ -130,8 +154,8 @@ export default function ParsePDF6(props) {
   };
 
   return (
-    <div className={myComponentCss}>
-      <SearchContainer2
+    <div className={styles.container}>
+      <SearchContainer3
         Annotations={Annotations}
         annotationManager={annotationManager}
         documentViewer={documentViewer}
@@ -145,13 +169,24 @@ export default function ParsePDF6(props) {
         instance={instance}
         groups={groups}
         keyConceptOnClick={keyConceptOnClick}
-        style={{ flexGrow: 3 }}
+        style={{ flexGrow: 8 }}
         setSearchContainerOpen={setSearchContainerOpen}
+        words={words}
+        ConceptsAndWords={ConceptsAndWords}
       />
+
       <div
-        className={webviewerCss}
+        className={styles.CloseButton}
+        onClick={() => {
+          setSearchPanel((prevState) => !prevState);
+        }}
+      >
+        {openSearchPanel ? <ArrowCircleRightIcon /> : <ArrowCircleLeftIcon />}
+      </div>
+
+      <div
+        className={openSearchPanel ? webviewerCss : styles.CloseViewer}
         ref={viewer}
-        //style={{ display: "none" }}
       ></div>
     </div>
   );

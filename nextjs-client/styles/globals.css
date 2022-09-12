@@ -15,12 +15,6 @@ a {
   box-sizing: border-box;
 }
 
-button {
-  outline: none;
-  background-color: transparent;
-  border: none;
-}
-
 @import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;1,200;1,300;1,400;1,600;1,700&family=Roboto&display=swap");
 
 body {
@@ -152,4 +146,11 @@ body {
 
 .card-scroll::-webkit-scrollbar {
   display: none;
+}
+.gutter {
+  background-color: red;
+  background-repeat: no-repeat;
+  background-position: 10%;
+  height: 100px;
+  width: 100px;
 }

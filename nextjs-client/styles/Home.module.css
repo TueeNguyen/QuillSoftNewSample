@@ -87,8 +87,9 @@
   height: 100vh;
 }
 .webviewer2 {
-  flex-grow: 4;
   height: 100vh;
+  margin: 0;
+  flex-grow: 6;
 }
 /* ParsePDF4*/
 .MyComponent3 {
@@ -97,4 +98,38 @@
 .MyComponent3_1 {
   height: auto;
   width: 600px;
+}
+.testResize {
+  display: flex;
+  flex-direction: row;
+}
+/*ParsePDF7*/
+.newMyComponent {
+  display: flex;
+  flex-direction: row;
+  flex: 8;
+}
+/* ParsePDF7*/
+.container {
+  display: flex;
+  flex-direction: row;
+}
+/*ParsePDF7*/
+.CloseSearch {
+  width: 100%;
+}
+.OpenSearch {
+  width: 100%;
+}
+/*ParsePDF7  open/close search panel button*/
+.CloseButton {
+  display: "flex";
+  align-items: "center";
+  flex-wrap: "wrap";
+  min-height: 100vh;
+}
+
+/*ParsePDF7  open/close webviewer*/
+.CloseViewer {
+  display: none;
 }

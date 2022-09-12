@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styles from '../../styles/SearchContainer.module.css';
-import Highlighter from 'react-highlight-words';
-import { colors } from '@material-ui/core';
+import React, { useState, useEffect, useRef } from "react";
+import styles from "../../styles/SearchContainer.module.css";
+import Highlighter from "react-highlight-words";
+import { colors } from "@material-ui/core";
 const SearchContainer = (props) => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchResultsLength, setsearchResultsLength] = useState(0);
   const [activeResultIndex, setActiveResultIndex] = useState(-1);
   const [toggledSearchModes, setToggledSearchModes] = useState([]);
-  const [textForSearch, settextForSearch] = useState('');
-  const [keyConceptForSearch, SetkeyConceptForSearch] = useState('');
+  const [textForSearch, settextForSearch] = useState("");
+  const [keyConceptForSearch, SetkeyConceptForSearch] = useState("");
   const [searchResultChange, setsearchResultChange] = useState(false);
   const [caseSensitive, SetcaseSensitive] = useState(false);
   const [wholeWord, SetwholeWord] = useState(false);
@@ -41,7 +41,7 @@ const SearchContainer = (props) => {
   }, [searchResultChange]);
   //keyconcept fire first level search
   useEffect(() => {
-    if (keyConceptOnClick != '') {
+    if (keyConceptOnClick != "") {
       SetkeyConceptForSearch(keyConceptOnClick);
     }
   }, [keyConceptOnClick]);
@@ -50,14 +50,14 @@ const SearchContainer = (props) => {
   }, [keyConceptForSearch]);
   //keyword trigger search function
   useEffect(() => {
-    if (textForSearch != '') {
+    if (textForSearch != "") {
       searchFunction(textForSearch, FirstResults.current);
       performSearch();
     }
   }, [textForSearch]);
 
   useEffect(() => {
-    if (textForSearch != '') {
+    if (textForSearch != "") {
       searchFunction(textForSearch, FirstResults.current);
       performSearch();
     }
@@ -75,16 +75,16 @@ const SearchContainer = (props) => {
 
   //count word function , check search result length.
   const wordCount = (str) => {
-    const arr = str.split(' ');
+    const arr = str.split(" ");
 
-    return arr.filter((word) => word !== '').length;
+    return arr.filter((word) => word !== "").length;
   };
 
   //further level search, break down search result
   const furtherSearch = (word, resultAfterMerge) => {
     //further search on previous result.
     for (let i = 0; i < resultAfterMerge.length; i++) {
-      let str = '';
+      let str = "";
 
       if (
         caseSensitive == true
@@ -122,7 +122,7 @@ const SearchContainer = (props) => {
   // search key word function, after search on key concept
   const searchFunction = (word, array) => {
     for (let i = 0; i < array.length; i++) {
-      let str = '';
+      let str = "";
 
       //check if search keyword with case-insensitive
       if (
@@ -136,7 +136,7 @@ const SearchContainer = (props) => {
     }
     //use ".?!" break down long text to short sentences
     let breakLongText = SearchResultLong.map((element) => {
-      return element.replace(/([.?!])\s*(?=[A-Z])/g, '$1@').split('@');
+      return element.replace(/([.?!])\s*(?=[A-Z])/g, "$1@").split("@");
     });
     // merge result arrays to one array
     let resultAfterMerge = [];
@@ -150,14 +150,14 @@ const SearchContainer = (props) => {
   const searchOnKeyConcept = (concept) => {
     let tempArray = [];
     for (let i = 0; i < fullText.length; i++) {
-      let str = '';
+      let str = "";
       if (fullText[i].toLowerCase().includes(concept)) {
         str += fullText[i];
         tempArray.push(str);
       }
     }
     let breakLongText = tempArray.map((element) => {
-      return element.replace(/([.?!])\s*(?=[A-Z])/g, '$1@').split('@');
+      return element.replace(/([.?!])\s*(?=[A-Z])/g, "$1@").split("@");
     });
     let resultAfterMerge = [];
     for (let i = 0; i < breakLongText.length; i++) {
@@ -181,7 +181,7 @@ const SearchContainer = (props) => {
     const fullSearch = true;
     let jumped = false;
     if (wholeWord) {
-      settextForSearch(' ' + textToSearch + ' ');
+      settextForSearch(" " + textToSearch + " ");
     } else {
       settextForSearch(textToSearch);
     }
@@ -231,7 +231,7 @@ const SearchContainer = (props) => {
    */
   const clearSearchResults = (clearSearchTermValue = true) => {
     if (clearSearchTermValue) {
-      searchTerm.current.value = '';
+      searchTerm.current.value = "";
     }
     documentViewer.clearSearchResults();
     if (annotationManager != null) {
@@ -329,18 +329,18 @@ const SearchContainer = (props) => {
       <div className={styles.search_input}>
         <input
           ref={searchTerm}
-          type={'text'}
-          placeholder={'Search'}
+          type={"text"}
+          placeholder={"Search"}
           onKeyUp={listenForEnter}
         />
         <button onClick={performSearch} ref={searchButton}>
-          <img src='ic_search_black_24px.svg' alt='Search' />
+          <img src="ic_search_black_24px.svg" alt="Search" />
         </button>
       </div>
       <div>
         <span>
           <input
-            type='checkbox'
+            type="checkbox"
             value={toggledSearchModes.includes(
               window.Core.Search.Mode.CASE_SENSITIVE
             )}
@@ -350,7 +350,7 @@ const SearchContainer = (props) => {
         </span>
         <span>
           <input
-            type='checkbox'
+            type="checkbox"
             value={toggledSearchModes.includes(
               window.Core.Search.Mode.WHOLE_WORD
             )}
@@ -359,11 +359,11 @@ const SearchContainer = (props) => {
           Whole word
         </span>
       </div>
-      <div className='divider'></div>
+      <div className="divider"></div>
       <div className={styles.search_buttons}>
         <span>
           <button onClick={clearSearchResults}>
-            <img src='icon-header-clear-search.svg' alt='Clear Search' />
+            <img src="icon-header-clear-search.svg" alt="Clear Search" />
           </button>
         </span>
         <span className={styles.search_iterators}>
@@ -374,8 +374,8 @@ const SearchContainer = (props) => {
             disabled={activeResultIndex < 0}
           >
             <img
-              src='ic_chevron_left_black_24px.svg'
-              alt='Previous Search Result'
+              src="ic_chevron_left_black_24px.svg"
+              alt="Previous Search Result"
             />
           </button>
           <button
@@ -385,8 +385,8 @@ const SearchContainer = (props) => {
             disabled={activeResultIndex < 0}
           >
             <img
-              src='ic_chevron_right_black_24px.svg'
-              alt='Next Search Result'
+              src="ic_chevron_right_black_24px.svg"
+              alt="Next Search Result"
             />
           </button>
         </span>
@@ -413,13 +413,11 @@ const SearchContainer = (props) => {
                 className={styles.search_result}
                 onClick={() => {
                   documentViewer.setActiveSearchResult(result);
-                  instance.setZoomLevel(1.5);
-                  console.log(instance.getZoomLevel());
                 }}
               >
                 <br />
                 <Highlighter
-                  highlightClassName='YourHighlightClass'
+                  highlightClassName="YourHighlightClass"
                   searchWords={[textForSearch]}
                   autoEscape={true}
                   textToHighlight={finalResults.current[idx]}
