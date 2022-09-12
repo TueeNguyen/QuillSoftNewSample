@@ -4,26 +4,17 @@ import KeyConcepts from "../KeyConcepts/KeyConcepts";
 import KeywordsPanel from "../KeywordsPanel/KeywordsPanel";
 import { Tabs, Tab } from "@mui/material";
 import {
-  breakArryDimension,
   removeDupicate,
-  changeArraytoWholeWord,
   breakArrayDimension2,
   chunkify,
 } from "../keyWordProcessing";
 const SearchContainer3 = (props) => {
   const [searchResults, setSearchResults] = useState([]);
-  const [searchResultsLength, setsearchResultsLength] = useState(0);
-  const [activeResultIndex, setActiveResultIndex] = useState(-1);
   const [toggledSearchModes, setToggledSearchModes] = useState([]);
-  const [textForSearch, settextForSearch] = useState("");
-  const [keyConceptForSearch, SetkeyConceptForSearch] = useState("");
-  const [searchResultChange, setsearchResultChange] = useState(false);
-  const [keyWords, SetkeyWords] = useState([]);
+
   const [caseSensitive, SetcaseSensitive] = useState(false);
   const [wholeWord, SetwholeWord] = useState(false);
   const [keywordInUse, SetkeywordInUse] = useState([]);
-  const [searchMultipleWords, SetsearchMultipleWords] = useState(false);
-  const [searchOnPDF, SetsearchOnPDF] = useState("");
   const searchResultOnClick = useRef([]);
   const [selectedTab, setSelectedTab] = useState(0); // parsePDF7, Tab setting
   const [conceptIndex, setConceptIndex] = useState(null); //ParsePDF7, pass index of clicked concept back to parent component, use it to decide the keyword group
@@ -44,47 +35,18 @@ const SearchContainer3 = (props) => {
     searchButton,
     fullText,
     instance,
-    keyConceptOnClick,
-    keyWord,
-    groups,
     setSearchContainerOpen,
     words,
     ConceptsAndWords,
   } = props;
 
-  const pageRenderTracker = {};
   const KeyWordSearchResult = []; // keyword search result
   const KeyWordSearchResult2 = []; // perform further search on KeyWordSearchResult , break down long search result
   const FirstResults = useRef([]);
   const secondResults = useRef([]);
   const finalResults = useRef(KeyWordSearchResult2);
   const Resultlength = useRef(0);
-  // const resultFromSearchFunction2 = useRef([]); //ParsePDF7 save search result
 
-  /**
-   * Coupled with the function `changeActiveSearchResult`
-   */
-  // useEffect(() => {
-  //   if (activeResultIndex >= 0 && activeResultIndex < searchResults.length) {
-  //     documentViewer.setActiveSearchResult(searchResults[activeResultIndex]);
-  //   }
-  // }, [activeResultIndex]);
-  //display found result amount
-  // useEffect(() => {
-  //   setsearchResultsLength(Resultlength.current.length);
-  //   console.log(finalResults.current);
-  // }, [searchResultChange]);
-  //keyconcept fire first level search
-  // useEffect(() => {
-  //   if (keyConceptOnClick != "") {
-  //     clearSearchResults();
-  //     SetkeyConceptForSearch(keyConceptOnClick);
-  //     SetkeyWords(breakArryDimension(groups));
-  //   }
-  // }, [keyConceptOnClick]);
-  useEffect(() => {
-    searchOnKeyConcept(keyConceptForSearch);
-  }, [keyConceptForSearch]);
   //ParsePDF7 update user selected concept, update keywords list
   useEffect(() => {
     if (ConceptsAndWords.words !== null && conceptIndex !== null) {
@@ -101,7 +63,6 @@ const SearchContainer3 = (props) => {
       setKeywordsToPanel(keywordTmp[0]);
       setKeywordsToPanelMedium(keywordTmp[1]);
       setKeywordsToPanelLow(keywordTmp[2]);
-      settextForSearch(keywordTmp); //set keywords list use on search function
     }
   }, [ConceptsAndWords, conceptIndex]);
   //ParsePDF7 search on selected keyconcept,"FirstResults" save the search result
@@ -151,43 +112,7 @@ const SearchContainer3 = (props) => {
       setResultTopanelLow(temp);
     }
   }, [keywordsToPanel]);
-  //keyword trigger search function
-  // useEffect(() => {
-  //   if (textForSearch != '') {
-  //     searchMultiple(textForSearch, FirstResults.current);
-  //     performSearch();
-  //   }
-  // }, [textForSearch]);
-  useEffect(() => {
-    console.log(keywordInUse);
-    if (keywordInUse != []) {
-      settextForSearch(keywordInUse);
-    }
-  }, [keywordInUse]);
-  // useEffect(() => {
-  //   if (searchMultipleWords) {
-  //     wholeWord
-  //       ? SetkeywordInUse(removeDupicate(changeArraytoWholeWord(keyWords)))
-  //       : SetkeywordInUse(removeDupicate(keyWords));
-  //   } else {
-  //     wholeWord
-  //       ? SetkeywordInUse(changeArraytoWholeWord(keyWord))
-  //       : SetkeywordInUse(keyWord);
-  //   }
-  // }, [keyWord, wholeWord]);
-  // useEffect(() => {
-  //   if (searchResults != []) {
-  //     searchResultOnClick.current = searchResults;
-  //   }
-  // }, [searchResults]);
-  // useEffect(() => {
-  //   if (searchOnPDF != "") {
-  //     performSearch2(searchOnPDF);
-  //   }
-  // }, [searchOnPDF]);
-  // useEffect(() => {
-  //   clearResult();
-  // }, [wholeWord]);
+
   /**
    * Side-effect function that invokes `documentViewer.textSearchInit`, and stores
    * every result in the state Array `searchResults`, and jumps the user to the
@@ -223,168 +148,8 @@ const SearchContainer3 = (props) => {
     return resultAfterMerge;
   };
 
-  //perform search use multiple words on text
-  // const searchMultiple = (keyWordArray, resultArray) => {
-  //   for (let i = 0; i < keyWordArray.length; i++) {
-  //     searchFunction(keyWordArray[i], resultArray);
-  //     console.log(keyWordArray);
-  //   }
-  // };
-
-  //further level search, break down search result
-  // const furtherSearch = (word, resultAfterMerge) => {
-  //   //further search on previous result.
-  //   for (let i = 0; i < resultAfterMerge.length; i++) {
-  //     let str = "";
-
-  //     if (
-  //       caseSensitive == true
-  //         ? resultAfterMerge[i].includes(word)
-  //         : resultAfterMerge[i].toLowerCase().includes(word)
-  //     ) {
-  //       if (wordCount(resultAfterMerge[i]) <= 20) {
-  //         if (i == 0) {
-  //           if (resultAfterMerge.length == 1) {
-  //             str += resultAfterMerge[i];
-  //           } else if (resultAfterMerge.length == 2) {
-  //             str += resultAfterMerge[i];
-  //             if (!resultAfterMerge[i + 1].toLowerCase().includes(word)) {
-  //               str += resultAfterMerge[i + 1];
-  //             }
-  //           } else {
-  //             str += resultAfterMerge[i];
-  //             if (!resultAfterMerge[i + 1].toLowerCase().includes(word)) {
-  //               str += resultAfterMerge[i + 1];
-  //             }
-  //             if (!resultAfterMerge[i + 2].toLowerCase().includes(word)) {
-  //               str += resultAfterMerge[i + 2];
-  //             }
-  //           }
-  //         } else if (i == resultAfterMerge.length - 1) {
-  //           if (!resultAfterMerge[i - 1].toLowerCase().includes(word)) {
-  //             str += resultAfterMerge[i - 1];
-  //           }
-  //           str += resultAfterMerge[i];
-  //         } else {
-  //           if (!resultAfterMerge[i - 1].toLowerCase().includes(word)) {
-  //             str += resultAfterMerge[i - 1];
-  //           }
-  //           str += resultAfterMerge[i];
-  //           if (!resultAfterMerge[i + 1].toLowerCase().includes(word)) {
-  //             str += resultAfterMerge[i + 1];
-  //           }
-  //         }
-  //       } else {
-  //         str += resultAfterMerge[i];
-  //       }
-  //       KeyWordSearchResult2.push(str);
-  //       console.log(KeyWordSearchResult2.length);
-  //       const removeDuplicate = removeDupicate(KeyWordSearchResult2);
-  //       console.log(removeDuplicate.length);
-  //       finalResults.current = removeDuplicate;
-  //       Resultlength.current = removeDuplicate;
-  //       console.log(finalResults.current);
-  //     }
-  //   }
-  //   console.log(KeyWordSearchResult2);
-  //   //finalResults.current = KeyWordSearchResult2;
-  //   setsearchResultChange(!searchResultChange);
-  // };
-  //ParsePDF7
-  const searchFunction3 = (word, array) => {
-    let resultAfterMerge = [];
-    let temp2 = [];
-    for (let i = 0; i < array.length; i++) {
-      let str = "";
-      //check if search keyword with case-insensitive
-      if (
-        caseSensitive == true
-          ? array[i].includes(word)
-          : array[i].toLowerCase().includes(word)
-      ) {
-        str += array[i];
-        KeyWordSearchResult.push(str);
-        resultAfterMerge.push(str);
-        secondResults.current = KeyWordSearchResult;
-      }
-    }
-    for (let i = 0; i < resultAfterMerge.length; i++) {
-      let str = "";
-
-      if (
-        caseSensitive == true
-          ? resultAfterMerge[i].includes(word)
-          : resultAfterMerge[i].toLowerCase().includes(word)
-      ) {
-        if (wordCount(resultAfterMerge[i]) <= 20) {
-          if (i == 0) {
-            if (resultAfterMerge.length == 1) {
-              str += resultAfterMerge[i];
-            } else if (resultAfterMerge.length == 2) {
-              str += resultAfterMerge[i];
-              if (!resultAfterMerge[i + 1].toLowerCase().includes(word)) {
-                str += resultAfterMerge[i + 1];
-              }
-            } else {
-              str += resultAfterMerge[i];
-              if (!resultAfterMerge[i + 1].toLowerCase().includes(word)) {
-                str += resultAfterMerge[i + 1];
-              }
-              if (!resultAfterMerge[i + 2].toLowerCase().includes(word)) {
-                str += resultAfterMerge[i + 2];
-              }
-            }
-          } else if (i == resultAfterMerge.length - 1) {
-            if (!resultAfterMerge[i - 1].toLowerCase().includes(word)) {
-              str += resultAfterMerge[i - 1];
-            }
-            str += resultAfterMerge[i];
-          } else {
-            if (!resultAfterMerge[i - 1].toLowerCase().includes(word)) {
-              str += resultAfterMerge[i - 1];
-            }
-            str += resultAfterMerge[i];
-            if (!resultAfterMerge[i + 1].toLowerCase().includes(word)) {
-              str += resultAfterMerge[i + 1];
-            }
-          }
-        } else {
-          str += resultAfterMerge[i];
-        }
-        KeyWordSearchResult2.push(str);
-        temp2.push(str);
-        console.log(KeyWordSearchResult2.length);
-        const removeDuplicate = removeDupicate(temp2);
-        console.log(removeDuplicate.length);
-        finalResults.current = removeDuplicate;
-        Resultlength.current = removeDuplicate;
-        console.log(finalResults.current);
-      }
-    }
-    console.log(KeyWordSearchResult2);
-    return Resultlength.current;
-  };
   // search key word function, after search on key concept
-  const searchFunction = (word, array) => {
-    for (let i = 0; i < array.length; i++) {
-      let str = "";
-      //check if search keyword with case-insensitive
-      if (
-        caseSensitive == true
-          ? array[i].includes(word)
-          : array[i].toLowerCase().includes(word)
-      ) {
-        str += array[i];
-        KeyWordSearchResult.push(str);
-        console.log(KeyWordSearchResult);
-        secondResults.current = KeyWordSearchResult;
-      }
-    }
-    console.log(secondResults.current);
 
-    const tempArray = breakWord(secondResults.current);
-    furtherSearch(word, tempArray);
-  };
   const searchFunction2 = (word, array1) => {
     let temp = [];
     //search whole word, another option will be const regex = new RegExp(String.raw`\${word}[\s.]`);
@@ -603,76 +368,6 @@ const SearchContainer3 = (props) => {
     }
   };
 
-  /**
-   * Changes the active search result in `documentViewer`
-   *
-   * @param {Number} newSearchResult The index to set `activeResult` to,
-   * indicating which `result` object that should be passed to
-   * `documentViewer.setActiveSearchResult`
-   */
-  const changeActiveSearchResult = (newSearchResult) => {
-    /**
-     * @todo Figure out why only the middle set of search results can be
-     * iterated through, but not the first or last results.
-     */
-    /**
-     * Do not try to set a search result that is outside of the index range of
-     * searchResults
-     */
-    if (newSearchResult >= 0 && newSearchResult < searchResults.length) {
-      setActiveResultIndex(newSearchResult);
-    }
-  };
-
-  /**
-   * Toggles the given `searchMode` value within `toggledSearchModes`
-   *
-   * @param {CoreControls.DocumentViewer.SearchMode} searchMode The bitwise
-   * search mode value to toggle on or off
-   */
-  const toggleSearchMode = (searchMode) => {
-    if (!toggledSearchModes.includes(searchMode)) {
-      setToggledSearchModes((prevState) => [...prevState, searchMode]);
-    } else {
-      setToggledSearchModes((prevState) =>
-        prevState.filter((value) => value !== searchMode)
-      );
-    }
-  };
-
-  /**
-   * Side-effect function that toggles whether or not to perform a text search
-   * with case sensitivty
-   */
-
-  const toggleCaseSensitive = () => {
-    toggleSearchMode(window.Core.Search.Mode.CASE_SENSITIVE);
-    SetcaseSensitive((prevcaseSensitive) => !prevcaseSensitive);
-  };
-
-  /**
-   * Side-effect function that toggles whether or not to perform a text search
-   * that finds the whole word
-   */
-  const toggleWholeWord = () => {
-    toggleSearchMode(window.Core.Search.Mode.WHOLE_WORD);
-    SetwholeWord((prevwholeWord) => !prevwholeWord);
-  };
-
-  if (!open) {
-    return null;
-  }
-
-  /**
-   * Change search mode
-   */
-
-  const changeSearchCase = () => {
-    SetsearchMultipleWords(
-      (prevsearchMultipleWords) => !prevsearchMultipleWords
-    );
-  };
-
   //update the index of selected keyconcept, use same index to find the keyword array
   const updateKeyconceptIndex = (idx) => {
     setConceptIndex(idx);
@@ -683,7 +378,7 @@ const SearchContainer3 = (props) => {
         words={words}
         updateKeyconceptIndex={updateKeyconceptIndex}
       />
-      <div className={styles.search_input}>
+      {/* <div className={styles.search_input}>
         <input
           ref={searchTerm}
           type={"text"}
@@ -702,7 +397,7 @@ const SearchContainer3 = (props) => {
             <img src="icon-header-clear-search.svg" alt="Clear Search" />
           </button>
         </span>
-      </div>
+      </div> */}
 
       <Tabs value={selectedTab} onChange={handleChange}>
         <Tab style={{ minWidth: 105 }} label="High" />

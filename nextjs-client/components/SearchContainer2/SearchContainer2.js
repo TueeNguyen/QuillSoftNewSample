@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../../styles/SearchContainer.module.css";
-import { colors } from "@material-ui/core";
-import HighlightWord from "../HighlightWord/HighlightWord";
 import HighlightWord2 from "../HighlightWord/HighlightWord2";
 import {
   breakArryDimension,
@@ -39,7 +37,6 @@ const SearchContainer2 = (props) => {
     setSearchContainerOpen,
   } = props;
 
-  const pageRenderTracker = {};
   const KeyWordSearchResult = []; // keyword search result
   const KeyWordSearchResult2 = []; // perform further search on KeyWordSearchResult , break down long search result
   const FirstResults = useRef([]);
@@ -47,15 +44,7 @@ const SearchContainer2 = (props) => {
   const finalResults = useRef(KeyWordSearchResult2);
   const Resultlength = useRef(0);
 
-  /**
-   * Coupled with the function `changeActiveSearchResult`
-   */
-  // useEffect(() => {
-  //   if (activeResultIndex >= 0 && activeResultIndex < searchResults.length) {
-  //     documentViewer.setActiveSearchResult(searchResults[activeResultIndex]);
-  //   }
-  // }, [activeResultIndex]);
-  //display found result amount
+  // get search result array length display as result amount
   useEffect(() => {
     setsearchResultsLength(Resultlength.current.length);
     console.log(finalResults.current);
@@ -71,19 +60,22 @@ const SearchContainer2 = (props) => {
   useEffect(() => {
     searchOnKeyConcept(keyConceptForSearch);
   }, [keyConceptForSearch]);
-  //keyword trigger search function
-  // useEffect(() => {
-  //   if (textForSearch != '') {
-  //     searchMultiple(textForSearch, FirstResults.current);
-  //     performSearch();
-  //   }
-  // }, [textForSearch]);
+
+  // keyword trigger search function
+  useEffect(() => {
+    if (textForSearch != "") {
+      searchMultiple(textForSearch, FirstResults.current);
+      performSearch();
+    }
+  }, [textForSearch]);
+  //set keywordInUse for later highlight the keywords on result
   useEffect(() => {
     console.log(keywordInUse);
     if (keywordInUse != []) {
       settextForSearch(keywordInUse);
     }
   }, [keywordInUse]);
+  //search on whole word
   useEffect(() => {
     if (searchMultipleWords) {
       wholeWord
@@ -95,16 +87,19 @@ const SearchContainer2 = (props) => {
         : SetkeywordInUse(keyWord);
     }
   }, [keyWord, wholeWord]);
+
   useEffect(() => {
     if (searchResults != []) {
       searchResultOnClick.current = searchResults;
     }
   }, [searchResults]);
+  //further search to display proper length of result
   useEffect(() => {
     if (searchOnPDF != "") {
       performSearch2(searchOnPDF);
     }
   }, [searchOnPDF]);
+  //switch the whole word check box fire a new search
   useEffect(() => {
     clearResult();
   }, [wholeWord]);
@@ -340,12 +335,7 @@ const SearchContainer2 = (props) => {
 
     const { PAGE_STOP, HIGHLIGHT, AMBIENT_STRING } = window.Core.Search.Mode;
 
-    // const mode = toggledSearchModes.reduce(
-    //   (prev, value) => prev | value,
-    //   PAGE_STOP | HIGHLIGHT | AMBIENT_STRING
-    // );
-    // const fullSearch = true;
-    // let jumped = false;
+    //uncomment below code for testing whole word search
     // if (wholeWord) {
     //   settextForSearch(' ' + textToSearch + ' ');
     // } else {
@@ -365,39 +355,6 @@ const SearchContainer2 = (props) => {
     } else {
       searchMultiple(textForSearch, FirstResults.current);
     }
-
-    // documentViewer.textSearchInit(textToSearch, mode, {
-    //   fullSearch,
-    //   onResult: (result) => {
-    //     setSearchResults((prevState) => [...prevState, result]);
-
-    //     const { resultCode, quads, page_num: pageNumber } = result;
-    //     const { e_found: eFound } = window.PDFNet.TextSearch.ResultCode;
-    //     // if (resultCode === eFound) {
-    //     //   const highlight = new Annotations.TextHighlightAnnotation();
-    //     //   /**
-    //     //    * The page number in Annotations.TextHighlightAnnotation is not
-    //     //    * 0-indexed
-    //     //    */
-    //     //   highlight.setPageNumber(pageNumber);
-    //     //   highlight.Quads.push(quads[0].getPoints());
-    //     //   annotationManager.addAnnotation(highlight);
-    //     //   annotationManager.drawAnnotations(highlight.PageNumber);
-    //     //   if (!jumped) {
-    //     //     jumped = true;
-    //     //     // This is the first result found, so set `activeResult` accordingly
-    //     //     setActiveResultIndex(0);
-    //     //     documentViewer.displaySearchResult(result, () => {
-    //     //       /**
-    //     //        * The page number in documentViewer.displayPageLocation is not
-    //     //        * 0-indexed
-    //     //        */
-    //     //       documentViewer.displayPageLocation(pageNumber, 0, 0, true);
-    //     //     });
-    //     //   }
-    //     // }
-    //   },
-    // });
   };
 
   /**
@@ -564,46 +521,10 @@ const SearchContainer2 = (props) => {
             <img src="icon-header-clear-search.svg" alt="Clear Search" />
           </button>
         </span>
-        {/* <span className={styles.search_iterators}>
-          <button
-            onClick={() => {
-              changeActiveSearchResult(activeResultIndex - 1);
-            }}
-            disabled={activeResultIndex < 0}
-          >
-            <img
-              src="ic_chevron_left_black_24px.svg"
-              alt="Previous Search Result"
-            />
-          </button>
-          <button
-            onClick={() => {
-              changeActiveSearchResult(activeResultIndex + 1);
-            }}
-            disabled={activeResultIndex < 0}
-          >
-            <img
-              src="ic_chevron_right_black_24px.svg"
-              alt="Next Search Result"
-            />
-          </button>
-        </span> */}
       </div>
       <div>Result found {searchResultsLength}</div>
       <div>
         {finalResults.current.map((result, idx) => {
-          // const {
-          //   ambient_str: ambientStr,
-          //   page_num: pageNum,
-          //   result_str_start: resultStrStart,
-          //   result_str_end: resultStrEnd,
-          // } = result;
-
-          // let pageHeader = null;
-          // if (!pageRenderTracker[pageNum]) {
-          //   pageRenderTracker[pageNum] = true;
-          //   pageHeader = <div>Page {pageNum}</div>;
-          // }
           return (
             <div key={`search-result-${idx}`}>
               {/* {pageHeader} */}
@@ -613,9 +534,9 @@ const SearchContainer2 = (props) => {
                   SetsearchOnPDF(result);
                 }}
               >
-                <HighlightWord
+                <HighlightWord2
                   searchWords={textForSearch}
-                  textToHighlight={result}
+                  textToHighlight={finalResults.current[idx]}
                 />
               </div>
             </div>
