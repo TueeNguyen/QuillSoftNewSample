@@ -77,9 +77,8 @@ const SearchContainer3 = (props) => {
       let temp = [];
       for (let i = 0, j = keywordsToPanel.length; i < j; i++) {
         temp.push(searchFunction2(keywordsToPanel[i], FirstResults.current));
-        console.log(temp);
       }
-      console.log(temp);
+
       for (let i = 0, j = temp.length; i < j; i++) {
         temp[i] = removeDupicate(temp[i]);
       }
@@ -176,11 +175,18 @@ const SearchContainer3 = (props) => {
     let tempArray = [];
     for (let i = 0; i < fullText.length; i++) {
       let str = "";
-      if (fullText[i].toLowerCase().includes(concept.toLowerCase())) {
+      if (fullText[i].includes(concept)) {
         if (i > 0 && i < fullText.length) {
-          str += fullText[i - 1];
-          str += fullText[i];
-          str += fullText[i + 1];
+          if (i > 1 && i < fullText.length) {
+            str += fullText[i - 2];
+            str += fullText[i - 1];
+            str += fullText[i];
+            str += fullText[i + 1];
+          } else {
+            str += fullText[i - 1];
+            str += fullText[i];
+            str += fullText[i + 1];
+          }
         } else if (i == 0) {
           str += fullText[i];
         } else {

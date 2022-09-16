@@ -24,6 +24,7 @@ export default function ParsePDF7(props) {
   const [newKeyWrod, SetnewKeyWrod] = useState([]);
   const [openSearchPanel, setSearchPanel] = useState(true);
   const [notesPanel, setNotesPanel] = useState(false);
+  const [searchPanelDefault, setSearchPanelDefault] = useState(false);
   const { keyWord, xmlData, keyConcept, groups, words, ConceptsAndWords } =
     props;
   const Annotations = window.Core.Annotations;
@@ -56,7 +57,11 @@ export default function ParsePDF7(props) {
             instance.setZoomLevel(instance.getZoomLevel() - 0.25);
           }
         };
-
+        //search button
+        const closeSearch = () => {
+          setSearchPanelDefault((prevState) => !prevState);
+        };
+        //open/close comment(notePanel)
         const closeNotesPanel = () => {
           setNotesPanel((prevState) => !prevState);
         };
@@ -111,7 +116,6 @@ export default function ParsePDF7(props) {
 
         documentViewer.addEventListener("documentLoaded", () => {
           instance.setZoomLevel(instance.getZoomLevel() * 0.85);
-          // instance.UI.addSearchListener(searchListener());
           setDocumentViewer(documentViewer);
           setAnnotationManager(documentViewer.getAnnotationManager());
         });
@@ -126,7 +130,14 @@ export default function ParsePDF7(props) {
         : instance.UI.closeElements(["menuOverlay", "notesPanel"]);
     }
   }, [notesPanel]);
-
+  //search panel open/close
+  useEffect(() => {
+    if (instance !== null) {
+      searchPanelDefault
+        ? instance.UI.openElements(["searchPanel", "searchOverlay"])
+        : instance.UI.closeElements(["searchPanel", "searchOverlay"]);
+    }
+  }, [searchPanelDefault]);
   useEffect(() => {
     if (keyWord != "" && searchTerm.current == null) {
       closeSearch();

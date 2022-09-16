@@ -79,7 +79,6 @@ export default function HighlightWord(props) {
                 }
               >
                 {str}
-                {console.log(str)}
               </span>
             );
           } else {
