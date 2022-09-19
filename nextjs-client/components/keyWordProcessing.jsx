@@ -18,7 +18,35 @@ export const breakArrayDimension2 = (longArray) => {
   }
   return tempArray;
 };
-
+//covert 3d array to 1d, save the first element "keyword "  and second element "related word" to new array
+export const breakArrayDimension3 = (longArray) => {
+  let tempArray = [];
+  for (let i = 0, j = longArray.length; i < j; i++) {
+    if (longArray[i][0] != undefined) {
+      if (longArray[i][0] !== longArray[i][1]) {
+        tempArray[i] = [[longArray[i][0]], [longArray[i][1]]];
+      } else {
+        tempArray[i] = [longArray[i][0]];
+      }
+    }
+  }
+  return tempArray;
+};
+//remove duplicate element from an array, sort by last element(occurance of word) and remove the last element;
+export const removeDuplicateWord = (arr) => {
+  //sort the array
+  arr.sort((a, b) => {
+    return b[arr.length - 1] - a[arr.length - 1];
+  });
+  let arrTmp = [];
+  arr.forEach((c) => {
+    if (!arrTmp.includes(c)) {
+      arrTmp.push(c);
+    }
+  });
+  arrTmp.pop();
+  return arrTmp;
+};
 // to remove similar results , check the similarity (Jaro-Winkler Algorithm)
 export const similarityCheck = (s1, s2) => {
   var m = 0;

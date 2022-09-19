@@ -59,10 +59,19 @@ const SearchContainer3 = (props) => {
         3,
         true
       );
-
-      setKeywordsToPanel(keywordTmp[0]);
-      setKeywordsToPanelMedium(keywordTmp[1]);
-      setKeywordsToPanelLow(keywordTmp[2]);
+      let tmp = chunkify(
+        ConceptsAndWords.words[conceptIndex].sort((a, b) => {
+          return (
+            b[ConceptsAndWords.words.length - 1] -
+            a[ConceptsAndWords.words.length - 1]
+          );
+        }),
+        3,
+        true
+      );
+      setKeywordsToPanel(tmp[0]);
+      setKeywordsToPanelMedium(tmp[1]);
+      setKeywordsToPanelLow(tmp[2]);
     }
   }, [ConceptsAndWords, conceptIndex]);
   //ParsePDF7 search on selected keyconcept,"FirstResults" save the search result
@@ -418,8 +427,9 @@ const SearchContainer3 = (props) => {
           annotationManager={annotationManager}
           documentViewer={documentViewer}
           searchTermRef={searchTerm}
-          resultTopanel={resultTopanel}
           instance={instance}
+          TextForSearch={FirstResults.current}
+          searchFunction={searchFunction2}
         />
       )}
       {selectedTab === 1 && (
@@ -429,8 +439,9 @@ const SearchContainer3 = (props) => {
           annotationManager={annotationManager}
           documentViewer={documentViewer}
           searchTermRef={searchTerm}
-          resultTopanel={resultTopanelMedium}
           instance={instance}
+          TextForSearch={FirstResults.current}
+          searchFunction={searchFunction2}
         />
       )}
       {selectedTab === 2 && (
@@ -440,8 +451,9 @@ const SearchContainer3 = (props) => {
           annotationManager={annotationManager}
           documentViewer={documentViewer}
           searchTermRef={searchTerm}
-          resultTopanel={resultTopanelLow}
           instance={instance}
+          TextForSearch={FirstResults.current}
+          searchFunction={searchFunction2}
         />
       )}
     </div>

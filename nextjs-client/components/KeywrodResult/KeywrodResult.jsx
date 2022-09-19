@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import HighlightWord from "../HighlightWord/HighlightWord";
@@ -7,14 +7,23 @@ import Highlighted from "../Highlighted/Highlighted ";
 export default function KeywrodResult(props) {
   const {
     keywordsToPanel,
-    resultTopanel,
-    idx,
+
     Annotations,
     annotationManager,
     documentViewer,
     keyWordSelected,
+    TextForSearch,
+    searchFunction,
   } = props;
   const [toggledSearchModes, setToggledSearchModes] = useState([]);
+  const [resultTopanel, setResultTopanel] = useState([]);
+
+  useEffect(() => {
+    if (keyWordSelected !== undefined) {
+      setResultTopanel(searchFunction(keyWordSelected, TextForSearch));
+    }
+  }, [keyWordSelected]);
+
   /**
    * Toggles the given `searchMode` value within `toggledSearchModes`
    *
@@ -72,7 +81,7 @@ export default function KeywrodResult(props) {
   return (
     <div>
       {resultTopanel.length > 0 &&
-        resultTopanel[idx].map((result, index) => {
+        resultTopanel.map((result, index) => {
           return (
             <div key={index}>
               <AccordionDetails>
