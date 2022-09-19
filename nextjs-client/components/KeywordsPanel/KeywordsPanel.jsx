@@ -22,6 +22,11 @@ export default function KeywordsPanel(props) {
   } = props;
   return (
     <div>
+      {
+        <div style={{ margin: "15px" }}>
+          Found {keywordsToPanel.length} words
+        </div>
+      }
       {keywordsToPanel.length > 0 &&
         keywordsToPanel.map((result, idx) => {
           const keyWord = removeDuplicateWord(result);

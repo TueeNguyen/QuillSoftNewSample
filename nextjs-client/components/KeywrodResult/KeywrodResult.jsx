@@ -79,6 +79,7 @@ export default function KeywrodResult(props) {
 
   return (
     <div>
+      {<div>Result found: {resultTopanel.length}</div>}
       {resultTopanel.length > 0 ? (
         resultTopanel.map((result, index) => {
           return (

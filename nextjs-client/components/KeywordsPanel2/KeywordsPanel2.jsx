@@ -21,6 +21,7 @@ export default function KeywordsPanel2(props) {
 
   return (
     <div>
+      {keywords.length > 0 && <div>Different words : {keywords.length}</div>}
       {keywords.length > 0 &&
         keywords.map((result, idx) => {
           return (
