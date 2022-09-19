@@ -18,7 +18,7 @@ const SearchContainer3 = (props) => {
   const searchResultOnClick = useRef([]);
   const [selectedTab, setSelectedTab] = useState(0); // parsePDF7, Tab setting
   const [conceptIndex, setConceptIndex] = useState(null); //ParsePDF7, pass index of clicked concept back to parent component, use it to decide the keyword group
-  const [keywordsToPanel, setKeywordsToPanel] = useState([]); //ParsePDF7 , pass keywords to keywordspanel to display list(High occurance)
+  const [keywordsToPanel, setKeywordsToPanel] = useState([]); //ParsePDF7 , key word list belongs to same tab , can use on highlight multiple words function later
   const [keywordsToPanelMedium, setKeywordsToPanelMedium] = useState([]); //ParsePDF7 , pass keywords to keywordspanel to display list(Medium occurance)
   const [keywordsToPanelLow, setKeywordsToPanelLow] = useState([]); //ParsePDF7 , pass keywords to keywordspanel to display list (Low occurance)
   const [resultTopanel, setResultTopanel] = useState([]); //ParsePDF7, save search result from perfomr search(High occurance)
@@ -59,10 +59,19 @@ const SearchContainer3 = (props) => {
         3,
         true
       );
-
-      setKeywordsToPanel(keywordTmp[0]);
-      setKeywordsToPanelMedium(keywordTmp[1]);
-      setKeywordsToPanelLow(keywordTmp[2]);
+      let tmp = chunkify(
+        ConceptsAndWords.words[conceptIndex].sort((a, b) => {
+          return (
+            b[ConceptsAndWords.words.length - 1] -
+            a[ConceptsAndWords.words.length - 1]
+          );
+        }),
+        3,
+        true
+      );
+      setKeywordsToPanel(tmp[0]);
+      setKeywordsToPanelMedium(tmp[1]);
+      setKeywordsToPanelLow(tmp[2]);
     }
   }, [ConceptsAndWords, conceptIndex]);
   //ParsePDF7 search on selected keyconcept,"FirstResults" save the search result
@@ -418,8 +427,9 @@ const SearchContainer3 = (props) => {
           annotationManager={annotationManager}
           documentViewer={documentViewer}
           searchTermRef={searchTerm}
-          resultTopanel={resultTopanel}
           instance={instance}
+          TextForSearch={FirstResults.current}
+          searchFunction={searchFunction2}
         />
       )}
       {selectedTab === 1 && (
@@ -429,8 +439,9 @@ const SearchContainer3 = (props) => {
           annotationManager={annotationManager}
           documentViewer={documentViewer}
           searchTermRef={searchTerm}
-          resultTopanel={resultTopanelMedium}
           instance={instance}
+          TextForSearch={FirstResults.current}
+          searchFunction={searchFunction2}
         />
       )}
       {selectedTab === 2 && (
@@ -440,8 +451,9 @@ const SearchContainer3 = (props) => {
           annotationManager={annotationManager}
           documentViewer={documentViewer}
           searchTermRef={searchTerm}
-          resultTopanel={resultTopanelLow}
           instance={instance}
+          TextForSearch={FirstResults.current}
+          searchFunction={searchFunction2}
         />
       )}
     </div>
