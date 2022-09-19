@@ -13,21 +13,19 @@ export default function KeywordsPanel2(props) {
     documentViewer,
     searchTermRef: searchTerm,
     keywordsToPanel,
+    keywords,
+    TextForSearch,
+    searchFunction,
     instance,
   } = props;
 
-  const resultTopanel = [];
-  //remove the last element( a number represent the occurance), remove duplicate element if exist
-  keywordsToPanel.splice(-1);
-  let newkeywordsToPanel = removeDuplicateWord(keywordsToPanel);
-
   return (
     <div>
-      {newkeywordsToPanel.length > 0 &&
-        newkeywordsToPanel.map((result, idx) => {
+      {keywords.length > 0 &&
+        keywords.map((result, idx) => {
           return (
             <div key={`${result}+${idx}`}>
-              <Accordion>
+              <Accordion sx={{ width: "90%", margin: "0.5rem" }}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"
@@ -37,13 +35,13 @@ export default function KeywordsPanel2(props) {
                 </AccordionSummary>
                 <KeywrodResult
                   keywordsToPanel={keywordsToPanel}
-                  resultTopanel={resultTopanel}
-                  idx={idx}
                   Annotations={Annotations}
                   annotationManager={annotationManager}
                   documentViewer={documentViewer}
                   instance={instance}
                   keyWordSelected={result}
+                  TextForSearch={TextForSearch}
+                  searchFunction={searchFunction}
                 />
               </Accordion>
             </div>

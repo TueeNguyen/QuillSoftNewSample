@@ -7,7 +7,6 @@ import Highlighted from "../Highlighted/Highlighted ";
 export default function KeywrodResult(props) {
   const {
     keywordsToPanel,
-
     Annotations,
     annotationManager,
     documentViewer,
@@ -80,7 +79,7 @@ export default function KeywrodResult(props) {
 
   return (
     <div>
-      {resultTopanel.length > 0 &&
+      {resultTopanel.length > 0 ? (
         resultTopanel.map((result, index) => {
           return (
             <div key={index}>
@@ -88,7 +87,7 @@ export default function KeywrodResult(props) {
                 <span
                   onClick={() => {
                     performSearch(
-                      result.slice(result.indexOf(keywordsToPanel[idx]))
+                      result.slice(result.indexOf(keyWordSelected))
                     );
                   }}
                   style={{ cursor: "pointer" }}
@@ -105,7 +104,10 @@ export default function KeywrodResult(props) {
               </AccordionDetails>
             </div>
           );
-        })}
+        })
+      ) : (
+        <div>No result</div>
+      )}
     </div>
   );
 }

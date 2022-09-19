@@ -20,7 +20,6 @@ export default function KeywordsPanel(props) {
     instance,
     searchFunction,
   } = props;
-  console.log(keywordsToPanel);
   return (
     <div>
       {keywordsToPanel.length > 0 &&
@@ -40,7 +39,6 @@ export default function KeywordsPanel(props) {
                 {keyWord.length === 1 ? (
                   <KeywrodResult
                     keywordsToPanel={multipleWords}
-                    idx={idx}
                     Annotations={Annotations}
                     annotationManager={annotationManager}
                     documentViewer={documentViewer}
@@ -50,18 +48,17 @@ export default function KeywordsPanel(props) {
                     searchFunction={searchFunction}
                   />
                 ) : (
-                  <div>two</div>
+                  <KeywordsPanel2
+                    keywordsToPanel={multipleWords}
+                    keywords={keyWord}
+                    Annotations={Annotations}
+                    annotationManager={annotationManager}
+                    documentViewer={documentViewer}
+                    instance={instance}
+                    TextForSearch={TextForSearch}
+                    searchFunction={searchFunction}
+                  />
                 )}
-
-                {/* <KeywordsPanel2
-                  keywordsToPanel={result}
-                  idx={idx}
-                  Annotations={Annotations}
-                  annotationManager={annotationManager}
-                  documentViewer={documentViewer}
-                  instance={instance}
-                  keyWordSelected={result}
-                /> */}
               </Accordion>
             </div>
           );

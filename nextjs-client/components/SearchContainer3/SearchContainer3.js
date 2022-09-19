@@ -18,7 +18,7 @@ const SearchContainer3 = (props) => {
   const searchResultOnClick = useRef([]);
   const [selectedTab, setSelectedTab] = useState(0); // parsePDF7, Tab setting
   const [conceptIndex, setConceptIndex] = useState(null); //ParsePDF7, pass index of clicked concept back to parent component, use it to decide the keyword group
-  const [keywordsToPanel, setKeywordsToPanel] = useState([]); //ParsePDF7 , pass keywords to keywordspanel to display list(High occurance)
+  const [keywordsToPanel, setKeywordsToPanel] = useState([]); //ParsePDF7 , key word list belongs to same tab , can use on highlight multiple words function later
   const [keywordsToPanelMedium, setKeywordsToPanelMedium] = useState([]); //ParsePDF7 , pass keywords to keywordspanel to display list(Medium occurance)
   const [keywordsToPanelLow, setKeywordsToPanelLow] = useState([]); //ParsePDF7 , pass keywords to keywordspanel to display list (Low occurance)
   const [resultTopanel, setResultTopanel] = useState([]); //ParsePDF7, save search result from perfomr search(High occurance)
