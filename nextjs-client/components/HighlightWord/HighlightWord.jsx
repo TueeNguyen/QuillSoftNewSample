@@ -38,6 +38,35 @@ export default function HighlightWord(props) {
     "#3480eb",
     "#eb34eb",
     "#eb34d3",
+    "#eb3471",
+    "#12a325",
+    "#4ca312",
+    "#88a312",
+    "#a34712",
+    "#f3ff33",
+    "#e285f5",
+    "#c8fae9",
+    "#f5e385",
+    "#fe4164",
+    "#fcf7c2",
+    "#9cff33",
+    "#dffac8",
+    "#ff33e9",
+    "#fefce5",
+    "#eb3471",
+    "#12a325",
+    "#4ca312",
+    "#88a312",
+    "#a34712",
+    "#f3ff33",
+    "#e285f5",
+    "#c8fae9",
+    "#f5e385",
+    "#fe4164",
+    "#fcf7c2",
+    "#9cff33",
+    "#dffac8",
+    "#ff33e9",
   ];
   //pair key words and color and save it to array
   let tempArray = [];
@@ -45,20 +74,18 @@ export default function HighlightWord(props) {
   for (let i = 0; i < highLightWords.length; i++) {
     tempArray[i] = [highLightWords[i], color[i]];
   }
-
+  console.log(tempArray);
   return textToHighlight && highLightWords.length ? (
     <div>
       {textToHighlight
         .split(
           new RegExp(
-            `(\b?<=${highLightWords.join("|")})|(?=${highLightWords.join(
-              "|"
-            )})`,
+            `(?<=${highLightWords.join("|")})|(?=${highLightWords.join("|")})`,
             "i"
           )
         )
         .map((str) => {
-          if (highLightWords.includes(str)) {
+          if (highLightWords.includes(str.toLowerCase())) {
             let colorIndex = 0;
             for (let i = 0; i < tempArray.length; i++) {
               if (tempArray[i][0] == str) {

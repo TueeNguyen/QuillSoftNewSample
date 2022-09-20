@@ -29,8 +29,9 @@ export default function KeywordsPanel(props) {
       }
       {keywordsToPanel.length > 0 &&
         keywordsToPanel.map((result, idx) => {
-          const keyWord = removeDuplicateWord(result);
-          const multipleWords = breakArrayDimension2(keywordsToPanel);
+          const keyWord = removeDuplicateWord(result); //remove duplicate words
+          const multipleWords = breakArrayDimension2(keywordsToPanel); // the first level keyword
+
           return (
             <div key={`${keyWord[0]}+${idx}`}>
               <Accordion>
@@ -45,6 +46,9 @@ export default function KeywordsPanel(props) {
                   <KeywrodResult
                     keywordsToPanel={multipleWords}
                     Annotations={Annotations}
+                    keywordAllLevel={keywordsToPanel.map((element) =>
+                      removeDuplicateWord(element)
+                    )}
                     annotationManager={annotationManager}
                     documentViewer={documentViewer}
                     instance={instance}
@@ -59,6 +63,9 @@ export default function KeywordsPanel(props) {
                     Annotations={Annotations}
                     annotationManager={annotationManager}
                     documentViewer={documentViewer}
+                    keywordAllLevel={keywordsToPanel.map((element) =>
+                      removeDuplicateWord(element)
+                    )}
                     instance={instance}
                     TextForSearch={TextForSearch}
                     searchFunction={searchFunction}

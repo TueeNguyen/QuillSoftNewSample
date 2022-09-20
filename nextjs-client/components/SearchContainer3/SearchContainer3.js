@@ -46,7 +46,7 @@ const SearchContainer3 = (props) => {
   const secondResults = useRef([]);
   const finalResults = useRef(KeyWordSearchResult2);
   const Resultlength = useRef(0);
-
+  console.log(fullText);
   //ParsePDF7 update user selected concept, update keywords list
   useEffect(() => {
     if (ConceptsAndWords.words !== null && conceptIndex !== null) {
@@ -161,17 +161,13 @@ const SearchContainer3 = (props) => {
   const searchFunction2 = (word, array1) => {
     let temp = [];
     //search whole word, another option will be const regex = new RegExp(String.raw`\${word}[\s.]`);
-    const regex = new RegExp(String.raw`\s${word}[^a-zA-Z0-9]`);
+    const regex = new RegExp(String.raw`${word}[^a-zA-Z0-9]`);
 
     for (let i = 0; i < array1.length; i++) {
       let str = "";
-      //check if search keyword with case-insensitive
-      if (
-        caseSensitive == true
-          ? array1[i].includes(word)
-          : array1[i].toLowerCase().includes(word)
-      ) {
-        if (regex.test(array1[i].toLowerCase()) === true) {
+
+      if (array1[i].includes(word)) {
+        if (regex.test(array1[i]) === true) {
           str += array1[i];
           temp.push(str);
         }

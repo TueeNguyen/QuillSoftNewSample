@@ -16,6 +16,7 @@ export default function KeywordsPanel2(props) {
     keywords,
     TextForSearch,
     searchFunction,
+    keywordAllLevel,
     instance,
   } = props;
 
@@ -43,6 +44,7 @@ export default function KeywordsPanel2(props) {
                   keyWordSelected={result}
                   TextForSearch={TextForSearch}
                   searchFunction={searchFunction}
+                  keywordAllLevel={keywordAllLevel}
                 />
               </Accordion>
             </div>

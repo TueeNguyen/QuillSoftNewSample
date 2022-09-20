@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import HighlightWord from "../HighlightWord/HighlightWord";
-import Highlighted from "../Highlighted/Highlighted ";
 
 export default function KeywrodResult(props) {
   const {
@@ -13,10 +12,17 @@ export default function KeywrodResult(props) {
     keyWordSelected,
     TextForSearch,
     searchFunction,
+    keywordAllLevel,
   } = props;
   const [toggledSearchModes, setToggledSearchModes] = useState([]);
   const [resultTopanel, setResultTopanel] = useState([]);
+  const [highlightWordList, setHighlightWordList] = useState([]);
 
+  useEffect(() => {
+    if (keywordAllLevel !== undefined) {
+      setHighlightWordList([].concat(...keywordAllLevel));
+    }
+  }, [keywordAllLevel]);
   useEffect(() => {
     if (keyWordSelected !== undefined) {
       setResultTopanel(searchFunction(keyWordSelected, TextForSearch));
@@ -95,7 +101,7 @@ export default function KeywrodResult(props) {
                 >
                   <Typography component="span">
                     <HighlightWord
-                      searchWords={keywordsToPanel}
+                      searchWords={highlightWordList}
                       textToHighlight={result}
                       style={{ cursor: "pointer" }}
                       keyWordSelected={keyWordSelected}
