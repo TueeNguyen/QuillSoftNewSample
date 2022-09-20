@@ -80,12 +80,14 @@ export default function HighlightWord(props) {
       {textToHighlight
         .split(
           new RegExp(
-            `(?<=${highLightWords.join("|")})|(?=${highLightWords.join("|")})`,
+            `(\b?<=${highLightWords.join("|")})|(?=${highLightWords.join(
+              "|"
+            )})`,
             "i"
           )
         )
         .map((str) => {
-          if (highLightWords.includes(str.toLowerCase())) {
+          if (highLightWords.includes(str)) {
             let colorIndex = 0;
             for (let i = 0; i < tempArray.length; i++) {
               if (tempArray[i][0] == str) {
