@@ -80,9 +80,9 @@ export default function HighlightWord(props) {
       {textToHighlight
         .split(
           new RegExp(
-            `(\b?<=${highLightWords.join("|")})|(?=${highLightWords.join(
+            `(?<=${highLightWords.join("|")})|(?=${highLightWords.join(
               "|"
-            )})`,
+            )}[^a-zA-Z])`,
             "i"
           )
         )

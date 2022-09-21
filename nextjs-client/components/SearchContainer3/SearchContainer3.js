@@ -183,7 +183,7 @@ const SearchContainer3 = (props) => {
       if (fullText[i].toLowerCase().includes(concept.toLowerCase())) {
         if (i > 0 && i < fullText.length) {
           if (i > 1 && i < fullText.length) {
-            //str += fullText[i - 2];
+            str += fullText[i - 2];
             str += fullText[i - 1];
             str += fullText[i];
             str += fullText[i + 1];
@@ -203,7 +203,7 @@ const SearchContainer3 = (props) => {
       }
     }
     const tempArray2 = breakWord(tempArray);
-    FirstResults.current = tempArray;
+    FirstResults.current = tempArray2;
     console.log(FirstResults.current);
   };
 
