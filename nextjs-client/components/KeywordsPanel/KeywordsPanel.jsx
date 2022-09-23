@@ -16,7 +16,7 @@ export default function KeywordsPanel(props) {
     annotationManager,
     documentViewer,
     TextForSearch,
-    keywordsToPanel,
+    keywordsToPanel, //key word array, each element will be ["base keyword","different keywordform","occurance"]
     instance,
     searchFunction,
   } = props;
@@ -29,8 +29,8 @@ export default function KeywordsPanel(props) {
       }
       {keywordsToPanel.length > 0 &&
         keywordsToPanel.map((result, idx) => {
-          const keyWord = removeDuplicateWord(result); //remove duplicate words
-          const multipleWords = breakArrayDimension2(keywordsToPanel); // the first level keyword
+          const keyWord = removeDuplicateWord(result); //remove duplicate words if only one form of key word
+          const multipleWords = breakArrayDimension2(keywordsToPanel); // array of key words, each element is the base keyword from keyword list
 
           return (
             <div key={`${keyWord[0]}+${idx}`}>
