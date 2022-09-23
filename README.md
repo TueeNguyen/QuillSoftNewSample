@@ -11,7 +11,10 @@ Then install the dependencies:
 ```bash
 npm i
 ```
-
+Or try(if errors on "npm i")   
+```
+npm i --force
+```   
 Then run the development server:
 
 ```bash
