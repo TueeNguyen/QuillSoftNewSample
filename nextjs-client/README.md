@@ -1,19 +1,11 @@
 # Running the application:
 
-### GROBID 
-- Download GROBID by following these instructions: https://grobid.readthedocs.io/en/latest/Install-Grobid/ 
-- For Windows machine, Grobid version 0.6.0 must be used as the later versions do not support non-UNIX based machines.
-- Run GROBID service in the background from the command line:
-   - Change to your local GROBID directory: ``` cd C:/path/to/grobid ```
-   - Run gradlew: ``` gradlew run ```
-
 ### ENGINE
-- Get the latest version of the engine from https://github.com/pherriton/quillsoft-nlp-engine
-- (Preferably) using Visual Studio Code, open the editor and run the program using Flask. 
-    - Check the built-in terminal to verify that "Controllers.SummarizationController.py" is running using Flask
+- Get the latest version of the NodeJS Server engine from https://github.com/QuillSoftSeneca2022/NodeJsServer.git
+- (Preferably) using Visual Studio Code, open the editor , follow the install instruction and run the program (Node version v12.18.0). 
 
 ### VIEWER
-- Get the latest version of the viewer here or from https://github.com/pherriton/quillsoft-nlp-jviewer
+- Get the latest version of the viewer here or from https://github.com/QuillSoftSeneca2022/QuillSoftNewSample.git
 - Open an IDE, (preferably) Visual Studio Code.
 - Change directory to nextjs-client: ```cd nextjs-client``` 
 - Run the client: ``` npm run dev```, which should open up a local server in the browser (localhost:3000)
