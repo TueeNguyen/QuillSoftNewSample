@@ -35,6 +35,7 @@ export default function KeywrodResult(props) {
    * @param {CoreControls.DocumentViewer.SearchMode} searchMode The bitwise
    * search mode value to toggle on or off
    */
+  //No need to use this function but the PDFTron search function need it as parameter
   const toggleSearchMode = (searchMode) => {
     if (!toggledSearchModes.includes(searchMode)) {
       setToggledSearchModes((prevState) => [...prevState, searchMode]);
@@ -44,6 +45,8 @@ export default function KeywrodResult(props) {
       );
     }
   };
+  //result from this function create link from searchFunction to text on PDF
+  // click on result from keyword panel will jump to the position of result on PDF
   const performSearch = (textToSearch) => {
     const { PAGE_STOP, HIGHLIGHT, AMBIENT_STRING } = window.Core.Search.Mode;
 
